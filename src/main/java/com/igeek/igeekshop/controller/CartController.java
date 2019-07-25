@@ -1,6 +1,6 @@
 package com.igeek.igeekshop.controller;
 
-import com.igeek.igeekshop.consts.CurrentUserInformationConst;
+import com.igeek.igeekshop.consts.SessionKeyConst;
 import com.igeek.igeekshop.util.ServerResponse;
 import com.igeek.igeekshop.service.CartService;
 import com.igeek.igeekshop.vo.CartVo;
@@ -28,11 +28,11 @@ public class CartController {
 	@RequestMapping("add_to_cart")
 	public ServerResponse<String> addToCart(HttpSession session, int productId) {
 		// 未登录的用户
-		if (session.getAttribute(CurrentUserInformationConst.USER_ID) == null) {
+		if (session.getAttribute(SessionKeyConst.USER_ID) == null) {
 			return cartService.addToCartForUnLoggedUser(session, productId);
 		} else {
 			// 已登录的用户
-			String userId = (String) session.getAttribute(CurrentUserInformationConst.USER_ID);
+			String userId = (String) session.getAttribute(SessionKeyConst.USER_ID);
 			return cartService.addToCartForLoggedUser(userId, productId);
 		}
 	}
@@ -40,11 +40,11 @@ public class CartController {
 	@RequestMapping("get_cart")
 	public ServerResponse<List<CartVo>> getCart(HttpSession session) {
 		// 未登录的用户
-		if (session.getAttribute(CurrentUserInformationConst.USER_ID) == null) {
+		if (session.getAttribute(SessionKeyConst.USER_ID) == null) {
 			return cartService.getCartForUnLoggedUser(session);
 		} else {
 			// 已登录的用户
-			String userId = (String) session.getAttribute(CurrentUserInformationConst.USER_ID);
+			String userId = (String) session.getAttribute(SessionKeyConst.USER_ID);
 			return cartService.getCartForLoggedUser(userId);
 		}
 	}
@@ -53,11 +53,11 @@ public class CartController {
 	// 无此商品不报错
 	public ServerResponse<String> deleteFromCart(HttpSession session, int productId) {
 		// 未登录的用户
-		if (session.getAttribute(CurrentUserInformationConst.USER_ID) == null) {
+		if (session.getAttribute(SessionKeyConst.USER_ID) == null) {
 			return cartService.deleteFromCartUnLoggedUser(session, productId);
 		} else {
 			// 已登录的用户
-			String userId = (String) session.getAttribute(CurrentUserInformationConst.USER_ID);
+			String userId = (String) session.getAttribute(SessionKeyConst.USER_ID);
 			return cartService.deleteFromCartLoggedUser(userId, productId);
 		}
 	}
@@ -65,11 +65,11 @@ public class CartController {
 	@RequestMapping("clear_cart")
 	public ServerResponse<String> clearCart(HttpSession session) {
 		// 未登录的用户
-		if (session.getAttribute(CurrentUserInformationConst.USER_ID) == null) {
+		if (session.getAttribute(SessionKeyConst.USER_ID) == null) {
 			return cartService.clearCartForUnLoggedUser(session);
 		} else {
 			// 已登录的用户
-			String userId = (String) session.getAttribute(CurrentUserInformationConst.USER_ID);
+			String userId = (String) session.getAttribute(SessionKeyConst.USER_ID);
 			return cartService.clearCartForLoggedUser(userId);
 		}
 	}

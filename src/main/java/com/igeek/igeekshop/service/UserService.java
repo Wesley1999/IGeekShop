@@ -1,6 +1,6 @@
 package com.igeek.igeekshop.service;
 
-import com.igeek.igeekshop.consts.CurrentUserInformationConst;
+import com.igeek.igeekshop.consts.SessionKeyConst;
 import com.igeek.igeekshop.consts.GenderConst;
 import com.igeek.igeekshop.consts.ResponseCodeConst;
 import com.igeek.igeekshop.util.ServerResponse;
@@ -37,12 +37,13 @@ public class UserService {
 	@Autowired
 	CartItemMapper cartItemMapper;
 
-	public ServerResponse<String> register(String username, String password,
-	                                       String repeatPassword, String email,
-	                                       String name, int gender,
-	                                       Date birthday, String telephone,
-	                                       String verificationCode) {
-		// todo 校验验证码
+	public ServerResponse<String> register(HttpSession session, String username, String password,
+	                                       String repeatPassword, String email, String name, int gender,
+	                                       Date birthday, String telephone, String verificationCode) {
+		// 校验验证码（统一用小写）
+		if (!verificationCode.toLowerCase().equals(session.getAttribute(SessionKeyConst.VERIFICATION_CODE))) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_VERIFICATION_CODE);
+		}
 
 		// 校验密码
 		if (!password.equals(repeatPassword)) {
@@ -142,10 +143,10 @@ public class UserService {
 			return ServerResponse.createErrorResponse(ResponseCodeConst.USER_HAS_NOT_ACTIVATED);
 		}
 
-		session.setAttribute(CurrentUserInformationConst.USER_ID, user.getUserId());
-		session.setAttribute(CurrentUserInformationConst.USERNAME, user.getUsername());
+		session.setAttribute(SessionKeyConst.USER_ID, user.getUserId());
+		session.setAttribute(SessionKeyConst.USERNAME, user.getUsername());
 
-		List<CartVo> cartVoListInSession = (List<CartVo>) session.getAttribute(CurrentUserInformationConst.CART_VO_LIST);
+		List<CartVo> cartVoListInSession = (List<CartVo>) session.getAttribute(SessionKeyConst.CART_VO_LIST);
 
 		CartItemExample cartItemExample = new CartItemExample();
 		cartItemExample.createCriteria().andUserIdEqualTo(user.getUserId());

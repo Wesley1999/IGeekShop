@@ -1,6 +1,6 @@
 package com.igeek.igeekshop.service;
 
-import com.igeek.igeekshop.consts.CurrentUserInformationConst;
+import com.igeek.igeekshop.consts.SessionKeyConst;
 import com.igeek.igeekshop.consts.ResponseCodeConst;
 import com.igeek.igeekshop.util.ServerResponse;
 import com.igeek.igeekshop.mapper.CartItemMapper;
@@ -39,14 +39,14 @@ public class CartService {
 			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_PRODUCT_ID);
 		}
 
-		Object cartObj = session.getAttribute(CurrentUserInformationConst.CART_VO_LIST);
+		Object cartObj = session.getAttribute(SessionKeyConst.CART_VO_LIST);
 		if (cartObj == null) {
 			// 如果session中还没有购物车，创建购物车
 			List<CartVo> cartVoList = new ArrayList<>();
-			session.setAttribute(CurrentUserInformationConst.CART_VO_LIST, cartVoList);
+			session.setAttribute(SessionKeyConst.CART_VO_LIST, cartVoList);
 		}
 		// 至此，可以确保已有购物车
-		List<CartVo> cartVoList = (List<CartVo>) session.getAttribute(CurrentUserInformationConst.CART_VO_LIST);
+		List<CartVo> cartVoList = (List<CartVo>) session.getAttribute(SessionKeyConst.CART_VO_LIST);
 
 		// 用于判断购物车中是否有此商品
 		boolean whetherProductInCart = false;
@@ -73,7 +73,7 @@ public class CartService {
 		}
 
 		// 回写session
-		session.setAttribute(CurrentUserInformationConst.CART_VO_LIST, cartVoList);
+		session.setAttribute(SessionKeyConst.CART_VO_LIST, cartVoList);
 		return ServerResponse.createSuccessResponse();
 	}
 
@@ -108,14 +108,14 @@ public class CartService {
 	}
 
 	public ServerResponse<List<CartVo>> getCartForUnLoggedUser(HttpSession session) {
-		Object cartObj = session.getAttribute(CurrentUserInformationConst.CART_VO_LIST);
+		Object cartObj = session.getAttribute(SessionKeyConst.CART_VO_LIST);
 		if (cartObj == null) {
 			// 如果session中还没有购物车，创建购物车
 			List<CartVo> cartVoList = new ArrayList<>();
-			session.setAttribute(CurrentUserInformationConst.CART_VO_LIST, cartVoList);
+			session.setAttribute(SessionKeyConst.CART_VO_LIST, cartVoList);
 		}
 		// 至此，可以确保已有购物车
-		List<CartVo> cartVoList = (List<CartVo>) session.getAttribute(CurrentUserInformationConst.CART_VO_LIST);
+		List<CartVo> cartVoList = (List<CartVo>) session.getAttribute(SessionKeyConst.CART_VO_LIST);
 		return ServerResponse.createSuccessResponse(cartVoList);
 	}
 
@@ -139,14 +139,14 @@ public class CartService {
 	}
 
 	public ServerResponse<String> deleteFromCartUnLoggedUser(HttpSession session, int productId) {
-		Object cartObj = session.getAttribute(CurrentUserInformationConst.CART_VO_LIST);
+		Object cartObj = session.getAttribute(SessionKeyConst.CART_VO_LIST);
 		if (cartObj == null) {
 			// 如果session中还没有购物车，创建购物车
 			List<CartVo> cartVoList = new ArrayList<>();
-			session.setAttribute(CurrentUserInformationConst.CART_VO_LIST, cartVoList);
+			session.setAttribute(SessionKeyConst.CART_VO_LIST, cartVoList);
 		}
 		// 至此，可以确保已有购物车
-		List<CartVo> cartVoList = (List<CartVo>) session.getAttribute(CurrentUserInformationConst.CART_VO_LIST);
+		List<CartVo> cartVoList = (List<CartVo>) session.getAttribute(SessionKeyConst.CART_VO_LIST);
 
 		for (CartVo cartVo : cartVoList) {
 			if (cartVo.getProductId() == productId) {
@@ -156,7 +156,7 @@ public class CartService {
 		}
 
 		// 回写session
-		session.setAttribute(CurrentUserInformationConst.CART_VO_LIST, cartVoList);
+		session.setAttribute(SessionKeyConst.CART_VO_LIST, cartVoList);
 
 		return ServerResponse.createSuccessResponse();
 	}
@@ -174,7 +174,7 @@ public class CartService {
 	}
 
 	public ServerResponse<String> clearCartForUnLoggedUser(HttpSession session) {
-		session.removeAttribute(CurrentUserInformationConst.CART_VO_LIST);
+		session.removeAttribute(SessionKeyConst.CART_VO_LIST);
 		return ServerResponse.createSuccessResponse();
 	}
 

@@ -19,7 +19,8 @@ public class ResponseCodeConst {
 	public static final Integer USERNAME_HAS_BEEN_REGISTERED = 6006;
 	public static final Integer ERROR_TELEPHONE = 6007;
 	public static final Integer NO_LOGIN_USER = 6008;
-//	public static final Integer SEND_EMAIL_FAILED = 6009;
+	public static final Integer ERROR_VERIFICATION_CODE = 6009;
+//	public static final Integer SEND_EMAIL_FAILED = 6010;
 	// 激活相关
 	public static final Integer ERROR_ACTIVE_CODE = 6101;
 	public static final Integer USER_HAS_ACTIVATED = 6102;
@@ -42,6 +43,7 @@ public class ResponseCodeConst {
 		put(USERNAME_HAS_BEEN_REGISTERED, "用户名已被注册");
 		put(ERROR_TELEPHONE, "手机号有误");
 		put(NO_LOGIN_USER, "无登录用户");
+		put(ERROR_VERIFICATION_CODE, "验证码有误");
 //		put(SEND_EMAIL_FAILED, "激活邮件发送失败，请检查邮箱是否正确，或稍后再试");
 		put(ERROR_ACTIVE_CODE, "激活码有误");
 		put(USER_HAS_ACTIVATED, "用户已激活");
