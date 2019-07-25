@@ -1,17 +1,23 @@
 package com.igeek.igeekshop.service;
 
+import com.igeek.igeekshop.common.CurrentUserInformationConst;
 import com.igeek.igeekshop.common.GenderConst;
 import com.igeek.igeekshop.common.ResponseCodeConst;
 import com.igeek.igeekshop.common.ServerResponse;
+import com.igeek.igeekshop.mapper.CartItemMapper;
 import com.igeek.igeekshop.mapper.UserMapper;
+import com.igeek.igeekshop.pojo.CartItem;
+import com.igeek.igeekshop.pojo.CartItemExample;
 import com.igeek.igeekshop.pojo.User;
 import com.igeek.igeekshop.pojo.UserExample;
 import com.igeek.igeekshop.util.Md5Utils;
 import com.igeek.igeekshop.util.SendMailThread;
 import com.igeek.igeekshop.util.UUIDUtils;
+import com.igeek.igeekshop.vo.CartVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -27,6 +33,9 @@ public class UserService {
 
 	@Autowired
 	UserMapper userMapper;
+
+	@Autowired
+	CartItemMapper cartItemMapper;
 
 	public ServerResponse<String> register(String username, String password,
 	                                       String repeatPassword, String email,
@@ -94,7 +103,7 @@ public class UserService {
 
 		// 调用多线程发送邮件
 		// todo 邮件内容待修改
-		String emailMsg = "<a href='http://localhost:8080/activeServlet?activeCode=" + userId + "'><h1>点击此链接激活</h1></a>";
+		String emailMsg = "<a href='http://localhost:8080/user/active?activeCode=" + userId + "'><h1>点击此链接激活</h1></a>";
 		new SendMailThread(email, emailMsg).start();
 
 		// 插入数据库
@@ -118,7 +127,7 @@ public class UserService {
 		}
 	}
 
-	public ServerResponse<String> signIn(String username, String password) {
+	public ServerResponse<String> signIn(HttpSession session, String username, String password) {
 		UserExample userExample = new UserExample();
 		userExample.createCriteria().andUsernameEqualTo(username);
 		List<User> users = userMapper.selectByExample(userExample);
@@ -133,7 +142,44 @@ public class UserService {
 			return ServerResponse.createErrorResponse(ResponseCodeConst.USER_HAS_NOT_ACTIVATED);
 		}
 
+		session.setAttribute(CurrentUserInformationConst.USER_ID, user.getUserId());
+		session.setAttribute(CurrentUserInformationConst.USERNAME, user.getUsername());
+
+		List<CartVo> cartVoListInSession = (List<CartVo>) session.getAttribute(CurrentUserInformationConst.CART_VO_LIST);
+
+		CartItemExample cartItemExample = new CartItemExample();
+		cartItemExample.createCriteria().andUserIdEqualTo(user.getUserId());
+		List<CartItem> cartItems = cartItemMapper.selectByExample(cartItemExample);
+
 		// todo 这里还缺少一步，登录后要把Session中的购物车数据持久化到数据库
+		// 数据库中存在的，修改数量
+		for (CartItem cartItem : cartItems) {
+			for (int i = 0; i < cartVoListInSession.size(); i++) {
+				if (cartItem.getProductId() == cartVoListInSession.get(i).getProductId()) {
+					cartItem.setCount(cartItem.getCount() + cartVoListInSession.get(i).getCount());
+					cartVoListInSession.remove(i--);
+				}
+			}
+		}
+		for (CartItem cartItem : cartItems) {
+			cartItemMapper.updateByPrimaryKeySelective(cartItem);
+		}
+
+		// 数据库中不存在的，添加到数据库
+		cartItems.clear();
+		for (CartVo cartVo : cartVoListInSession) {
+			CartItem cartItem = new CartItem();
+			cartItem.setProductId(cartVo.getProductId());
+			cartItem.setCount(cartVo.getCount());
+			cartItem.setUserId(user.getUserId());
+			cartItems.add(cartItem);
+		}
+		for (CartItem cartItem : cartItems) {
+			cartItemMapper.insert(cartItem);
+		}
+
+		// 移除session中的购物车信息
+
 		return ServerResponse.createSuccessResponse();
 	}
 
@@ -141,21 +187,4 @@ public class UserService {
 		return ServerResponse.createSuccessResponse(userMapper.selectByPrimaryKey(userId));
 	}
 
-	public User getUserByUserId(String userId) {
-		User user = userMapper.selectByPrimaryKey(userId);
-		if (user == null) {
-			throw new RuntimeException("userId有误");
-		}
-		return user;
-	}
-
-	public User getUserByUsername(String username) {
-		UserExample userExample = new UserExample();
-		userExample.createCriteria().andUsernameEqualTo(username);
-		List<User> users = userMapper.selectByExample(userExample);
-		if (users.isEmpty()) {
-			throw new RuntimeException("userId有误");
-		}
-		return users.get(0);
-	}
 }

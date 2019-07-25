@@ -28,7 +28,7 @@ public class UserController {
 	UserService userService;
 
 	@RequestMapping("register")
-//	birthday格式为"yyyy-MM-dd"或"yyyy-MM-dd HH:mm:ss"
+	//	birthday格式为"yyyy-MM-dd"或"yyyy-MM-dd HH:mm:ss"
 	public ServerResponse<String> register(@RequestParam String username, @RequestParam String password,
 	                                       @RequestParam String repeatPassword, @RequestParam String email,
 	                                       @RequestParam String name, @RequestParam int gender,
@@ -37,7 +37,6 @@ public class UserController {
 		return userService.register(username, password, repeatPassword, email, name, gender, birthday, telephone, verificationCode);
 	}
 
-
 	@RequestMapping("active")
 	public ServerResponse<String> active(@RequestParam String activeCode) {
 		return userService.active(activeCode);
@@ -45,12 +44,7 @@ public class UserController {
 
 	@RequestMapping("sign_in")
 	public ServerResponse<String> signIn(HttpSession session, @RequestParam String userName, @RequestParam String password) {
-		ServerResponse<String> response = userService.signIn(userName, password);
-		if(response.whetherSuccess()) {
-			User user = userService.getUserByUsername(userName);
-			session.setAttribute(CurrentUserInformationConst.USER_ID, user.getUserId());
-			session.setAttribute(CurrentUserInformationConst.USERNAME, user.getUsername());
-		}
+		ServerResponse<String> response = userService.signIn(session, userName, password);
 		return response;
 	}
 
@@ -67,6 +61,7 @@ public class UserController {
 	public ServerResponse<String> signOut(HttpSession session) {
 		session.removeAttribute(CurrentUserInformationConst.USER_ID);
 		session.removeAttribute(CurrentUserInformationConst.USERNAME);
+		session.removeAttribute(CurrentUserInformationConst.CART_VO_LIST);
 		return ServerResponse.createSuccessResponse();
 	}
 

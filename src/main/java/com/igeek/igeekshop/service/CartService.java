@@ -60,6 +60,7 @@ public class CartService {
 			// 如果购物车中无此商品，添加
 			CartVo cartVo = new CartVo();
 			cartVo.setProductId(productId);
+			cartVo.setCount(1);
 			cartVoList.add(cartVo);
 		} else {
 			// 如果购物车中有此商品，数量+1

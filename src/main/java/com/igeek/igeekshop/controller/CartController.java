@@ -25,7 +25,7 @@ public class CartController {
 	@Autowired
 	CartService cartService;
 
-	@RequestMapping("add_to_art")
+	@RequestMapping("add_to_cart")
 	public ServerResponse<String> addToCart(HttpSession session, int productId) {
 		// 未登录的用户
 		if (session.getAttribute(CurrentUserInformationConst.USER_ID) == null) {
