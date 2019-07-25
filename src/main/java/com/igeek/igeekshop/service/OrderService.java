@@ -23,7 +23,7 @@ import java.util.List;
 public class OrderService {
 
 	@Autowired
-	OrderMapper orderMapper;
+	OrdersMapper ordersMapper;
 
 	@Autowired
 	UserMapper userMapper;
@@ -63,18 +63,18 @@ public class OrderService {
 		}
 
 		// 封装订单对象
-		Order order = new Order();
-		order.setOrderId(orderId);
-		order.setOrderTime(new Date());
-		order.setTotalPrice(totalPrice);
-		order.setRecipientName(recipientName);
-		order.setTelephone(telephone);
-		order.setAddress(address);
-		order.setStatus(OrderStatusConst.UNPAID);
-		order.setUserId(userId);
+		Orders orders = new Orders();
+		orders.setOrderId(orderId);
+		orders.setOrderTime(new Date());
+		orders.setTotalPrice(totalPrice);
+		orders.setRecipientName(recipientName);
+		orders.setTelephone(telephone);
+		orders.setAddress(address);
+		orders.setStatus(OrderStatusConst.UNPAID);
+		orders.setUserId(userId);
 
 		// 插入到数据库
-		orderMapper.insert(order);
+		ordersMapper.insert(orders);
 
 		// 封装订单明细
 		List<OrderItem> orderItemList = new ArrayList<>();
@@ -98,18 +98,18 @@ public class OrderService {
 	}
 
 	public ServerResponse<List<OrderVo>> getOrders(String userId) {
-		OrderExample orderExample = new OrderExample();
+		OrdersExample orderExample = new OrdersExample();
 		orderExample.createCriteria().andUserIdEqualTo(userId);
-		List<Order> orders = orderMapper.selectByExample(orderExample);
+		List<Orders> orders = ordersMapper.selectByExample(orderExample);
 		List<OrderVo> orderVos = new ArrayList<>();
 
-		for (Order order : orders) {
+		for (Orders order : orders) {
 			OrderItemExample orderItemExample = new OrderItemExample();
 			orderItemExample.createCriteria().andOrderIdGreaterThanOrEqualTo(order.getOrderId());
 			List<OrderItem> orderItemList = orderItemMapper.selectByExample(orderItemExample);
 
 			OrderVo orderVo = new OrderVo();
-			orderVo.setOrder(order);
+			orderVo.setOrders(order);
 			orderVo.setOrderItems(orderItemList);
 
 			orderVos.add(orderVo);

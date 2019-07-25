@@ -50,7 +50,7 @@
         <!-- 指定数据库表 -->
         <table schema="" tableName="cart_item"></table>
         <table schema="" tableName="category"></table>
-        <table schema="" tableName="order"></table>
+        <table schema="" tableName="orders"></table>
         <table schema="" tableName="order_item"></table>
         <table schema="" tableName="product"></table>
         <table schema="" tableName="user"></table>

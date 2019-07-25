@@ -19,7 +19,7 @@ import java.util.List;
 
 @Controller
 @ResponseBody
-@RequestMapping("cart")
+@RequestMapping("api/cart")
 public class CartController {
 
 	@Autowired

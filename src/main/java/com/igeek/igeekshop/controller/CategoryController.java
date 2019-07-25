@@ -16,12 +16,13 @@ import java.util.List;
 
 @Controller
 @ResponseBody
-@RequestMapping("category")
+@RequestMapping("api/category")
 public class CategoryController {
 
 	@Autowired
 	CategoryService categoryService;
 
+	@RequestMapping("get_categories")
 	public ServerResponse<List> getCategories() {
 		return categoryService.getCategories();
 	}

@@ -21,7 +21,7 @@ import java.util.Date;
 
 @Controller
 @ResponseBody
-@RequestMapping("user")
+@RequestMapping("api/user")
 public class UserController {
 
 	@Autowired
@@ -44,8 +44,7 @@ public class UserController {
 
 	@RequestMapping("sign_in")
 	public ServerResponse<String> signIn(HttpSession session, @RequestParam String userName, @RequestParam String password) {
-		ServerResponse<String> response = userService.signIn(session, userName, password);
-		return response;
+		return userService.signIn(session, userName, password);
 	}
 
 	@RequestMapping("get_current_user")

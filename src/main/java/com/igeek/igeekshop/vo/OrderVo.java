@@ -1,6 +1,6 @@
 package com.igeek.igeekshop.vo;
 
-import com.igeek.igeekshop.pojo.Order;
+import com.igeek.igeekshop.pojo.Orders;
 import com.igeek.igeekshop.pojo.OrderItem;
 import lombok.Data;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 public class OrderVo {
 
-	private Order order;
+	private Orders orders;
 
 	private List<OrderItem> orderItems;
 

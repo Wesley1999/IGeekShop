@@ -1,5 +1,10 @@
 package com.igeek.igeekshop.pojo;
 
+import lombok.Data;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+@Data
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class OrderItem {
     private Integer orderItemId;
 
@@ -9,35 +14,4 @@ public class OrderItem {
 
     private Integer count;
 
-    public Integer getOrderItemId() {
-        return orderItemId;
-    }
-
-    public void setOrderItemId(Integer orderItemId) {
-        this.orderItemId = orderItemId;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId == null ? null : orderId.trim();
-    }
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
-    }
 }

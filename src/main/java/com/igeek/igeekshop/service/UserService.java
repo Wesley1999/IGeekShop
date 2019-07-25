@@ -151,7 +151,11 @@ public class UserService {
 		cartItemExample.createCriteria().andUserIdEqualTo(user.getUserId());
 		List<CartItem> cartItems = cartItemMapper.selectByExample(cartItemExample);
 
-		// todo 这里还缺少一步，登录后要把Session中的购物车数据持久化到数据库
+		// 登录后把Session中的购物车数据持久化到数据库
+		// 如果session中的购物车为空，直接结束
+		if (cartVoListInSession == null) {
+			return ServerResponse.createSuccessResponse();
+		}
 		// 数据库中存在的，修改数量
 		for (CartItem cartItem : cartItems) {
 			for (int i = 0; i < cartVoListInSession.size(); i++) {
@@ -184,7 +188,15 @@ public class UserService {
 	}
 
 	public ServerResponse<User> getCurrentUser(String userId) {
-		return ServerResponse.createSuccessResponse(userMapper.selectByPrimaryKey(userId));
+		User user = userMapper.selectByPrimaryKey(userId);
+		user.setPassword(null);
+		user.setName(null);
+		user.setEmail(null);
+		user.setGender(null);
+		user.setBirthday(null);
+		user.setTelephone(null);
+		user.setActiveStatus(null);
+		return ServerResponse.createSuccessResponse(user);
 	}
 
 }

@@ -21,7 +21,7 @@ import java.util.List;
 
 @Controller
 @ResponseBody
-@RequestMapping("order")
+@RequestMapping("api/order")
 public class OrderController {
 
 	@Autowired
