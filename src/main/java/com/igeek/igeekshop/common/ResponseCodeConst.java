@@ -29,6 +29,8 @@ public class ResponseCodeConst {
 	// 其他
 	public static  final Integer ERROR_PRODUCT_ID = 6301;
 	public static  final Integer ERROR_USER_ID = 6302;
+	public static  final Integer NEED_SIGN_IN = 6303;
+	public static  final Integer CART_IS_EMPTY = 6304;
 
 
 	public static Map<Integer, String> responseMessage = new HashMap<Integer, String>() {{
@@ -47,6 +49,8 @@ public class ResponseCodeConst {
 		put(USER_HAS_NOT_ACTIVATED, "用户未激活");
 		put(ERROR_PRODUCT_ID, "productId有误");
 		put(ERROR_USER_ID, "userId有误");
+		put(NEED_SIGN_IN, "请先登录");
+		put(CART_IS_EMPTY, "购物车为空");
 	}};
 
 
