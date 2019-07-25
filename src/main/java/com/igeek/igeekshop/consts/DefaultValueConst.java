@@ -1,4 +1,4 @@
-package com.igeek.igeekshop.common;
+package com.igeek.igeekshop.consts;
 
 /**
  * @Author 王少刚

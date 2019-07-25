@@ -1,8 +1,8 @@
 package com.igeek.igeekshop.controller;
 
-import com.igeek.igeekshop.common.CurrentUserInformationConst;
-import com.igeek.igeekshop.common.ResponseCodeConst;
-import com.igeek.igeekshop.common.ServerResponse;
+import com.igeek.igeekshop.consts.CurrentUserInformationConst;
+import com.igeek.igeekshop.consts.ResponseCodeConst;
+import com.igeek.igeekshop.util.ServerResponse;
 import com.igeek.igeekshop.service.OrderService;
 import com.igeek.igeekshop.vo.OrderVo;
 import org.springframework.beans.factory.annotation.Autowired;

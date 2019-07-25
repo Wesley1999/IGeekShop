@@ -1,4 +1,4 @@
-package com.igeek.igeekshop.common;
+package com.igeek.igeekshop.consts;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -2,8 +2,8 @@ package com.igeek.igeekshop.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.igeek.igeekshop.common.ResponseCodeConst;
-import com.igeek.igeekshop.common.ServerResponse;
+import com.igeek.igeekshop.consts.ResponseCodeConst;
+import com.igeek.igeekshop.util.ServerResponse;
 import com.igeek.igeekshop.mapper.ProductMapper;
 import com.igeek.igeekshop.pojo.Product;
 import com.igeek.igeekshop.pojo.ProductExample;

@@ -1,6 +1,6 @@
 package com.igeek.igeekshop.service;
 
-import com.igeek.igeekshop.common.ServerResponse;
+import com.igeek.igeekshop.util.ServerResponse;
 import com.igeek.igeekshop.mapper.CategoryMapper;
 import com.igeek.igeekshop.pojo.Category;
 import org.springframework.beans.factory.annotation.Autowired;

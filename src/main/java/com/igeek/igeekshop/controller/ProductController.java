@@ -1,8 +1,8 @@
 package com.igeek.igeekshop.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.igeek.igeekshop.common.DefaultValueConst;
-import com.igeek.igeekshop.common.ServerResponse;
+import com.igeek.igeekshop.consts.DefaultValueConst;
+import com.igeek.igeekshop.util.ServerResponse;
 import com.igeek.igeekshop.pojo.Product;
 import com.igeek.igeekshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;

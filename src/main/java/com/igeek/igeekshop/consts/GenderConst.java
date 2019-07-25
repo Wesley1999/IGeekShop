@@ -1,4 +1,4 @@
-package com.igeek.igeekshop.common;
+package com.igeek.igeekshop.consts;
 
 import java.util.ArrayList;
 import java.util.List;

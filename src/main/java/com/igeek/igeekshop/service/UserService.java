@@ -1,9 +1,9 @@
 package com.igeek.igeekshop.service;
 
-import com.igeek.igeekshop.common.CurrentUserInformationConst;
-import com.igeek.igeekshop.common.GenderConst;
-import com.igeek.igeekshop.common.ResponseCodeConst;
-import com.igeek.igeekshop.common.ServerResponse;
+import com.igeek.igeekshop.consts.CurrentUserInformationConst;
+import com.igeek.igeekshop.consts.GenderConst;
+import com.igeek.igeekshop.consts.ResponseCodeConst;
+import com.igeek.igeekshop.util.ServerResponse;
 import com.igeek.igeekshop.mapper.CartItemMapper;
 import com.igeek.igeekshop.mapper.UserMapper;
 import com.igeek.igeekshop.pojo.CartItem;

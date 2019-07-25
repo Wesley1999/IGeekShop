@@ -1,8 +1,8 @@
 package com.igeek.igeekshop.service;
 
-import com.igeek.igeekshop.common.OrderStatusConst;
-import com.igeek.igeekshop.common.ResponseCodeConst;
-import com.igeek.igeekshop.common.ServerResponse;
+import com.igeek.igeekshop.consts.OrderStatusConst;
+import com.igeek.igeekshop.consts.ResponseCodeConst;
+import com.igeek.igeekshop.util.ServerResponse;
 import com.igeek.igeekshop.mapper.*;
 import com.igeek.igeekshop.pojo.*;
 import com.igeek.igeekshop.util.UUIDUtils;

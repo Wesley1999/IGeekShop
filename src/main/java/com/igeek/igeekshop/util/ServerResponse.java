@@ -1,5 +1,6 @@
-package com.igeek.igeekshop.common;
+package com.igeek.igeekshop.util;
 
+import com.igeek.igeekshop.consts.ResponseCodeConst;
 import lombok.Getter;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import java.io.Serializable;

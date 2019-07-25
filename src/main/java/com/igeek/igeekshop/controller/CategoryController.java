@@ -1,6 +1,6 @@
 package com.igeek.igeekshop.controller;
 
-import com.igeek.igeekshop.common.ServerResponse;
+import com.igeek.igeekshop.util.ServerResponse;
 import com.igeek.igeekshop.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
