@@ -7,7 +7,7 @@
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="INTEGER" />
     <result column="birthday" property="birthday" jdbcType="DATE" />
     <result column="telephone" property="telephone" jdbcType="VARCHAR" />
     <result column="active_status" property="activeStatus" jdbcType="BIT" />
@@ -109,7 +109,7 @@
       birthday, telephone, active_status
       )
     values (#{userId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, 
       #{birthday,jdbcType=DATE}, #{telephone,jdbcType=VARCHAR}, #{activeStatus,jdbcType=BIT}
       )
   </insert>
@@ -161,7 +161,7 @@
         #{email,jdbcType=VARCHAR},
       </if>
       <if test="gender != null" >
-        #{gender,jdbcType=VARCHAR},
+        #{gender,jdbcType=INTEGER},
       </if>
       <if test="birthday != null" >
         #{birthday,jdbcType=DATE},
@@ -199,7 +199,7 @@
         email = #{record.email,jdbcType=VARCHAR},
       </if>
       <if test="record.gender != null" >
-        gender = #{record.gender,jdbcType=VARCHAR},
+        gender = #{record.gender,jdbcType=INTEGER},
       </if>
       <if test="record.birthday != null" >
         birthday = #{record.birthday,jdbcType=DATE},
@@ -222,7 +222,7 @@
       password = #{record.password,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
-      gender = #{record.gender,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=INTEGER},
       birthday = #{record.birthday,jdbcType=DATE},
       telephone = #{record.telephone,jdbcType=VARCHAR},
       active_status = #{record.activeStatus,jdbcType=BIT}
@@ -246,7 +246,7 @@
         email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="gender != null" >
-        gender = #{gender,jdbcType=VARCHAR},
+        gender = #{gender,jdbcType=INTEGER},
       </if>
       <if test="birthday != null" >
         birthday = #{birthday,jdbcType=DATE},
@@ -266,7 +266,7 @@
       password = #{password,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      gender = #{gender,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=INTEGER},
       birthday = #{birthday,jdbcType=DATE},
       telephone = #{telephone,jdbcType=VARCHAR},
       active_status = #{activeStatus,jdbcType=BIT}
