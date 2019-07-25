@@ -20,7 +20,7 @@
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.igeek.igeekshoop.dao"/>
+        <property name="basePackage" value="com.igeek.igeekshoop.mapper"/>
     </bean>
 
 </beans>
