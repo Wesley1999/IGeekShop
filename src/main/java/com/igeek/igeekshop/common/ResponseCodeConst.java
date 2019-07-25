@@ -25,6 +25,8 @@ public class ResponseCodeConst {
 	// 登录相关
 	public static final Integer ERROR_USERNAME_OR_PASSWORD = 6201;
 	public static final Integer USER_HAS_NOT_ACTIVATED = 6202;
+	// 其他
+	public static  final Integer ERROR_PRODUCT_ID = 6301;
 
 
 	public static Map<Integer, String> responseMessage = new HashMap<Integer, String>() {{
@@ -40,6 +42,7 @@ public class ResponseCodeConst {
 		put(USER_HAS_ACTIVATED, "用户已激活");
 		put(ERROR_USERNAME_OR_PASSWORD, "用户名或密码有误");
 		put(USER_HAS_NOT_ACTIVATED, "用户未激活");
+		put(ERROR_PRODUCT_ID, "productId有误");
 	}};
 
 
