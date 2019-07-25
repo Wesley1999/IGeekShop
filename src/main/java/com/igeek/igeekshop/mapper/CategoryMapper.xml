@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.igeek.igeekshop.mapper.CategoryMapper" >
   <resultMap id="BaseResultMap" type="com.igeek.igeekshop.pojo.Category" >
-    <id column="cagegory_id" property="cagegoryId" jdbcType="INTEGER" />
+    <id column="category_id" property="categoryId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
   </resultMap>
@@ -65,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    cagegory_id, name, description
+    category_id, name, description
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.igeek.igeekshop.pojo.CategoryExample" >
     select
@@ -85,11 +85,11 @@
     select 
     <include refid="Base_Column_List" />
     from category
-    where cagegory_id = #{cagegoryId,jdbcType=INTEGER}
+    where category_id = #{categoryId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from category
-    where cagegory_id = #{cagegoryId,jdbcType=INTEGER}
+    where category_id = #{categoryId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.igeek.igeekshop.pojo.CategoryExample" >
     delete from category
@@ -98,16 +98,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.igeek.igeekshop.pojo.Category" >
-    insert into category (cagegory_id, name, description
+    insert into category (category_id, name, description
       )
-    values (#{cagegoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}
+    values (#{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.igeek.igeekshop.pojo.Category" >
     insert into category
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="cagegoryId != null" >
-        cagegory_id,
+      <if test="categoryId != null" >
+        category_id,
       </if>
       <if test="name != null" >
         name,
@@ -117,8 +117,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="cagegoryId != null" >
-        #{cagegoryId,jdbcType=INTEGER},
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -137,8 +137,8 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update category
     <set >
-      <if test="record.cagegoryId != null" >
-        cagegory_id = #{record.cagegoryId,jdbcType=INTEGER},
+      <if test="record.categoryId != null" >
+        category_id = #{record.categoryId,jdbcType=INTEGER},
       </if>
       <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
@@ -153,7 +153,7 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update category
-    set cagegory_id = #{record.cagegoryId,jdbcType=INTEGER},
+    set category_id = #{record.categoryId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR}
     <if test="_parameter != null" >
@@ -170,12 +170,12 @@
         description = #{description,jdbcType=VARCHAR},
       </if>
     </set>
-    where cagegory_id = #{cagegoryId,jdbcType=INTEGER}
+    where category_id = #{categoryId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.igeek.igeekshop.pojo.Category" >
     update category
     set name = #{name,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR}
-    where cagegory_id = #{cagegoryId,jdbcType=INTEGER}
+    where category_id = #{categoryId,jdbcType=INTEGER}
   </update>
 </mapper>

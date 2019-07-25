@@ -104,63 +104,63 @@ public class CategoryExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andCagegoryIdIsNull() {
-            addCriterion("cagegory_id is null");
+        public Criteria andCategoryIdIsNull() {
+            addCriterion("category_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andCagegoryIdIsNotNull() {
-            addCriterion("cagegory_id is not null");
+        public Criteria andCategoryIdIsNotNull() {
+            addCriterion("category_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCagegoryIdEqualTo(Integer value) {
-            addCriterion("cagegory_id =", value, "cagegoryId");
+        public Criteria andCategoryIdEqualTo(Integer value) {
+            addCriterion("category_id =", value, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCagegoryIdNotEqualTo(Integer value) {
-            addCriterion("cagegory_id <>", value, "cagegoryId");
+        public Criteria andCategoryIdNotEqualTo(Integer value) {
+            addCriterion("category_id <>", value, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCagegoryIdGreaterThan(Integer value) {
-            addCriterion("cagegory_id >", value, "cagegoryId");
+        public Criteria andCategoryIdGreaterThan(Integer value) {
+            addCriterion("category_id >", value, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCagegoryIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("cagegory_id >=", value, "cagegoryId");
+        public Criteria andCategoryIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("category_id >=", value, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCagegoryIdLessThan(Integer value) {
-            addCriterion("cagegory_id <", value, "cagegoryId");
+        public Criteria andCategoryIdLessThan(Integer value) {
+            addCriterion("category_id <", value, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCagegoryIdLessThanOrEqualTo(Integer value) {
-            addCriterion("cagegory_id <=", value, "cagegoryId");
+        public Criteria andCategoryIdLessThanOrEqualTo(Integer value) {
+            addCriterion("category_id <=", value, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCagegoryIdIn(List<Integer> values) {
-            addCriterion("cagegory_id in", values, "cagegoryId");
+        public Criteria andCategoryIdIn(List<Integer> values) {
+            addCriterion("category_id in", values, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCagegoryIdNotIn(List<Integer> values) {
-            addCriterion("cagegory_id not in", values, "cagegoryId");
+        public Criteria andCategoryIdNotIn(List<Integer> values) {
+            addCriterion("category_id not in", values, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCagegoryIdBetween(Integer value1, Integer value2) {
-            addCriterion("cagegory_id between", value1, value2, "cagegoryId");
+        public Criteria andCategoryIdBetween(Integer value1, Integer value2) {
+            addCriterion("category_id between", value1, value2, "categoryId");
             return (Criteria) this;
         }
 
-        public Criteria andCagegoryIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("cagegory_id not between", value1, value2, "cagegoryId");
+        public Criteria andCategoryIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("category_id not between", value1, value2, "categoryId");
             return (Criteria) this;
         }
 
