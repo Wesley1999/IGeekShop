@@ -106,4 +106,87 @@ public class CartService {
 		return ServerResponse.createSuccessResponse();
 	}
 
+	public ServerResponse<List<CartVo>> getCartForUnLoggedUser(HttpSession session) {
+		Object cartObj = session.getAttribute(CurrentUserInformationConst.CART_VO_LIST);
+		if (cartObj == null) {
+			// 如果session中还没有购物车，创建购物车
+			List<CartVo> cartVoList = new ArrayList<>();
+			session.setAttribute(CurrentUserInformationConst.CART_VO_LIST, cartVoList);
+		}
+		// 至此，可以确保已有购物车
+		List<CartVo> cartVoList = (List<CartVo>) session.getAttribute(CurrentUserInformationConst.CART_VO_LIST);
+		return ServerResponse.createSuccessResponse(cartVoList);
+	}
+
+	public ServerResponse<List<CartVo>> getCartForLoggedUser(String userId) {
+		// 校验userId
+		if (userMapper.selectByPrimaryKey(userId) == null) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_USER_ID);
+		}
+
+		CartItemExample cartItemExample = new CartItemExample();
+		cartItemExample.createCriteria().andUserIdEqualTo(userId);
+		List<CartItem> cartItems = cartItemMapper.selectByExample(cartItemExample);
+		List<CartVo> cartVoList = new ArrayList<>();
+		for (CartItem cartItem : cartItems) {
+			CartVo cartVo = new CartVo();
+			cartVo.setProductId(cartItem.getProductId());
+			cartVo.setCount(cartItem.getCount());
+			cartVoList.add(cartVo);
+		}
+		return ServerResponse.createSuccessResponse(cartVoList);
+	}
+
+	public ServerResponse<String> deleteFromCartUnLoggedUser(HttpSession session, int productId) {
+		Object cartObj = session.getAttribute(CurrentUserInformationConst.CART_VO_LIST);
+		if (cartObj == null) {
+			// 如果session中还没有购物车，创建购物车
+			List<CartVo> cartVoList = new ArrayList<>();
+			session.setAttribute(CurrentUserInformationConst.CART_VO_LIST, cartVoList);
+		}
+		// 至此，可以确保已有购物车
+		List<CartVo> cartVoList = (List<CartVo>) session.getAttribute(CurrentUserInformationConst.CART_VO_LIST);
+
+		for (CartVo cartVo : cartVoList) {
+			if (cartVo.getProductId() == productId) {
+				cartVoList.remove(cartVo);
+				break;
+			}
+		}
+
+		// 回写session
+		session.setAttribute(CurrentUserInformationConst.CART_VO_LIST, cartVoList);
+
+		return ServerResponse.createSuccessResponse();
+	}
+
+	public ServerResponse<String> deleteFromCartLoggedUser(String userId, int productId) {
+		// 校验userId
+		if (userMapper.selectByPrimaryKey(userId) == null) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_USER_ID);
+		}
+
+		CartItemExample cartItemExample = new CartItemExample();
+		cartItemExample.createCriteria().andUserIdEqualTo(userId).andProductIdEqualTo(productId);
+		cartItemMapper.deleteByExample(cartItemExample);
+		return ServerResponse.createSuccessResponse();
+	}
+
+	public ServerResponse<String> clearCartForUnLoggedUser(HttpSession session) {
+		session.removeAttribute(CurrentUserInformationConst.CART_VO_LIST);
+		return ServerResponse.createSuccessResponse();
+	}
+
+	public ServerResponse<String> clearCartForLoggedUser(String userId) {
+		// 校验userId
+		if (userMapper.selectByPrimaryKey(userId) == null) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_USER_ID);
+		}
+
+		CartItemExample cartItemExample = new CartItemExample();
+		cartItemExample.createCriteria().andUserIdEqualTo(userId);
+		cartItemMapper.deleteByExample(cartItemExample);
+		return ServerResponse.createSuccessResponse();
+	}
+
 }
