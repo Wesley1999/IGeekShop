@@ -18,7 +18,8 @@ public class ResponseCodeConst {
 	public static final Integer EMAIL_HAS_BEEN_REGISTERED = 6005;
 	public static final Integer USERNAME_HAS_BEEN_REGISTERED = 6006;
 	public static final Integer ERROR_TELEPHONE = 6007;
-//	public static final Integer SEND_EMAIL_FAILED = 6008;
+	public static final Integer NO_LOGIN_USER = 6008;
+//	public static final Integer SEND_EMAIL_FAILED = 6009;
 	// 激活相关
 	public static final Integer ERROR_ACTIVE_CODE = 6101;
 	public static final Integer USER_HAS_ACTIVATED = 6102;
@@ -27,6 +28,7 @@ public class ResponseCodeConst {
 	public static final Integer USER_HAS_NOT_ACTIVATED = 6202;
 	// 其他
 	public static  final Integer ERROR_PRODUCT_ID = 6301;
+	public static  final Integer ERROR_USER_ID = 6302;
 
 
 	public static Map<Integer, String> responseMessage = new HashMap<Integer, String>() {{
@@ -37,12 +39,14 @@ public class ResponseCodeConst {
 		put(EMAIL_HAS_BEEN_REGISTERED, "邮箱已被注册");
 		put(USERNAME_HAS_BEEN_REGISTERED, "用户名已被注册");
 		put(ERROR_TELEPHONE, "手机号有误");
+		put(NO_LOGIN_USER, "无登录用户");
 //		put(SEND_EMAIL_FAILED, "激活邮件发送失败，请检查邮箱是否正确，或稍后再试");
 		put(ERROR_ACTIVE_CODE, "激活码有误");
 		put(USER_HAS_ACTIVATED, "用户已激活");
 		put(ERROR_USERNAME_OR_PASSWORD, "用户名或密码有误");
 		put(USER_HAS_NOT_ACTIVATED, "用户未激活");
 		put(ERROR_PRODUCT_ID, "productId有误");
+		put(ERROR_USER_ID, "userId有误");
 	}};
 
 

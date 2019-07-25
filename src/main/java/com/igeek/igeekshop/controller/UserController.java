@@ -1,6 +1,7 @@
 package com.igeek.igeekshop.controller;
 
 import com.igeek.igeekshop.common.CurrentUserInformationConst;
+import com.igeek.igeekshop.common.ResponseCodeConst;
 import com.igeek.igeekshop.common.ServerResponse;
 import com.igeek.igeekshop.pojo.User;
 import com.igeek.igeekshop.service.UserService;
@@ -55,7 +56,11 @@ public class UserController {
 
 	@RequestMapping("get_current_user")
 	public ServerResponse<User> getCurrentUser(HttpSession session) {
-		return userService.getCurrentUser((String) session.getAttribute(CurrentUserInformationConst.USER_ID));
+		Object userId = session.getAttribute(CurrentUserInformationConst.USER_ID);
+		if (userId == null) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.NO_LOGIN_USER);
+		}
+		return userService.getCurrentUser((String) userId);
 	}
 
 	@RequestMapping("sign_out")
