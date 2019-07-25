@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,7 +60,11 @@ public class UserService {
 		if (!userMapper.selectByExample(userExample).isEmpty()) {
 			return ServerResponse.createErrorResponse(ResponseCodeConst.EMAIL_HAS_BEEN_REGISTERED);
 		}
-
+		// 校验用户名
+		userExample.createCriteria().andUsernameNotEqualTo(username);
+		if (!userMapper.selectByExample(userExample).isEmpty()) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.EMAIL_HAS_BEEN_REGISTERED);
+		}
 
 		// 校验手机号
 		check = "^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$";
@@ -70,8 +75,7 @@ public class UserService {
 			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_TELEPHONE);
 		}
 
-
-		// 生成userID
+		// 生成userId
 		String userId = UUIDUtils.getUUID32();
 		// 加密密码
 		String md5Password = Md5Utils.getMd5(password);
@@ -90,7 +94,7 @@ public class UserService {
 
 		// 调用多线程发送邮件
 		// todo 邮件内容待修改
-		String emailMsg = "<a href='http://localhost:8080/activeServlet?activeCode=abcdefg'><h1>点击此链接激活</h1></a>";
+		String emailMsg = "<a href='http://localhost:8080/activeServlet?activeCode=" + userId + "'><h1>点击此链接激活</h1></a>";
 		new SendMailThread(email, emailMsg).start();
 
 		// 插入数据库
@@ -99,4 +103,61 @@ public class UserService {
 		return ServerResponse.createSuccessResponse();
 	}
 
+	public ServerResponse<String> active(String activeCode) {
+		String userId = activeCode;
+		User user = userMapper.selectByPrimaryKey(userId);
+		if (user == null) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_ACTIVE_CODE);
+		}
+		if (user.getActiveStatus()) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.USER_HAS_ACTIVATED);
+		} else {
+			user.setActiveStatus(true);
+			userMapper.updateByPrimaryKeySelective(user);
+			return ServerResponse.createSuccessResponse("激活成功");
+		}
+	}
+
+	public ServerResponse<String> signIn(String username, String password){
+		UserExample userExample = new UserExample();
+		userExample.createCriteria().andUsernameEqualTo(username);
+		List<User> users = userMapper.selectByExample(userExample);
+		if (users.isEmpty()) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_USERNAME_OR_PASSWORD);
+		}
+		User user = users.get(0);
+		if (!user.getPassword().equals(Md5Utils.getMd5(password))) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_USERNAME_OR_PASSWORD);
+		}
+		if (!user.getActiveStatus()) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.USER_HAS_NOT_ACTIVATED);
+		}
+		if (user.getPassword().equals(Md5Utils.getMd5(password))) {
+			return ServerResponse.createSuccessResponse();
+		} else {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_USERNAME_OR_PASSWORD);
+		}
+	}
+
+	public ServerResponse<User> getCurrentUser(String userId) {
+		return ServerResponse.createSuccessResponse(userMapper.selectByPrimaryKey(userId));
+	}
+
+	public User getUserByUserId(String userId) {
+		User user = userMapper.selectByPrimaryKey(userId);
+		if (user == null) {
+			throw new RuntimeException("userId有误");
+		}
+		return user;
+	}
+
+	public User getUserByUsername(String username) {
+		UserExample userExample = new UserExample();
+		userExample.createCriteria().andUsernameEqualTo(username);
+		List<User> users = userMapper.selectByExample(userExample);
+		if (users.isEmpty()) {
+			throw new RuntimeException("userId有误");
+		}
+		return users.get(0);
+	}
 }
