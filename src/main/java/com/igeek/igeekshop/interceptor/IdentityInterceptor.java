@@ -26,7 +26,6 @@ public class IdentityInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws IOException {
-		httpServletResponse.setHeader("Content-Type", "application/json;charset=UTF-8");
 		HttpSession session = httpServletRequest.getSession();
 
 		// 匹配url前缀
@@ -40,11 +39,13 @@ public class IdentityInterceptor implements HandlerInterceptor {
 		}
 
 		if (prefix.equals("order") && session.getAttribute(SessionKeyConst.USER_ID) == null) {
+			httpServletResponse.setHeader("Content-Type", "application/json;charset=UTF-8");
 			httpServletResponse.getWriter().write("{\"status\":" + ResponseCodeConst.NEED_SIGN_IN
 					+ ", \"msg\":\"" + ResponseCodeConst.getResponseMessageByResponseCode(ResponseCodeConst.NEED_SIGN_IN) + "\"}");
 			return false;
 		} else if (prefix.equals("admin") && session.getAttribute(SessionKeyConst.IS_ADMIN) == null ||
 				!prefix.equals("admin") && session.getAttribute(SessionKeyConst.IS_ADMIN) != null) {
+			httpServletResponse.setHeader("Content-Type", "application/json;charset=UTF-8");
 			httpServletResponse.getWriter().write("{\"status\":" + ResponseCodeConst.PERMISSION_DENIED
 					+ ", \"msg\":\"" + ResponseCodeConst.getResponseMessageByResponseCode(ResponseCodeConst.PERMISSION_DENIED) + "\"}");
 			return false;
