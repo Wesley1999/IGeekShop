@@ -41,8 +41,6 @@ public class UserService {
 	                                       String repeatPassword, String email, String name, int gender,
 	                                       Date birthday, String telephone, String verificationCode) {
 		// 校验验证码（统一用小写）
-		System.out.println("输入的验证码：" + verificationCode);
-		System.out.println("session中的验证码：" + session.getAttribute(SessionKeyConst.VERIFICATION_CODE));
 		if (!verificationCode.toLowerCase().equals(session.getAttribute(SessionKeyConst.VERIFICATION_CODE))) {
 			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_VERIFICATION_CODE);
 		}
@@ -130,7 +128,13 @@ public class UserService {
 		}
 	}
 
-	public ServerResponse<String> signIn(HttpSession session, String username, String password) {
+	public ServerResponse<String> signIn(HttpSession session, String username, String password, String verificationCode) {
+
+		// 校验验证码（统一用小写）
+		if (!verificationCode.toLowerCase().equals(session.getAttribute(SessionKeyConst.VERIFICATION_CODE))) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_VERIFICATION_CODE);
+		}
+
 		UserExample userExample = new UserExample();
 		userExample.createCriteria().andUsernameEqualTo(username);
 		List<User> users = userMapper.selectByExample(userExample);

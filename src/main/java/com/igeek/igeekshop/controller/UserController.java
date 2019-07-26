@@ -31,7 +31,7 @@ public class UserController {
 	UserService userService;
 
 	@RequestMapping("get_verification_code")
-	public void test01(HttpSession session, HttpServletResponse response,
+	public void getVerificationCode(HttpSession session, HttpServletResponse response,
 	                   @RequestParam(defaultValue = "100") int width, @RequestParam(defaultValue = "30") int height,
 	                   @RequestParam(defaultValue = "4") int codeCount, @RequestParam(defaultValue = "6") int lineCount) throws IOException {
 		ValidateCode validateCode = new ValidateCode(width, height, codeCount, lineCount);
@@ -57,8 +57,9 @@ public class UserController {
 	}
 
 	@RequestMapping("sign_in")
-	public ServerResponse<String> signIn(HttpSession session, @RequestParam String username, @RequestParam String password) {
-		return userService.signIn(session, username, password);
+	public ServerResponse<String> signIn(HttpSession session, @RequestParam String username, @RequestParam String password,
+	                                     @RequestParam String verificationCode) {
+		return userService.signIn(session, username, password, verificationCode);
 	}
 
 	@RequestMapping("sign_in_for_admin")
