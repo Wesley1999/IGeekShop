@@ -109,6 +109,7 @@ public class AdminService {
 		return ServerResponse.createSuccessResponse();
 	}
 
+	//--------------------------------------------------------------------------------------
 
 	public ServerResponse<PageInfo> getProducts(int pageNum, int pageSize, int navigatePages) {
 		PageHelper.startPage(pageNum, pageSize);
@@ -118,7 +119,7 @@ public class AdminService {
 		return ServerResponse.createSuccessResponse(pageResult);
 	}
 
-	public ServerResponse<String> uploadTest(String name, double marketPrice, double shopPrice, String description,
+	public ServerResponse<String> addProduct(String name, double marketPrice, double shopPrice, String description,
 	                                         boolean isNew, boolean isHot, int categoryId, MultipartFile imageFile) throws QiniuException {
 
 		// 校验分类id
@@ -150,6 +151,67 @@ public class AdminService {
 		return ServerResponse.createSuccessResponse();
 	}
 
+	public ServerResponse<Product> getProduct(int productId) {
+		// 校验productId
+		Product product = productMapper.selectByPrimaryKey(productId);
+		if (product == null) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_PRODUCT_ID);
+		}
+		return ServerResponse.createSuccessResponse(product);
+	}
 
+	public ServerResponse<String> updateProduct(int productId, String name, double marketPrice, double shopPrice, String description,
+	                                         boolean isNew, boolean isHot, int categoryId) {
+		// 校验productId
+		if (productMapper.selectByPrimaryKey(productId) == null) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_PRODUCT_ID);
+		}
+
+		// 校验分类id
+		if (categoryMapper.selectByPrimaryKey(categoryId) == null) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_CATEGORY_ID);
+		}
+
+		Product product = new Product();
+		product.setProductId(productId);
+		product.setName(name);
+		product.setMarketPrice(marketPrice);
+		product.setShopPrice(shopPrice);
+		product.setDescription(description);
+		product.setIsNew(isNew);
+		product.setIsHot(isHot);
+		product.setCategoryId(categoryId);
+
+		productMapper.updateByPrimaryKeySelective(product);
+
+		return ServerResponse.createSuccessResponse();
+	}
+
+	public ServerResponse<String> updateProductImage(int productId, MultipartFile imageFile) throws QiniuException {
+		// 校验productId
+		if (productMapper.selectByPrimaryKey(productId) == null) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_PRODUCT_ID);
+		}
+
+		// 先上传文件
+		// MultipartFile转File，参考https://blog.csdn.net/alan_liuyue/article/details/79203168
+		CommonsMultipartFile commonsmultipartfile = (CommonsMultipartFile) imageFile;
+		DiskFileItem diskFileItem = (DiskFileItem) commonsmultipartfile.getFileItem();
+		File file = diskFileItem.getStoreLocation();
+		String imgUrl = MyUploadUtils.upload(file);
+		// 删除临时文件
+		file.delete();
+
+		Product product = new Product();
+		product.setProductId(productId);
+		product.setImgUrl(imgUrl);
+		productMapper.updateByPrimaryKeySelective(product);
+		return ServerResponse.createSuccessResponse();
+	}
+
+	public ServerResponse<String> deleteProduct(int productId) {
+		productMapper.deleteByPrimaryKey(productId);
+		return ServerResponse.createSuccessResponse();
+	}
 
 }
