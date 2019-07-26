@@ -7,6 +7,7 @@ import com.igeek.igeekshop.pojo.Category;
 import com.igeek.igeekshop.pojo.Product;
 import com.igeek.igeekshop.service.AdminService;
 import com.igeek.igeekshop.util.ServerResponse;
+import com.igeek.igeekshop.vo.OrderVo;
 import com.qiniu.common.QiniuException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -98,6 +99,7 @@ public class AdminController {
 		return adminService.updateProduct(productId, name, marketPrice, shopPrice, description, isNew, isHot, categoryId);
 	}
 
+	// 修改商品图片
 	@RequestMapping("update_product_image")
 	public ServerResponse<String> updateProductImage(@RequestParam int productId, @RequestParam MultipartFile imageFile) throws QiniuException {
 		return adminService.updateProductImage(productId, imageFile);
@@ -109,6 +111,15 @@ public class AdminController {
 		return adminService.deleteProduct(productId);
 	}
 
+	// 获取所有订单
+	@RequestMapping("get_orders")
+	public ServerResponse<PageInfo<List<OrderVo>>> getOrders(@RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_NUM) int pageNum,
+	                                               @RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_SIZE) int pageSize,
+	                                               @RequestParam(defaultValue = DefaultValueConst.DEFAULT_NAVIGATE_PAGES) int navigatePages) {
+		return adminService.getOrders(pageNum, pageSize, navigatePages);
+	}
+
+	// 退出登录
 	@RequestMapping("sign_out_for_admin")
 	public ServerResponse<String> signInForAdmin(HttpSession session) {
 		session.removeAttribute(SessionKeyConst.IS_ADMIN);

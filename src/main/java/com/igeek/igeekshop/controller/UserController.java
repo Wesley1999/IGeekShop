@@ -57,8 +57,18 @@ public class UserController {
 	}
 
 	@RequestMapping("sign_in")
-	public ServerResponse<String> signIn(HttpSession session, @RequestParam String userName, @RequestParam String password) {
-		return userService.signIn(session, userName, password);
+	public ServerResponse<String> signIn(HttpSession session, @RequestParam String username, @RequestParam String password) {
+		return userService.signIn(session, username, password);
+	}
+
+	@RequestMapping("sign_in_for_admin")
+	public ServerResponse<String> signInForAdmin(HttpSession session, @RequestParam String username, @RequestParam String password) {
+		if (username.equals("admin") && password.equals("123456")) {
+			session.setAttribute(SessionKeyConst.IS_ADMIN, "1");
+			return ServerResponse.createSuccessResponse();
+		} else {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_USERNAME_OR_PASSWORD);
+		}
 	}
 
 	@RequestMapping("get_current_user")
@@ -76,16 +86,6 @@ public class UserController {
 		session.removeAttribute(SessionKeyConst.USERNAME);
 		session.removeAttribute(SessionKeyConst.CART_VO_LIST);
 		return ServerResponse.createSuccessResponse();
-	}
-
-	@RequestMapping("sign_in_for_admin")
-	public ServerResponse<String> signInForAdmin(HttpSession session, @RequestParam String username, @RequestParam String password) {
-		if (username.equals("admin") && password.equals("123456")) {
-			session.setAttribute(SessionKeyConst.IS_ADMIN, "1");
-			return ServerResponse.createSuccessResponse();
-		} else {
-			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_USERNAME_OR_PASSWORD);
-		}
 	}
 
 }

@@ -37,6 +37,8 @@ public class ResponseCodeConst {
 	public static  final Integer CATEGORY_NAME_EXISTS = 6401;
 	public static  final Integer ERROR_CATEGORY_ID = 6402;
 	public static  final Integer CATEGORY_IS_USED_BY_PRODUCT = 6403;
+	public static  final Integer PRODUCT_USED_BY_CART = 6404;
+	public static  final Integer PRODUCT_USED_BY_ORDER = 6405;
 
 
 	public static Map<Integer, String> responseMessage = new HashMap<Integer, String>() {{
@@ -62,6 +64,8 @@ public class ResponseCodeConst {
 		put(CATEGORY_NAME_EXISTS, "分类名称已存在");
 		put(ERROR_CATEGORY_ID, "categoryId有误");
 		put(CATEGORY_IS_USED_BY_PRODUCT, "分类有商品使用");
+		put(PRODUCT_USED_BY_CART, "用户购物车中有此商品，不能删除");
+		put(PRODUCT_USED_BY_ORDER, "订单明细中有此商品，不能删除");
 	}};
 
 

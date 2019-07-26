@@ -3,14 +3,11 @@ package com.igeek.igeekshop.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.igeek.igeekshop.consts.ResponseCodeConst;
-import com.igeek.igeekshop.mapper.CategoryMapper;
-import com.igeek.igeekshop.mapper.ProductMapper;
-import com.igeek.igeekshop.pojo.Category;
-import com.igeek.igeekshop.pojo.CategoryExample;
-import com.igeek.igeekshop.pojo.Product;
-import com.igeek.igeekshop.pojo.ProductExample;
+import com.igeek.igeekshop.mapper.*;
+import com.igeek.igeekshop.pojo.*;
 import com.igeek.igeekshop.util.MyUploadUtils;
 import com.igeek.igeekshop.util.ServerResponse;
+import com.igeek.igeekshop.vo.OrderVo;
 import com.qiniu.common.QiniuException;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +32,15 @@ public class AdminService {
 
 	@Autowired
 	ProductMapper productMapper;
+
+	@Autowired
+	CartItemMapper cartItemMapper;
+
+	@Autowired
+	OrderItemMapper orderItemMapper;
+
+	@Autowired
+	OrdersMapper ordersMapper;
 
 	public ServerResponse<List> getCategories() {
 		List<Category> categories = categoryMapper.selectByExample(null);
@@ -209,7 +216,45 @@ public class AdminService {
 		return ServerResponse.createSuccessResponse();
 	}
 
+
+	public ServerResponse<PageInfo<List<OrderVo>>> getOrders(int pageNum, int pageSize, int navigatePages) {
+		PageHelper.startPage(pageNum, pageSize);
+		List<Orders> orders = ordersMapper.selectByExample(null);
+		PageInfo pageResult = new PageInfo(orders, navigatePages);
+		List<OrderVo> orderVos = new ArrayList<>();
+		for (Orders order : orders) {
+			OrderItemExample orderItemExample = new OrderItemExample();
+			orderItemExample.createCriteria().andOrderIdGreaterThanOrEqualTo(order.getOrderId());
+			List<OrderItem> orderItemList = orderItemMapper.selectByExample(orderItemExample);
+
+			OrderVo orderVo = new OrderVo();
+			orderVo.setOrders(order);
+			orderVo.setOrderItems(orderItemList);
+
+			orderVos.add(orderVo);
+		}
+		pageResult.setList(orderVos);
+		return ServerResponse.createSuccessResponse(pageResult);
+	}
+
+
 	public ServerResponse<String> deleteProduct(int productId) {
+		// 如果购物车或订单中有此商品，不能删除
+		CartItemExample cartItemExample = new CartItemExample();
+		cartItemExample.createCriteria().andProductIdEqualTo(productId);
+		List<CartItem> cartItems = cartItemMapper.selectByExample(cartItemExample);
+		if (!cartItems.isEmpty()) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.PRODUCT_USED_BY_CART);
+		}
+
+		OrderItemExample orderItemExample = new OrderItemExample();
+		orderItemExample.createCriteria().andProductIdEqualTo(productId);
+		List<OrderItem> orderItemList = orderItemMapper.selectByExample(orderItemExample);
+		if (!orderItemList.isEmpty()) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.PRODUCT_USED_BY_ORDER);
+		}
+
+
 		productMapper.deleteByPrimaryKey(productId);
 		return ServerResponse.createSuccessResponse();
 	}
