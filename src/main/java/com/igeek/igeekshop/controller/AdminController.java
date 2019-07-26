@@ -5,17 +5,14 @@ import com.igeek.igeekshop.consts.DefaultValueConst;
 import com.igeek.igeekshop.pojo.Category;
 import com.igeek.igeekshop.service.AdminService;
 import com.igeek.igeekshop.util.ServerResponse;
-import com.igeek.igeekshop.util.UUIDUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -62,7 +59,7 @@ public class AdminController {
 		return adminService.deleteCategory(categoryId);
 	}
 
-	//-----------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------
 
 	// 获取所有商品
 	@RequestMapping("get_products")
@@ -72,20 +69,14 @@ public class AdminController {
 		return adminService.getProducts(pageNum, pageSize, navigatePages);
 	}
 
-	// 添加商品（涉及文件上传）
-	@RequestMapping("/updateItem.action")
-	public ModelAndView edit(MultipartFile pictureFile) throws IOException {
-
-		// 名称（不含扩展名）
-		String name = UUIDUtils.getUUID32();
-		// 扩展名
-		String extension = FilenameUtils.getExtension(pictureFile.getOriginalFilename());
-		// 保存图片
-		pictureFile.transferTo(new File("M:\\upload\\" + name + "." + extension));
-
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("success");
-		return mav;
+	// 添加商品（含文件上传）
+	// 仅post
+	@RequestMapping(value = "add_product", method = RequestMethod.POST)
+	public ServerResponse<String> addProduct(@RequestParam String name, @RequestParam double marketPrice,
+	                                         @RequestParam double shopPrice, @RequestParam String description,
+	                                         @RequestParam boolean isNew, @RequestParam boolean isHot,
+	                                         @RequestParam int categoryId, @RequestParam MultipartFile imageFile) throws IOException {
+		return adminService.uploadTest(name, marketPrice, shopPrice, description, isNew, isHot, categoryId, imageFile);
 	}
 
 	// 根据id获取商品详情

@@ -1,5 +1,5 @@
-package com.igeek.igeekshop.util;
-
+import com.igeek.igeekshop.util.QiniuToken;
+import com.igeek.igeekshop.util.UploadManager;
 import com.qiniu.common.QiniuException;
 import com.qiniu.storage.Configuration;
 
@@ -11,7 +11,7 @@ import java.util.UUID;
  * @Time 2019/7/26 9:24
  */
 
-public class Demo {
+public class QiniuUploadDemo {
 	public static void main(String[] args) throws QiniuException {
 		File file = new File("C:\\Users\\Wesley\\Desktop\\新建文件夹\\c_0048.jpg");
 		Configuration configuration = new Configuration();

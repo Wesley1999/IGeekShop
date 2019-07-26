@@ -9,10 +9,16 @@ import com.igeek.igeekshop.pojo.Category;
 import com.igeek.igeekshop.pojo.CategoryExample;
 import com.igeek.igeekshop.pojo.Product;
 import com.igeek.igeekshop.pojo.ProductExample;
+import com.igeek.igeekshop.util.MyUploadUtils;
 import com.igeek.igeekshop.util.ServerResponse;
+import com.qiniu.common.QiniuException;
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -111,5 +117,39 @@ public class AdminService {
 		pageResult.setList(products);
 		return ServerResponse.createSuccessResponse(pageResult);
 	}
+
+	public ServerResponse<String> uploadTest(String name, double marketPrice, double shopPrice, String description,
+	                                         boolean isNew, boolean isHot, int categoryId, MultipartFile imageFile) throws QiniuException {
+
+		// 校验分类id
+		if (categoryMapper.selectByPrimaryKey(categoryId) == null) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_CATEGORY_ID);
+		}
+
+		// 先上传文件
+		// MultipartFile转File，参考https://blog.csdn.net/alan_liuyue/article/details/79203168
+		CommonsMultipartFile commonsmultipartfile = (CommonsMultipartFile) imageFile;
+		DiskFileItem diskFileItem = (DiskFileItem) commonsmultipartfile.getFileItem();
+		File file = diskFileItem.getStoreLocation();
+		String imgUrl = MyUploadUtils.upload(file);
+		// 删除临时文件
+		file.delete();
+
+		Product product = new Product();
+		product.setName(name);
+		product.setMarketPrice(marketPrice);
+		product.setShopPrice(shopPrice);
+		product.setDescription(description);
+		product.setIsNew(isNew);
+		product.setIsHot(isHot);
+		product.setCategoryId(categoryId);
+		product.setImgUrl(imgUrl);
+
+		productMapper.insert(product);
+
+		return ServerResponse.createSuccessResponse();
+	}
+
+
 
 }
