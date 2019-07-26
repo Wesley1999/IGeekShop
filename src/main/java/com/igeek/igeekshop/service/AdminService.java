@@ -1,10 +1,13 @@
 package com.igeek.igeekshop.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.igeek.igeekshop.consts.ResponseCodeConst;
 import com.igeek.igeekshop.mapper.CategoryMapper;
 import com.igeek.igeekshop.mapper.ProductMapper;
 import com.igeek.igeekshop.pojo.Category;
 import com.igeek.igeekshop.pojo.CategoryExample;
+import com.igeek.igeekshop.pojo.Product;
 import com.igeek.igeekshop.pojo.ProductExample;
 import com.igeek.igeekshop.util.ServerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +101,15 @@ public class AdminService {
 		categoryMapper.deleteByPrimaryKey(categoryId);
 
 		return ServerResponse.createSuccessResponse();
+	}
+
+
+	public ServerResponse<PageInfo> getProducts(int pageNum, int pageSize, int navigatePages) {
+		PageHelper.startPage(pageNum, pageSize);
+		List<Product> products = productMapper.selectByExample(null);
+		PageInfo pageResult = new PageInfo(products, navigatePages);
+		pageResult.setList(products);
+		return ServerResponse.createSuccessResponse(pageResult);
 	}
 
 }
