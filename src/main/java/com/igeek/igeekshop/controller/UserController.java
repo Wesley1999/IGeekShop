@@ -35,7 +35,7 @@ public class UserController {
 	                   @RequestParam(defaultValue = "100") int width, @RequestParam(defaultValue = "30") int height,
 	                   @RequestParam(defaultValue = "4") int codeCount, @RequestParam(defaultValue = "6") int lineCount) throws IOException {
 		ValidateCode validateCode = new ValidateCode(width, height, codeCount, lineCount);
-		String code = validateCode.getCode();
+		String code = validateCode.getCode().toLowerCase();
 		System.out.println("验证码是：" + code);
 		session.setAttribute(SessionKeyConst.VERIFICATION_CODE, code);
 		validateCode.write(response.getOutputStream());

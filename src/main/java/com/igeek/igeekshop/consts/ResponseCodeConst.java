@@ -32,6 +32,10 @@ public class ResponseCodeConst {
 	public static  final Integer ERROR_USER_ID = 6302;
 	public static  final Integer NEED_SIGN_IN = 6303;
 	public static  final Integer CART_IS_EMPTY = 6304;
+	// 后台管理相关
+	public static  final Integer CATEGORY_NAME_EXISTS = 6401;
+	public static  final Integer ERROR_CATEGORY_ID = 6402;
+	public static  final Integer CATEGORY_IS_USED_BY_PRODUCT = 6403;
 
 
 	public static Map<Integer, String> responseMessage = new HashMap<Integer, String>() {{
@@ -53,6 +57,9 @@ public class ResponseCodeConst {
 		put(ERROR_USER_ID, "userId有误");
 		put(NEED_SIGN_IN, "请先登录");
 		put(CART_IS_EMPTY, "购物车为空");
+		put(CATEGORY_NAME_EXISTS, "分类名称已存在");
+		put(ERROR_CATEGORY_ID, "categoryId有误");
+		put(CATEGORY_IS_USED_BY_PRODUCT, "分类有商品使用");
 	}};
 
 
