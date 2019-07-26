@@ -88,10 +88,4 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping("sign_out_for_admin")
-	public ServerResponse<String> signInForAdmin(HttpSession session) {
-		session.removeAttribute(SessionKeyConst.IS_ADMIN);
-		return ServerResponse.createSuccessResponse();
-	}
-
 }

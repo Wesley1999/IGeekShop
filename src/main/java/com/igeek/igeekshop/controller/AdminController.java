@@ -2,6 +2,7 @@ package com.igeek.igeekshop.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.igeek.igeekshop.consts.DefaultValueConst;
+import com.igeek.igeekshop.consts.SessionKeyConst;
 import com.igeek.igeekshop.pojo.Category;
 import com.igeek.igeekshop.pojo.Product;
 import com.igeek.igeekshop.service.AdminService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -105,6 +107,12 @@ public class AdminController {
 	@RequestMapping("delete_product")
 	public ServerResponse<String> deleteProduct(@RequestParam int productId) {
 		return adminService.deleteProduct(productId);
+	}
+
+	@RequestMapping("sign_out_for_admin")
+	public ServerResponse<String> signInForAdmin(HttpSession session) {
+		session.removeAttribute(SessionKeyConst.IS_ADMIN);
+		return ServerResponse.createSuccessResponse();
 	}
 
 }

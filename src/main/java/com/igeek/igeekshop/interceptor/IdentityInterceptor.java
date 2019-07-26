@@ -17,8 +17,12 @@ import java.util.regex.Pattern;
  * @Time 2019/7/26 11:08
  */
 
+/**
+ * 没登录的用户访问order接口会提示需要登录
+ * 非管理员用户访问admin接口会提示没有权限
+ * 管理员用户访问非admin接口会提示没有权限
+ */
 public class IdentityInterceptor implements HandlerInterceptor {
-
 
 	@Override
 	public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws IOException {
@@ -39,9 +43,8 @@ public class IdentityInterceptor implements HandlerInterceptor {
 			httpServletResponse.getWriter().write("{\"status\":" + ResponseCodeConst.NEED_SIGN_IN
 					+ ", \"msg\":\"" + ResponseCodeConst.getResponseMessageByResponseCode(ResponseCodeConst.NEED_SIGN_IN) + "\"}");
 			return false;
-		}
-
-		if (prefix.equals("admin") && session.getAttribute(SessionKeyConst.IS_ADMIN) == null) {
+		} else if (prefix.equals("admin") && session.getAttribute(SessionKeyConst.IS_ADMIN) == null ||
+				!prefix.equals("admin") && session.getAttribute(SessionKeyConst.IS_ADMIN) != null) {
 			httpServletResponse.getWriter().write("{\"status\":" + ResponseCodeConst.PERMISSION_DENIED
 					+ ", \"msg\":\"" + ResponseCodeConst.getResponseMessageByResponseCode(ResponseCodeConst.PERMISSION_DENIED) + "\"}");
 			return false;
