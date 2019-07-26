@@ -11,5 +11,6 @@ public class SessionKeyConst {
 	public static final String USERNAME = "username";
 	public static final String CART_VO_LIST = "cart_vo_list";
 	public static final String VERIFICATION_CODE = "verification_code";
+	public static final String IS_ADMIN = "is_admin"; // 此session内容任意
 
 }
