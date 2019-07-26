@@ -32,4 +32,15 @@
         <property name="maxUploadSize" value="5242880"></property>
     </bean>
 
+    <!--拦截器-->
+    <mvc:interceptors>
+        <!--多个拦截器，但实际上写多了会乱-->
+        <mvc:interceptor>
+            <!--**表示拦截所有子目录-->
+            <mvc:mapping path="/**"/>
+            <!--自定义的拦截器类-->
+            <bean class="com.igeek.igeekshop.interceptor.IdentityInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>
