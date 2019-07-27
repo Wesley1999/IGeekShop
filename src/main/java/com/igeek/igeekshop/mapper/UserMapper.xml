@@ -11,6 +11,7 @@
     <result column="birthday" property="birthday" jdbcType="DATE" />
     <result column="telephone" property="telephone" jdbcType="VARCHAR" />
     <result column="active_status" property="activeStatus" jdbcType="BIT" />
+    <result column="activation_code" property="activationCode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -71,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    user_id, username, password, name, email, gender, birthday, telephone, active_status
+    user_id, username, password, name, email, gender, birthday, telephone, active_status, 
+    activation_code
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.igeek.igeekshop.pojo.UserExample" >
     select
@@ -106,12 +108,12 @@
   <insert id="insert" parameterType="com.igeek.igeekshop.pojo.User" >
     insert into user (user_id, username, password, 
       name, email, gender, 
-      birthday, telephone, active_status
-      )
+      birthday, telephone, active_status, 
+      activation_code)
     values (#{userId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, 
-      #{birthday,jdbcType=DATE}, #{telephone,jdbcType=VARCHAR}, #{activeStatus,jdbcType=BIT}
-      )
+      #{birthday,jdbcType=DATE}, #{telephone,jdbcType=VARCHAR}, #{activeStatus,jdbcType=BIT}, 
+      #{activationCode,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.igeek.igeekshop.pojo.User" >
     insert into user
@@ -143,6 +145,9 @@
       <if test="activeStatus != null" >
         active_status,
       </if>
+      <if test="activationCode != null" >
+        activation_code,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -171,6 +176,9 @@
       </if>
       <if test="activeStatus != null" >
         #{activeStatus,jdbcType=BIT},
+      </if>
+      <if test="activationCode != null" >
+        #{activationCode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -210,6 +218,9 @@
       <if test="record.activeStatus != null" >
         active_status = #{record.activeStatus,jdbcType=BIT},
       </if>
+      <if test="record.activationCode != null" >
+        activation_code = #{record.activationCode,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -225,7 +236,8 @@
       gender = #{record.gender,jdbcType=INTEGER},
       birthday = #{record.birthday,jdbcType=DATE},
       telephone = #{record.telephone,jdbcType=VARCHAR},
-      active_status = #{record.activeStatus,jdbcType=BIT}
+      active_status = #{record.activeStatus,jdbcType=BIT},
+      activation_code = #{record.activationCode,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -257,6 +269,9 @@
       <if test="activeStatus != null" >
         active_status = #{activeStatus,jdbcType=BIT},
       </if>
+      <if test="activationCode != null" >
+        activation_code = #{activationCode,jdbcType=VARCHAR},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=VARCHAR}
   </update>
@@ -269,7 +284,8 @@
       gender = #{gender,jdbcType=INTEGER},
       birthday = #{birthday,jdbcType=DATE},
       telephone = #{telephone,jdbcType=VARCHAR},
-      active_status = #{activeStatus,jdbcType=BIT}
+      active_status = #{activeStatus,jdbcType=BIT},
+      activation_code = #{activationCode,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=VARCHAR}
   </update>
 </mapper>

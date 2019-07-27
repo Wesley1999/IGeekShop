@@ -87,6 +87,8 @@ public class UserService {
 
 		// 生成userId
 		String userId = UUIDUtils.getUUID32();
+		// 生成activationCode
+		String activationCode = UUIDUtils.getUUID32();
 		// 加密密码
 		String md5Password = Md5Utils.getMd5(password);
 
@@ -101,10 +103,11 @@ public class UserService {
 		user.setBirthday(birthday);
 		user.setTelephone(telephone);
 		user.setActiveStatus(false);
+		user.setActivationCode(activationCode);
 
 		// 调用多线程发送邮件
 		// todo 邮件内容待修改
-		String emailMsg = "<a href='http://localhost:8080/user/active?activeCode=" + userId + "'><h1>点击此链接激活</h1></a>";
+		String emailMsg = "<a href='http://localhost:8080/user/active?activeCode=" + activationCode + "'><h1>点击此链接激活</h1></a>";
 		new SendMailThread(email, emailMsg).start();
 
 		// 插入数据库
@@ -114,17 +117,17 @@ public class UserService {
 	}
 
 	public ServerResponse<String> active(String activeCode) {
-		String userId = activeCode;
-		User user = userMapper.selectByPrimaryKey(userId);
-		if (user == null) {
+
+		UserExample userExample = new UserExample();
+		userExample.createCriteria().andActivationCodeEqualTo(activeCode);
+		List<User> users = userMapper.selectByExample(userExample);
+		if (users.isEmpty()) {
 			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_ACTIVE_CODE);
-		}
-		if (user.getActiveStatus()) {
-			return ServerResponse.createErrorResponse(ResponseCodeConst.USER_HAS_ACTIVATED);
 		} else {
+			User user = users.get(0);
 			user.setActiveStatus(true);
 			userMapper.updateByPrimaryKeySelective(user);
-			return ServerResponse.createSuccessResponse("激活成功");
+			return ServerResponse.createSuccessResponse();
 		}
 	}
 

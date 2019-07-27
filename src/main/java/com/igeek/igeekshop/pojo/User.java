@@ -26,4 +26,6 @@ public class User {
 
     private Boolean activeStatus;
 
+    private String activationCode;
+
 }

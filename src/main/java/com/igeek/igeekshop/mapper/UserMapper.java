@@ -2,8 +2,9 @@ package com.igeek.igeekshop.mapper;
 
 import com.igeek.igeekshop.pojo.User;
 import com.igeek.igeekshop.pojo.UserExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UserMapper {
     int countByExample(UserExample example);
