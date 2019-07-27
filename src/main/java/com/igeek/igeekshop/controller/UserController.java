@@ -41,6 +41,16 @@ public class UserController {
 		validateCode.write(response.getOutputStream());
 	}
 
+	@RequestMapping("get_whether_username_exists")
+	public ServerResponse<Boolean> getWhetherUsernameExists(@RequestParam String username) {
+		return userService.getWhetherUsernameExists(username);
+	}
+
+	@RequestMapping("get_whether_email_exists")
+	public ServerResponse<Boolean> getWhetherEmailExists(@RequestParam String email) {
+		return userService.getWhetherEmailExists(email);
+	}
+
 	@RequestMapping("register")
 	//	birthday格式为"yyyy-MM-dd"或"yyyy-MM-dd HH:mm:ss"
 	public ServerResponse<String> register(HttpSession session, @RequestParam String username, @RequestParam String password,

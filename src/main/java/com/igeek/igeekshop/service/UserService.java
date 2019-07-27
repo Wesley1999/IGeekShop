@@ -37,6 +37,18 @@ public class UserService {
 	@Autowired
 	CartItemMapper cartItemMapper;
 
+	public ServerResponse<Boolean> getWhetherUsernameExists(String username) {
+		UserExample userExample = new UserExample();
+		userExample.createCriteria().andUsernameEqualTo(username);
+		return ServerResponse.createSuccessResponse(!userMapper.selectByExample(userExample).isEmpty());
+	}
+
+	public ServerResponse<Boolean> getWhetherEmailExists(String email) {
+		UserExample userExample = new UserExample();
+		userExample.createCriteria().andEmailEqualTo(email);
+		return ServerResponse.createSuccessResponse(!userMapper.selectByExample(userExample).isEmpty());
+	}
+
 	public ServerResponse<String> register(HttpSession session, String username, String password,
 	                                       String repeatPassword, String email, String name, int gender,
 	                                       Date birthday, String telephone, String verificationCode) {
