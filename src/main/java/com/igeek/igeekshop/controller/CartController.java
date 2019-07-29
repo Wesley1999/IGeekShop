@@ -74,4 +74,16 @@ public class CartController {
 		}
 	}
 
+	@RequestMapping("get_total_price")
+	public ServerResponse<Double> getTotalPrice(HttpSession session) {
+		// 未登录的用户
+		if (session.getAttribute(SessionKeyConst.USER_ID) == null) {
+			return cartService.getTotalPriceForUnLoggedUser(session);
+		} else {
+			// 已登录的用户
+			String userId = (String) session.getAttribute(SessionKeyConst.USER_ID);
+			return cartService.getTotalPriceLoggedUser(userId);
+		}
+	}
+
 }

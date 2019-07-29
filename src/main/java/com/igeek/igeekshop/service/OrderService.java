@@ -1,10 +1,12 @@
 package com.igeek.igeekshop.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.igeek.igeekshop.consts.OrderStatusConst;
 import com.igeek.igeekshop.consts.ResponseCodeConst;
-import com.igeek.igeekshop.util.ServerResponse;
 import com.igeek.igeekshop.mapper.*;
 import com.igeek.igeekshop.pojo.*;
+import com.igeek.igeekshop.util.ServerResponse;
 import com.igeek.igeekshop.util.UUIDUtils;
 import com.igeek.igeekshop.vo.OrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,12 +99,13 @@ public class OrderService {
 
 	}
 
-	public ServerResponse<List<OrderVo>> getOrders(String userId) {
+	public ServerResponse<PageInfo<List<OrderVo>>> getOrders(String userId, int pageNum, int pageSize, int navigatePages) {
 		OrdersExample orderExample = new OrdersExample();
 		orderExample.createCriteria().andUserIdEqualTo(userId);
+		PageHelper.startPage(pageNum, pageSize);
 		List<Orders> orders = ordersMapper.selectByExample(orderExample);
+		PageInfo pageResult = new PageInfo(orders, navigatePages);
 		List<OrderVo> orderVos = new ArrayList<>();
-
 		for (Orders order : orders) {
 			OrderItemExample orderItemExample = new OrderItemExample();
 			orderItemExample.createCriteria().andOrderIdGreaterThanOrEqualTo(order.getOrderId());
@@ -114,7 +117,8 @@ public class OrderService {
 
 			orderVos.add(orderVo);
 		}
-		return ServerResponse.createSuccessResponse(orderVos);
+		pageResult.setList(orderVos);
+		return ServerResponse.createSuccessResponse(pageResult);
 	}
 
 }

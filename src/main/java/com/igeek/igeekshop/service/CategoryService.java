@@ -1,5 +1,6 @@
 package com.igeek.igeekshop.service;
 
+import com.igeek.igeekshop.consts.ResponseCodeConst;
 import com.igeek.igeekshop.util.ServerResponse;
 import com.igeek.igeekshop.mapper.CategoryMapper;
 import com.igeek.igeekshop.pojo.Category;
@@ -25,6 +26,15 @@ public class CategoryService {
 			category.setDescription(null);
 		}
 		return ServerResponse.createSuccessResponse(categories);
+	}
+
+	public ServerResponse<String> getCategoryNameById(int categoryId) {
+		Category category = categoryMapper.selectByPrimaryKey(categoryId);
+		if (category == null) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_CATEGORY_ID);
+		} else {
+			return ServerResponse.createSuccessResponse(category.getName());
+		}
 	}
 
 }

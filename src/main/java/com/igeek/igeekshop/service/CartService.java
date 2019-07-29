@@ -190,4 +190,39 @@ public class CartService {
 		return ServerResponse.createSuccessResponse();
 	}
 
+	public ServerResponse<Double> getTotalPriceForUnLoggedUser(HttpSession session) {
+
+		Object cartObj = session.getAttribute(SessionKeyConst.CART_VO_LIST);
+		if (cartObj == null) {
+			// 如果session中还没有购物车，创建购物车
+			List<CartVo> cartVoList = new ArrayList<>();
+			session.setAttribute(SessionKeyConst.CART_VO_LIST, cartVoList);
+		}
+		// 至此，可以确保已有购物车
+		List<CartVo> cartVoList = (List<CartVo>) session.getAttribute(SessionKeyConst.CART_VO_LIST);
+		double totalPrice = 0d;
+		for (CartVo cartVo : cartVoList) {
+			totalPrice += productMapper.selectByPrimaryKey(cartVo.getProductId()).getShopPrice() * cartVo.getCount();
+		}
+		return ServerResponse.createSuccessResponse(totalPrice);
+
+	}
+
+	public ServerResponse<Double> getTotalPriceLoggedUser(String userId) {
+		// 校验userId
+		if (userMapper.selectByPrimaryKey(userId) == null) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_USER_ID);
+		}
+
+		CartItemExample cartItemExample = new CartItemExample();
+		cartItemExample.createCriteria().andUserIdEqualTo(userId);
+
+		List<CartItem> cartItems = cartItemMapper.selectByExample(cartItemExample);
+		double totalPrice = 0d;
+		for (CartItem cartItem : cartItems) {
+			totalPrice += productMapper.selectByPrimaryKey(cartItem.getProductId()).getShopPrice() * cartItem.getCount();
+		}
+		return ServerResponse.createSuccessResponse(totalPrice);
+	}
+
 }

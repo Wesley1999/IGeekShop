@@ -5,6 +5,7 @@ import com.igeek.igeekshop.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -25,6 +26,11 @@ public class CategoryController {
 	@RequestMapping("get_categories")
 	public ServerResponse<List> getCategories() {
 		return categoryService.getCategories();
+	}
+
+	@RequestMapping("get_category_name_by_id")
+	public ServerResponse<String> getCategoryNameById(@RequestParam int categoryId) {
+		return categoryService.getCategoryNameById(categoryId);
 	}
 
 }

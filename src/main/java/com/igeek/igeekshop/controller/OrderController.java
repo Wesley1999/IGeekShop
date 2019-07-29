@@ -1,5 +1,7 @@
 package com.igeek.igeekshop.controller;
 
+import com.github.pagehelper.PageInfo;
+import com.igeek.igeekshop.consts.DefaultValueConst;
 import com.igeek.igeekshop.consts.SessionKeyConst;
 import com.igeek.igeekshop.consts.ResponseCodeConst;
 import com.igeek.igeekshop.util.ServerResponse;
@@ -40,13 +42,16 @@ public class OrderController {
 	}
 
 	@RequestMapping("get_orders")
-	public ServerResponse<List<OrderVo>> getOrders(HttpSession session) {
+	public ServerResponse<PageInfo<List<OrderVo>>> getOrders(HttpSession session,
+	                                                        @RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_NUM) int pageNum,
+	                                                        @RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_SIZE) int pageSize,
+	                                                        @RequestParam(defaultValue = DefaultValueConst.DEFAULT_NAVIGATE_PAGES) int navigatePages) {
 		// 必须已登录
 		if (session.getAttribute(SessionKeyConst.USER_ID) == null) {
 			return ServerResponse.createErrorResponse(ResponseCodeConst.NEED_SIGN_IN);
 		}
 
 		String userId = (String) session.getAttribute(SessionKeyConst.USER_ID);
-		return orderService.getOrders(userId);
+		return orderService.getOrders(userId, pageNum, pageSize, navigatePages);
 	}
 }
