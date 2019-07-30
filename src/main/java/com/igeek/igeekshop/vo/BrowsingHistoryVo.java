@@ -5,15 +5,17 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * @Author 王少刚
- * @Time 2019/7/25 15:07
+ * @Time 2019/7/30 14:25
  */
 
 @Data
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class CartVo {
+public class BrowsingHistoryVo {
 
-	private int productId;
+	Integer productId;
 
-	private int count;
+	String productName;
+
+	String imgUrl;
 
 }

@@ -2,14 +2,17 @@ package com.igeek.igeekshop.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.igeek.igeekshop.consts.DefaultValueConst;
-import com.igeek.igeekshop.util.ServerResponse;
-import com.igeek.igeekshop.pojo.Product;
 import com.igeek.igeekshop.service.ProductService;
+import com.igeek.igeekshop.util.ServerResponse;
+import com.igeek.igeekshop.vo.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @Author 王少刚
@@ -55,8 +58,19 @@ public class ProductController {
 	}
 
 	@RequestMapping("get_product")
-	public ServerResponse<Product> getProduct(int productId) {
+	public ServerResponse<ProductVo> getProduct(int productId) {
 		return productService.getProduct(productId);
+	}
+
+	// 记录浏览记录
+	@RequestMapping("record_browsing_history")
+	public ServerResponse<String> recordBrowsingHistory(HttpSession session, @RequestParam int productId) {
+		return productService.recordBrowsingHistory(session, productId);
+	}
+
+	@RequestMapping("get_browsing_history")
+	public ServerResponse<List> getBrowsingHistory(HttpSession session) {
+		return productService.getBrowsingHistory(session);
 	}
 
 }

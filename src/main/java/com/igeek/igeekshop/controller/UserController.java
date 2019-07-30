@@ -86,16 +86,20 @@ public class UserController {
 			rememberCookie.setPath("/");
 			httpServletResponse.addCookie(rememberCookie);
 
+			Cookie usernameCookie = new Cookie("username", username);
+			Cookie md5Md5PasswordCookie = new Cookie("md5Md5Password", Md5Utils.getMd5(Md5Utils.getMd5(password)));
 			if (autoSignIn) {
-				Cookie usernameCookie = new Cookie("username", username);
-				Cookie md5PasswordCookie = new Cookie("md5Password", Md5Utils.getMd5(password));
 				usernameCookie.setMaxAge(60 * 60 * 24 * 7);
-				md5PasswordCookie.setMaxAge(60 * 60 * 24 * 7);
-				usernameCookie.setPath("/");
-				md5PasswordCookie.setPath("/");
-				httpServletResponse.addCookie(usernameCookie);
-				httpServletResponse.addCookie(md5PasswordCookie);
+				md5Md5PasswordCookie.setMaxAge(60 * 60 * 24 * 7);
+			} else {
+				usernameCookie.setMaxAge(0);
+				md5Md5PasswordCookie.setMaxAge(0);
 			}
+
+			usernameCookie.setPath("/");
+			md5Md5PasswordCookie.setPath("/");
+			httpServletResponse.addCookie(usernameCookie);
+			httpServletResponse.addCookie(md5Md5PasswordCookie);
 		}
 		return response;
 	}
@@ -120,18 +124,20 @@ public class UserController {
 	}
 
 	@RequestMapping("sign_out")
-	public ServerResponse<String> signOut(HttpSession session, HttpServletRequest request) {
+	public ServerResponse<String> signOut(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		session.removeAttribute(SessionKeyConst.USER_ID);
 		session.removeAttribute(SessionKeyConst.USERNAME);
 		session.removeAttribute(SessionKeyConst.CART_VO_LIST);
 
 		Cookie[] cookies = request.getCookies();
 		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals("autoSignIn")) {
+			if (cookie.getName().equals("md5Md5Password")) {
+				cookie.setValue("");
 				cookie.setMaxAge(0);
+				cookie.setPath("/");
+				response.addCookie(cookie);
 			}
 		}
-
 		return ServerResponse.createSuccessResponse();
 	}
 
@@ -139,16 +145,16 @@ public class UserController {
 	public ServerResponse<String> autoSignIn(HttpServletRequest request, HttpSession session) {
 		Cookie[] cookies = request.getCookies();
 		String username = "";
-		String md5Password = "";
+		String md5Md5Password = "";
 		for (Cookie cookie : cookies) {
 			if (cookie.getName().equals("username")) {
 				username = cookie.getValue();
 			}
-			if (cookie.getName().equals("md5Password")) {
-				md5Password = cookie.getValue();
+			if (cookie.getName().equals("md5Md5Password")) {
+				md5Md5Password = cookie.getValue();
 			}
 		}
-		return userService.autoSignIn(username, md5Password, session);
+		return userService.autoSignIn(username, md5Md5Password, session);
 	}
 
 }

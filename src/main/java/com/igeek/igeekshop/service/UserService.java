@@ -221,18 +221,19 @@ public class UserService {
 		return ServerResponse.createSuccessResponse(user);
 	}
 
-	public ServerResponse<String> autoSignIn(String username, String md5Password, HttpSession session) {
+	public ServerResponse<String> autoSignIn(String username, String md5Md5Password, HttpSession session) {
 		try {
 			UserExample userExample = new UserExample();
 			userExample.createCriteria().andUsernameEqualTo(username);
 			List<User> users = userMapper.selectByExample(userExample);
 			User user = users.get(0);
-			if (user.getPassword().equals(md5Password)) {
+			System.out.println(user);
+			if (Md5Utils.getMd5(user.getPassword()).equals(md5Md5Password)) {
 				session.setAttribute(SessionKeyConst.USER_ID, user.getUserId());
 				session.setAttribute(SessionKeyConst.USERNAME, user.getUsername());
 				return ServerResponse.createSuccessResponse();
 			}
-		} catch (Exception e) {}
+		} catch (Exception ignored) { }
 		return ServerResponse.createErrorResponse(ResponseCodeConst.AUTO_SIGN_IN_FAILED);
 	}
 

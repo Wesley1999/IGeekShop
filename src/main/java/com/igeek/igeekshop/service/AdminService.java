@@ -8,6 +8,7 @@ import com.igeek.igeekshop.pojo.*;
 import com.igeek.igeekshop.util.MyUploadUtils;
 import com.igeek.igeekshop.util.ServerResponse;
 import com.igeek.igeekshop.vo.OrderVo;
+import com.igeek.igeekshop.vo.ProductVo;
 import com.qiniu.common.QiniuException;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,7 +123,22 @@ public class AdminService {
 		PageHelper.startPage(pageNum, pageSize);
 		List<Product> products = productMapper.selectByExample(null);
 		PageInfo pageResult = new PageInfo(products, navigatePages);
-		pageResult.setList(products);
+		List<ProductVo> productVos = new ArrayList<>();
+		for (Product product : products) {
+			ProductVo productVo = new ProductVo();
+			productVo.setProductId(product.getProductId());
+			productVo.setName(product.getName());
+			productVo.setMarketPrice(product.getMarketPrice());
+			productVo.setShopPrice(product.getShopPrice());
+			productVo.setImgUrl(product.getImgUrl());
+			productVo.setDescription(product.getDescription());
+			productVo.setIsNew(product.getIsNew());
+			productVo.setIsHot(product.getIsHot());
+			productVo.setCategoryId(product.getCategoryId());
+			productVo.setCategoryName(categoryMapper.selectByPrimaryKey(product.getCategoryId()).getName());
+			productVos.add(productVo);
+		}
+		pageResult.setList(productVos);
 		return ServerResponse.createSuccessResponse(pageResult);
 	}
 
@@ -158,13 +174,23 @@ public class AdminService {
 		return ServerResponse.createSuccessResponse();
 	}
 
-	public ServerResponse<Product> getProduct(int productId) {
-		// 校验productId
+	public ServerResponse<ProductVo> getProduct(int productId) {
 		Product product = productMapper.selectByPrimaryKey(productId);
 		if (product == null) {
 			return ServerResponse.createErrorResponse(ResponseCodeConst.ERROR_PRODUCT_ID);
 		}
-		return ServerResponse.createSuccessResponse(product);
+		ProductVo productVo = new ProductVo();
+		productVo.setProductId(product.getProductId());
+		productVo.setName(product.getName());
+		productVo.setMarketPrice(product.getMarketPrice());
+		productVo.setShopPrice(product.getShopPrice());
+		productVo.setImgUrl(product.getImgUrl());
+		productVo.setDescription(product.getDescription());
+		productVo.setIsNew(product.getIsNew());
+		productVo.setIsHot(product.getIsHot());
+		productVo.setCategoryId(product.getCategoryId());
+		productVo.setCategoryName(categoryMapper.selectByPrimaryKey(product.getCategoryId()).getName());
+		return ServerResponse.createSuccessResponse(productVo);
 	}
 
 	public ServerResponse<String> updateProduct(int productId, String name, double marketPrice, double shopPrice, String description,

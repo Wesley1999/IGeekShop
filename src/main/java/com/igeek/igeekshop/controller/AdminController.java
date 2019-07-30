@@ -4,10 +4,10 @@ import com.github.pagehelper.PageInfo;
 import com.igeek.igeekshop.consts.DefaultValueConst;
 import com.igeek.igeekshop.consts.SessionKeyConst;
 import com.igeek.igeekshop.pojo.Category;
-import com.igeek.igeekshop.pojo.Product;
 import com.igeek.igeekshop.service.AdminService;
 import com.igeek.igeekshop.util.ServerResponse;
 import com.igeek.igeekshop.vo.OrderVo;
+import com.igeek.igeekshop.vo.ProductVo;
 import com.qiniu.common.QiniuException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -86,7 +86,7 @@ public class AdminController {
 
 	// 根据id获取商品详情
 	@RequestMapping("get_product")
-	public ServerResponse<Product> getProduct(int productId) {
+	public ServerResponse<ProductVo> getProduct(int productId) {
 		return adminService.getProduct(productId);
 	}
 
