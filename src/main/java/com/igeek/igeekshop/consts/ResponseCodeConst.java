@@ -39,6 +39,7 @@ public class ResponseCodeConst {
 	public static  final Integer CATEGORY_IS_USED_BY_PRODUCT = 6403;
 	public static  final Integer PRODUCT_USED_BY_CART = 6404;
 	public static  final Integer PRODUCT_USED_BY_ORDER = 6405;
+	public static  final Integer AUTO_SIGN_IN_FAILED = 6406;
 
 
 	public static Map<Integer, String> responseMessage = new HashMap<Integer, String>() {{
@@ -66,6 +67,7 @@ public class ResponseCodeConst {
 		put(CATEGORY_IS_USED_BY_PRODUCT, "分类有商品使用");
 		put(PRODUCT_USED_BY_CART, "用户购物车中有此商品，不能删除");
 		put(PRODUCT_USED_BY_ORDER, "订单明细中有此商品，不能删除");
+		put(AUTO_SIGN_IN_FAILED, "自动登录失败");
 	}};
 
 

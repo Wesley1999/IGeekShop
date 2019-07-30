@@ -1,17 +1,20 @@
 package com.igeek.igeekshop.controller;
 
 import cn.dsna.util.images.ValidateCode;
-import com.igeek.igeekshop.consts.SessionKeyConst;
 import com.igeek.igeekshop.consts.ResponseCodeConst;
-import com.igeek.igeekshop.util.ServerResponse;
+import com.igeek.igeekshop.consts.SessionKeyConst;
 import com.igeek.igeekshop.pojo.User;
 import com.igeek.igeekshop.service.UserService;
+import com.igeek.igeekshop.util.Md5Utils;
+import com.igeek.igeekshop.util.ServerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -32,8 +35,8 @@ public class UserController {
 
 	@RequestMapping("get_verification_code")
 	public void getVerificationCode(HttpSession session, HttpServletResponse response,
-	                   @RequestParam(defaultValue = "100") int width, @RequestParam(defaultValue = "30") int height,
-	                   @RequestParam(defaultValue = "4") int codeCount, @RequestParam(defaultValue = "6") int lineCount) throws IOException {
+	                                @RequestParam(defaultValue = "100") int width, @RequestParam(defaultValue = "30") int height,
+	                                @RequestParam(defaultValue = "4") int codeCount, @RequestParam(defaultValue = "6") int lineCount) throws IOException {
 		ValidateCode validateCode = new ValidateCode(width, height, codeCount, lineCount);
 		String code = validateCode.getCode().toLowerCase();
 		System.out.println("验证码是：" + code);
@@ -68,8 +71,33 @@ public class UserController {
 
 	@RequestMapping("sign_in")
 	public ServerResponse<String> signIn(HttpSession session, @RequestParam String username, @RequestParam String password,
-	                                     @RequestParam String verificationCode) {
-		return userService.signIn(session, username, password, verificationCode);
+	                                     @RequestParam String verificationCode, @RequestParam boolean remember,
+	                                     @RequestParam boolean autoSignIn, HttpServletResponse httpServletResponse) {
+		ServerResponse<String> response = userService.signIn(session, username, password, verificationCode);
+		if (response.whetherSuccess()) {
+			// 写cookie
+			Cookie rememberCookie;
+			if (remember) {
+				rememberCookie = new Cookie("remember", "true");
+			} else {
+				rememberCookie = new Cookie("remember", "false");
+			}
+			rememberCookie.setMaxAge(Integer.MAX_VALUE);
+			rememberCookie.setPath("/");
+			httpServletResponse.addCookie(rememberCookie);
+
+			if (autoSignIn) {
+				Cookie usernameCookie = new Cookie("username", username);
+				Cookie md5PasswordCookie = new Cookie("md5Password", Md5Utils.getMd5(password));
+				usernameCookie.setMaxAge(60 * 60 * 24 * 7);
+				md5PasswordCookie.setMaxAge(60 * 60 * 24 * 7);
+				usernameCookie.setPath("/");
+				md5PasswordCookie.setPath("/");
+				httpServletResponse.addCookie(usernameCookie);
+				httpServletResponse.addCookie(md5PasswordCookie);
+			}
+		}
+		return response;
 	}
 
 	@RequestMapping("sign_in_for_admin")
@@ -92,11 +120,35 @@ public class UserController {
 	}
 
 	@RequestMapping("sign_out")
-	public ServerResponse<String> signOut(HttpSession session) {
+	public ServerResponse<String> signOut(HttpSession session, HttpServletRequest request) {
 		session.removeAttribute(SessionKeyConst.USER_ID);
 		session.removeAttribute(SessionKeyConst.USERNAME);
 		session.removeAttribute(SessionKeyConst.CART_VO_LIST);
+
+		Cookie[] cookies = request.getCookies();
+		for (Cookie cookie : cookies) {
+			if (cookie.getName().equals("autoSignIn")) {
+				cookie.setMaxAge(0);
+			}
+		}
+
 		return ServerResponse.createSuccessResponse();
+	}
+
+	@RequestMapping("auto_sign_in")
+	public ServerResponse<String> autoSignIn(HttpServletRequest request, HttpSession session) {
+		Cookie[] cookies = request.getCookies();
+		String username = "";
+		String md5Password = "";
+		for (Cookie cookie : cookies) {
+			if (cookie.getName().equals("username")) {
+				username = cookie.getValue();
+			}
+			if (cookie.getName().equals("md5Password")) {
+				md5Password = cookie.getValue();
+			}
+		}
+		return userService.autoSignIn(username, md5Password, session);
 	}
 
 }
