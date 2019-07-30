@@ -7,6 +7,7 @@ import com.igeek.igeekshop.mapper.*;
 import com.igeek.igeekshop.pojo.*;
 import com.igeek.igeekshop.util.MyUploadUtils;
 import com.igeek.igeekshop.util.ServerResponse;
+import com.igeek.igeekshop.vo.OrderItemVo;
 import com.igeek.igeekshop.vo.OrderVo;
 import com.igeek.igeekshop.vo.ProductVo;
 import com.qiniu.common.QiniuException;
@@ -250,12 +251,28 @@ public class AdminService {
 		List<OrderVo> orderVos = new ArrayList<>();
 		for (Orders order : orders) {
 			OrderItemExample orderItemExample = new OrderItemExample();
-			orderItemExample.createCriteria().andOrderIdGreaterThanOrEqualTo(order.getOrderId());
+			orderItemExample.createCriteria().andOrderIdEqualTo(order.getOrderId());
 			List<OrderItem> orderItemList = orderItemMapper.selectByExample(orderItemExample);
+			List<OrderItemVo> orderItemVoList = new ArrayList<>();
+			for (OrderItem orderItem: orderItemList) {
+				String orderId = orderItem.getOrderId();
+				Integer productId = orderItem.getProductId();
+				Product product = productMapper.selectByPrimaryKey(productId);
+				OrderItemVo orderItemVo = new OrderItemVo();
+				orderItemVo.setCount(orderItem.getCount());
+				orderItemVo.setImgUrl(product.getImgUrl());
+				orderItemVo.setOrderId(orderId);
+				orderItemVo.setOrderItemId(orderItem.getOrderItemId());
+				orderItemVo.setProductId(productId);
+				orderItemVo.setShopPrice(product.getShopPrice());
+				orderItemVo.setProductName(product.getName());
+				orderItemVoList.add(orderItemVo);
+			}
 
 			OrderVo orderVo = new OrderVo();
 			orderVo.setOrders(order);
-			orderVo.setOrderItems(orderItemList);
+			orderVo.setOrderItemVos(orderItemVoList);
+
 
 			orderVos.add(orderVo);
 		}

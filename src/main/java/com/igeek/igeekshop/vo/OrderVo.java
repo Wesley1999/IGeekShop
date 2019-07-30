@@ -1,7 +1,6 @@
 package com.igeek.igeekshop.vo;
 
 import com.igeek.igeekshop.pojo.Orders;
-import com.igeek.igeekshop.pojo.OrderItem;
 import lombok.Data;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
@@ -18,6 +17,6 @@ public class OrderVo {
 
 	private Orders orders;
 
-	private List<OrderItem> orderItems;
+	private List<OrderItemVo> orderItemVos;
 
 }
