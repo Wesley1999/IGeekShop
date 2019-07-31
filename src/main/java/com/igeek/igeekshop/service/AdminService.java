@@ -120,9 +120,11 @@ public class AdminService {
 
 	//--------------------------------------------------------------------------------------
 
-	public ServerResponse<PageInfo> getProducts(int pageNum, int pageSize, int navigatePages) {
+	public ServerResponse<PageInfo> getProducts(String keyword, int pageNum, int pageSize, int navigatePages) {
 		PageHelper.startPage(pageNum, pageSize);
-		List<Product> products = productMapper.selectByExample(null);
+		ProductExample productExample = new ProductExample();
+		productExample.createCriteria().andNameLike("%" + keyword+ "%");
+		List<Product> products = productMapper.selectByExample(productExample);
 		PageInfo pageResult = new PageInfo(products, navigatePages);
 		List<ProductVo> productVos = new ArrayList<>();
 		for (Product product : products) {

@@ -68,15 +68,16 @@ public class AdminController {
 
 	// 获取所有商品
 	@RequestMapping("get_products")
-	public ServerResponse<PageInfo> getProducts(@RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_NUM) int pageNum,
+	public ServerResponse<PageInfo> getProducts(@RequestParam(defaultValue = "") String keyword,
+	                                            @RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_NUM) int pageNum,
 	                                            @RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_SIZE) int pageSize,
 	                                            @RequestParam(defaultValue = DefaultValueConst.DEFAULT_NAVIGATE_PAGES) int navigatePages) {
-		return adminService.getProducts(pageNum, pageSize, navigatePages);
+		return adminService.getProducts(keyword, pageNum, pageSize, navigatePages);
 	}
 
 	// 添加商品（含文件上传）
 	// 仅post
-	@RequestMapping(value = "add_product", method = RequestMethod.POST)
+	@RequestMapping(value = "add_product", method = RequestMethod.POST, consumes = "multipart/form-data")
 	public ServerResponse<String> addProduct(@RequestParam String name, @RequestParam double marketPrice,
 	                                         @RequestParam double shopPrice, @RequestParam String description,
 	                                         @RequestParam boolean isNew, @RequestParam boolean isHot,
