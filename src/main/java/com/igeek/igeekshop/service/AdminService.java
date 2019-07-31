@@ -44,6 +44,9 @@ public class AdminService {
 	@Autowired
 	OrdersMapper ordersMapper;
 
+	@Autowired
+	UserMapper userMapper;
+
 	public ServerResponse<List> getCategories() {
 		List<Category> categories = categoryMapper.selectByExample(null);
 		for (Category category : categories) {
@@ -273,8 +276,8 @@ public class AdminService {
 
 			OrderVo orderVo = new OrderVo();
 			orderVo.setOrders(order);
+			orderVo.setUsername(userMapper.selectByPrimaryKey(order.getUserId()).getUsername());
 			orderVo.setOrderItemVos(orderItemVoList);
-
 
 			orderVos.add(orderVo);
 		}

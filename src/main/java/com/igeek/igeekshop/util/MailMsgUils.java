@@ -23,11 +23,11 @@ public class MailMsgUils {
 				"                    </a>\n" +
 				"                    的用户，请您点击下面的链接进行注册，或者</p><p style=\"margin-top: 0\">将此链接复制到浏览器中打开。</p>\n" +
 				"                <h2 style=\"font-size: 10pt; font-weight: normal; margin: 10px 0 4px\">\n" +
-				"                    <a href=\"http://localhost/activation?activeCode" + activeCode + "\" style=\"color: #176093; text-decoration: none\" rel=\"noopener\" target=\"_blank\">\n" +
+				"                    <a href=\"http://localhost/activation?activeCode=" + activeCode + "\" style=\"color: #176093; text-decoration: none\" rel=\"noopener\" target=\"_blank\">\n" +
 				"                       \n" +
 				"                    </a>\n" +
 				"                </h2>\n" +
-				"                <div style=\"color: #176093; font-size: 11px; margin: 4px 0 10px\"><a href=\"http://localhost/activation?activeCode" + activeCode + "\" style=\"color: #176093; text-decoration: none\" rel=\"noopener\" target=\"_blank\">http://localhost/activation?" + activeCode + "</a></div>\n" +
+				"                <div style=\"color: #176093; font-size: 11px; margin: 4px 0 10px\"><a href=\"http://localhost/activation.html?activeCode=" + activeCode + "\" style=\"color: #176093; text-decoration: none\" rel=\"noopener\" target=\"_blank\">http://localhost/activation.html?activeCode=" + activeCode + "</a></div>\n" +
 				"                <p>(这是一封自动发送的邮件，请不要直接回复。）\n" +
 				"                </p><p>\n" +
 				"                    感谢您注册成为极客商城用户！</p><p><br></p><p>极客商城\n" +

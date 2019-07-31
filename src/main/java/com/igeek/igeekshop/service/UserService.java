@@ -115,10 +115,10 @@ public class UserService {
 		user.setActivationCode(activationCode);
 
 		// 调用多线程发送邮件
-//		 todo 邮件内容待修改
 //		String emailMsg = "<a href='http://localhost/activation?activeCode=" + activationCode + "'><h1>点击此链接激活</h1></a>";
 		String emailMsg = MailMsgUils.getEmailMsg(activationCode);
 		new SendMailThread(email, emailMsg).start();
+		System.out.println("向" + email + "发送了邮件");
 
 		// 插入数据库
 		userMapper.insert(user);

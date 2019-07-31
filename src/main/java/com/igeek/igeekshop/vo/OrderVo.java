@@ -15,6 +15,8 @@ import java.util.List;
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class OrderVo {
 
+	private String username;
+
 	private Orders orders;
 
 	private List<OrderItemVo> orderItemVos;
