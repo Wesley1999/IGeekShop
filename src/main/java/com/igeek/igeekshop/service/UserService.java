@@ -3,16 +3,13 @@ package com.igeek.igeekshop.service;
 import com.igeek.igeekshop.consts.SessionKeyConst;
 import com.igeek.igeekshop.consts.GenderConst;
 import com.igeek.igeekshop.consts.ResponseCodeConst;
-import com.igeek.igeekshop.util.ServerResponse;
+import com.igeek.igeekshop.util.*;
 import com.igeek.igeekshop.mapper.CartItemMapper;
 import com.igeek.igeekshop.mapper.UserMapper;
 import com.igeek.igeekshop.pojo.CartItem;
 import com.igeek.igeekshop.pojo.CartItemExample;
 import com.igeek.igeekshop.pojo.User;
 import com.igeek.igeekshop.pojo.UserExample;
-import com.igeek.igeekshop.util.Md5Utils;
-import com.igeek.igeekshop.util.SendMailThread;
-import com.igeek.igeekshop.util.UUIDUtils;
 import com.igeek.igeekshop.vo.CartVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -118,8 +115,9 @@ public class UserService {
 		user.setActivationCode(activationCode);
 
 		// 调用多线程发送邮件
-		// todo 邮件内容待修改
-		String emailMsg = "<a href='http://localhost:8080/user/active?activeCode=" + activationCode + "'><h1>点击此链接激活</h1></a>";
+//		 todo 邮件内容待修改
+//		String emailMsg = "<a href='http://localhost/activation?activeCode=" + activationCode + "'><h1>点击此链接激活</h1></a>";
+		String emailMsg = MailMsgUils.getEmailMsg(activationCode);
 		new SendMailThread(email, emailMsg).start();
 
 		// 插入数据库
