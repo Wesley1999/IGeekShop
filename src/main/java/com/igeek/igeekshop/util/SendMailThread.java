@@ -17,6 +17,6 @@ public class SendMailThread extends Thread {
 
 	@Override
 	public void run() {
-		MailUtils.sendMail(email, emailMsg);
+		EmailUtils.sendEmail(email, emailMsg);
 	}
 }
