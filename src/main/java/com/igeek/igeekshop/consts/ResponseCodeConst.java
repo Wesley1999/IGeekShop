@@ -40,6 +40,7 @@ public class ResponseCodeConst {
 	public static  final Integer PRODUCT_USED_BY_CART = 6404;
 	public static  final Integer PRODUCT_USED_BY_ORDER = 6405;
 	public static  final Integer AUTO_SIGN_IN_FAILED = 6406;
+	public static  final Integer IMG_IS_TOO_SMALL = 6407;
 
 
 	public static Map<Integer, String> responseMessage = new HashMap<Integer, String>() {{
@@ -68,6 +69,7 @@ public class ResponseCodeConst {
 		put(PRODUCT_USED_BY_CART, "用户购物车中有此商品，不能删除");
 		put(PRODUCT_USED_BY_ORDER, "订单明细中有此商品，不能删除");
 		put(AUTO_SIGN_IN_FAILED, "自动登录失败");
+		put(IMG_IS_TOO_SMALL, "图片过小，请上传高清图片");
 	}};
 
 

@@ -2,6 +2,7 @@ package com.igeek.igeekshop.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.igeek.igeekshop.consts.DefaultValueConst;
+import com.igeek.igeekshop.consts.ResponseCodeConst;
 import com.igeek.igeekshop.consts.SessionKeyConst;
 import com.igeek.igeekshop.pojo.Category;
 import com.igeek.igeekshop.service.AdminService;
@@ -82,7 +83,11 @@ public class AdminController {
 	                                         @RequestParam double shopPrice, @RequestParam String description,
 	                                         @RequestParam boolean isNew, @RequestParam boolean isHot,
 	                                         @RequestParam int categoryId, @RequestParam MultipartFile imageFile) throws IOException {
-		return adminService.addProduct(name, marketPrice, shopPrice, description, isNew, isHot, categoryId, imageFile);
+		try {
+			return adminService.addProduct(name, marketPrice, shopPrice, description, isNew, isHot, categoryId, imageFile);
+		}catch (Exception e) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.IMG_IS_TOO_SMALL);
+		}
 	}
 
 	// 根据id获取商品详情
@@ -103,7 +108,11 @@ public class AdminController {
 	// 修改商品图片
 	@RequestMapping("update_product_image")
 	public ServerResponse<String> updateProductImage(@RequestParam int productId, @RequestParam MultipartFile imageFile) throws QiniuException {
-		return adminService.updateProductImage(productId, imageFile);
+		try {
+			return adminService.updateProductImage(productId, imageFile);
+		} catch (Exception e) {
+			return ServerResponse.createErrorResponse(ResponseCodeConst.IMG_IS_TOO_SMALL);
+		}
 	}
 
 	// 删除商品
