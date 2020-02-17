@@ -33,7 +33,7 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	@RequestMapping("get_verification_code")
+	@RequestMapping("get_verification_code.action")
 	public void getVerificationCode(HttpSession session, HttpServletResponse response,
 	                                @RequestParam(defaultValue = "100") int width, @RequestParam(defaultValue = "30") int height,
 	                                @RequestParam(defaultValue = "4") int codeCount, @RequestParam(defaultValue = "6") int lineCount) throws IOException {
@@ -44,17 +44,17 @@ public class UserController {
 		validateCode.write(response.getOutputStream());
 	}
 
-	@RequestMapping("get_whether_username_exists")
+	@RequestMapping("get_whether_username_exists.action")
 	public ServerResponse<Boolean> getWhetherUsernameExists(@RequestParam String username) {
 		return userService.getWhetherUsernameExists(username);
 	}
 
-	@RequestMapping("get_whether_email_exists")
+	@RequestMapping("get_whether_email_exists.action")
 	public ServerResponse<Boolean> getWhetherEmailExists(@RequestParam String email) {
 		return userService.getWhetherEmailExists(email);
 	}
 
-	@RequestMapping("register")
+	@RequestMapping("register.action")
 	//	birthday格式为"yyyy-MM-dd"或"yyyy-MM-dd HH:mm:ss"
 	public ServerResponse<String> register(HttpSession session, @RequestParam String username, @RequestParam String password,
 	                                       @RequestParam String repeatPassword, @RequestParam String email,
@@ -64,12 +64,12 @@ public class UserController {
 		return userService.register(session, username, password, repeatPassword, email, name, gender, birthday, telephone, verificationCode);
 	}
 
-	@RequestMapping("active")
+	@RequestMapping("active.action")
 	public ServerResponse<String> active(@RequestParam String activeCode) {
 		return userService.active(activeCode);
 	}
 
-	@RequestMapping("sign_in")
+	@RequestMapping("sign_in.action")
 	public ServerResponse<String> signIn(HttpSession session, @RequestParam String username, @RequestParam String password,
 	                                     @RequestParam String verificationCode, @RequestParam boolean remember,
 	                                     @RequestParam boolean autoSignIn, HttpServletResponse httpServletResponse) {
@@ -104,7 +104,7 @@ public class UserController {
 		return response;
 	}
 
-	@RequestMapping("sign_in_for_admin")
+	@RequestMapping("sign_in_for_admin.action")
 	public ServerResponse<String> signInForAdmin(HttpSession session, @RequestParam String username, @RequestParam String password) {
 		if (username.equals("admin") && password.equals("123456")) {
 			session.setAttribute(SessionKeyConst.IS_ADMIN, "1");
@@ -114,7 +114,7 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping("get_current_user")
+	@RequestMapping("get_current_user.action")
 	public ServerResponse<User> getCurrentUser(HttpSession session) {
 		Object userId = session.getAttribute(SessionKeyConst.USER_ID);
 		if (userId == null) {
@@ -123,7 +123,7 @@ public class UserController {
 		return userService.getCurrentUser((String) userId);
 	}
 
-	@RequestMapping("sign_out")
+	@RequestMapping("sign_out.action")
 	public ServerResponse<String> signOut(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		session.removeAttribute(SessionKeyConst.USER_ID);
 		session.removeAttribute(SessionKeyConst.USERNAME);
@@ -141,7 +141,7 @@ public class UserController {
 		return ServerResponse.createSuccessResponse();
 	}
 
-	@RequestMapping("auto_sign_in")
+	@RequestMapping("auto_sign_in.action")
 	public ServerResponse<String> autoSignIn(HttpServletRequest request, HttpSession session) {
 		Cookie[] cookies = request.getCookies();
 		String username = "";

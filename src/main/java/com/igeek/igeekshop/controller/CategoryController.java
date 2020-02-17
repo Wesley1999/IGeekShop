@@ -23,12 +23,12 @@ public class CategoryController {
 	@Autowired
 	CategoryService categoryService;
 
-	@RequestMapping("get_categories")
+	@RequestMapping("get_categories.action")
 	public ServerResponse<List> getCategories() {
 		return categoryService.getCategories();
 	}
 
-	@RequestMapping("get_category_name_by_id")
+	@RequestMapping("get_category_name_by_id.action")
 	public ServerResponse<String> getCategoryNameById(@RequestParam int categoryId) {
 		return categoryService.getCategoryNameById(categoryId);
 	}

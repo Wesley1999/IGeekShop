@@ -43,6 +43,6 @@
     <servlet-mapping>
         <servlet-name>springmvc</servlet-name>
         <!--拦截所有-->
-        <url-pattern>/*</url-pattern>
+        <url-pattern>*.action</url-pattern>
     </servlet-mapping>
 </web-app>

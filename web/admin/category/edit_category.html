@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css"/>
+    <script src="/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/js/introduceForAdmin.js"></script>
+    <script src="/js/jquery.validate.min.js"></script>
+    <style>
+        .error {
+            color: red
+        }
+    </style>
+    <script>
+        $(function () {
+
+            function getUrlParam(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return decodeURI(r[2]); return null;
+            }
+
+            categoryId = getUrlParam("categoryId")
+
+            // 页面加载时渲染当前已有的数据
+            $.ajax({
+                type: "POST",
+                url: "/api/admin/get_category",
+                data: {"categoryId": categoryId},
+                dataType: "json",
+                success: function (returnData) {
+                    if (returnData.status === 0) {
+                        $("#name").val(returnData.data.name)
+                        $("#description").val(returnData.data.description)
+                    }
+                }
+            })
+
+            // 表单校验
+            $("#myForm").validate({
+                errorPlacement: function(error, element) {
+                    // Append error within linked label
+                    //替换错误显示位置，error表示错误信息
+                    $( element )
+                        .closest( "form" )
+                        .find( "label[for='" + element.attr( "id" ) + "']" ).next()
+                        .append( error );
+                },
+                errorElement: "span",
+                rules: {
+                    "name": {
+                        required: true
+                    },
+                    "description": {
+                        required: true
+                    }
+                },
+                messages: {
+                    "name": {
+                        required: "必填",
+                    },
+                    "description": {
+                        required: "必填",
+                    }
+                },
+                // 提交表单
+                submitHandler: function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/admin/update_category",
+                        data: {
+                            categoryId: categoryId,
+                            name: $('#name').val(),
+                            description: $('#description').val(),
+                        },
+                        dataType: "json",
+                        success: function (returnData) {
+                            if (returnData.status === 0) {
+                                location.href="/admin/category/category_list.html"
+                            } else {
+                                alert(returnData.msg)
+                            }
+                        }
+                    })
+                    return false; // 阻止表单自动提交事件
+                }
+            });
+
+        })
+    </script>
+</head>
+
+<body>
+<div class="container" style="width: 100%; ">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8"
+             style="background: #fff; padding: 40px 80px; margin: 30px; border: 7px solid #ccc;">
+            <div align="center"><h3>编辑分类</h3></div>
+            <br/>
+			
+            <form class="form-horizontal" style="margin-top: 5px;" id="myForm">
+				
+                <div class="form-group">
+                    <label for="name" class="col-sm-5 control-label">分类名称 &nbsp; ：</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" style="width:200px; display:inline;" id="name" name="name"
+                               placeholder="请输入名称">
+                    </div>
+                </div>
+				
+                <div class="form-group">
+                    <label for="description" class="col-sm-5 control-label">分类描述 &nbsp; ：</label>
+                    <div class="col-sm-5">
+                        <textarea type="text" class="form-control" style="width:200px; display:inline;" id="description" name="description"></textarea>
+                    </div>
+                </div>
+                <br/>
+				
+                <div align="center">
+                    <input type="submit" value="确定" class="button"
+                           style="width: 80px;height: 30px;" id="submit" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="reset" value="重置" class="button"
+                           style="width: 80px;height: 30px;" id="reset" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="button" value="返回" class="button" onclick="history.go(-1)"
+                           style="width: 80px;height: 30px;"/>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+</body>
+
+</html>

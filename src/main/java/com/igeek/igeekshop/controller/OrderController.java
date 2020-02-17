@@ -29,7 +29,7 @@ public class OrderController {
 	@Autowired
 	OrderService orderService;
 
-	@RequestMapping("submit_order")
+	@RequestMapping("submit_order.action")
 	public ServerResponse<String> submitOrder(HttpSession session, @RequestParam String recipientName,
 	                                          @RequestParam String telephone, @RequestParam String address) {
 		// 必须已登录
@@ -41,7 +41,7 @@ public class OrderController {
 		return orderService.submitOrder(userId, recipientName, telephone, address);
 	}
 
-	@RequestMapping("get_orders")
+	@RequestMapping("get_orders.action")
 	public ServerResponse<PageInfo<List<OrderVo>>> getOrders(HttpSession session,
 	                                                        @RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_NUM) int pageNum,
 	                                                        @RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_SIZE) int pageSize,

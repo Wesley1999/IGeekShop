@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>购物车</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+    <script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/introduce.js"></script>
+    <!-- 引入自定义css文件 style.css -->
+    <link rel="stylesheet" href="css/style.css" type="text/css"/>
+
+    <script>
+
+        function deleteFromCart(productId) {
+            $.ajax({
+                type: "POST",
+                url: "/api/cart/delete_from_cart.action",
+                data: {"productId": productId},
+                dataType: "json",
+                success: function (returnData) {
+                    if (returnData.status === 0) {
+                        location.reload();
+                    }
+                }
+            })
+        }
+
+        function clearCart() {
+            $.ajax({
+                type: "POST",
+                url: "/api/cart/clear_cart.action",
+                dataType: "json",
+                success: function (returnData) {
+                    if (returnData.status === 0) {
+                        location.reload();
+                    }
+                }
+            })
+        }
+
+        $(function () {
+            $.ajax({
+                type: "POST",
+                url: "/api/cart/get_cart.action",
+                dataType: "json",
+                success: function (returnData) {
+                    if (returnData.status === 0) {
+                        for (i = 0; i < returnData.data.length; i++) {
+                            cartItem = returnData.data[i]
+                            productId = cartItem.productId;
+                            count = cartItem.count;
+                            $.ajax({
+                                type: "POST",
+                                async: false,   // 这里不应该异步
+                                url: "/api/product/get_product.action",
+                                data: {"productId": productId},
+                                dataType: "json",
+                                success: function (returnData) {
+                                    if (returnData.status === 0) {
+                                        imgUrl = returnData.data.imgUrl
+                                        productName = returnData.data.name
+                                        price = returnData.data.shopPrice
+                                        number = cartItem.count
+
+                                        $("#cartItems").append("<tr class=\"active\">\n" +
+                                            "<td width=\"60\" width=\"40%\">\n" +
+                                            "<input type=\"hidden\" name=\"id\" value=\"22\">\n" +
+                                            "<a target=\"_blank\" href='product.html?productId=" + productId + "'> <img src=\"" + imgUrl + "\" width=\"70\" height=\"60\"/></a>\n" +
+                                            "</td>\n" +
+                                            "<td width=\"30%\">\n" +
+                                            "<a target=\"_blank\" href='product.html?productId=" + productId + "'>" + productName + ".</a>\n" +
+                                            "</td>\n" +
+                                            "<td width=\"20%\">\n" +
+                                            "￥" + price + "\n" +
+                                            "</td>\n" +
+                                            "<td width=\"10%\">\n" +
+                                            "" + count + "\n" +
+                                            "</td>\n" +
+                                            "<td width=\"15%\">\n" +
+                                            "<span class=\"subtotal\">￥" + price * count + "</span>\n" +
+                                            "</td>\n" +
+                                            "<td>\n" +
+                                            "<a href=\"javascript:;\" class=\"delete\" onclick='deleteFromCart(productId)'>删除</a>\n" +
+                                            "</td>\n" +
+                                            "</tr>")
+                                    }
+                                }
+                            })
+                        }
+
+                        if (returnData.data.length === 0) {
+                            $("#id0").append("<H1>购物车为空</H1>")
+                            $("#id1").remove()
+                            $("#id2").remove()
+                        }
+
+                    }
+                }
+            })
+
+            $.ajax({
+                type: "POST",
+                url: "/api/cart/get_total_price.action",
+                dataType: "json",
+                success: function (returnData) {
+                    if (returnData.status === 0) {
+                        totalPrice = returnData.data;
+                        if (totalPrice !== 0) {
+                            $("#tail").append('<div style="text-align:right;">\n' +
+                                '            <em style="color:#ff6600;">\n' +
+                                '            </em>商品金额: <strong style="color:#ff6600;">￥' + totalPrice + '元</strong>\n' +
+                                '        </div>\n' +
+                                '        <div style="text-align:right;margin-top:10px;margin-bottom:10px;">\n' +
+                                    '<button type="button" id="clear" class="clear btn btn-default" onclick="clearCart()">清空购物车</button> ' +
+                                    '<a href="/submit_order.html"><button type="button" class="btn btn-primary" style="width: 150px; height: 40px;">提交订单</button></a>' +
+                                '        </div>')
+                        }
+                    }
+                }
+            })
+        })
+    </script>
+
+    <style>
+        body {
+            margin-top: 20px;
+            margin: 0 auto;
+        }
+
+        .carousel-inner .item img {
+            width: 100%;
+            height: 300px;
+        }
+
+        font {
+            color: #3164af;
+            font-size: 18px;
+            font-weight: normal;
+            padding: 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+
+        <div style="margin:0 auto; margin-top:10px;width:950px;" id="id0">
+            <strong style="font-size:16px;margin:5px 0;" id="id1">购物车详情</strong>
+            <table class="table table-bordered" id="id2">
+                <tbody id="cartItems">
+                <tr class="warning">
+                    <th>图片</th>
+                    <th>商品</th>
+                    <th>价格</th>
+                    <th>数量</th>
+                    <th>小计</th>
+                    <th>操作</th>
+                </tr>
+
+                <!--<tr class="active">-->
+                <!--<td width="60" width="40%">-->
+                <!--<input type="hidden" name="id" value="22">-->
+                <!--<img src="./image/dadonggua.jpg" width="70" height="60">-->
+                <!--</td>-->
+                <!--<td width="30%">-->
+                <!--<a target="_blank"> 有机蔬菜      大冬瓜...</a>-->
+                <!--</td>-->
+                <!--<td width="20%">-->
+                <!--￥298.00-->
+                <!--</td>-->
+                <!--<td width="10%">-->
+                <!--<input type="text" name="quantity" value="1" maxlength="4" size="10">-->
+                <!--</td>-->
+                <!--<td width="15%">-->
+                <!--<span class="subtotal">￥596.00</span>-->
+                <!--</td>-->
+                <!--<td>-->
+                <!--<a href="javascript:;" class="delete">删除</a>-->
+                <!--</td>-->
+                <!--</tr>-->
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div style="margin-right:130px;" id="tail"></div>
+
+</div>
+
+</body>
+
+</html>

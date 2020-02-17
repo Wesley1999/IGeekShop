@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>订单</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+    <script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/introduce.js"></script>
+    <!-- 引入自定义css文件 style.css -->
+    <link rel="stylesheet" href="css/style.css" type="text/css"/>
+
+    <style>
+        body {
+            margin-top: 20px;
+            margin: 0 auto;
+        }
+
+        .carousel-inner .item img {
+            width: 100%;
+            height: 300px;
+        }
+    </style>
+
+    <script>
+        $(function () {
+            function transformTime(timestamp = +new Date()) {
+                if (timestamp) {
+                    var time = new Date(timestamp);
+                    var y = time.getFullYear(); //getFullYear方法以四位数字返回年份
+                    var M = time.getMonth() + 1; // getMonth方法从 Date 对象返回月份 (0 ~ 11)，返回结果需要手动加一
+                    var d = time.getDate(); // getDate方法从 Date 对象返回一个月中的某一天 (1 ~ 31)
+                    var h = time.getHours(); // getHours方法返回 Date 对象的小时 (0 ~ 23)
+                    var m = time.getMinutes(); // getMinutes方法返回 Date 对象的分钟 (0 ~ 59)
+                    var s = time.getSeconds(); // getSeconds方法返回 Date 对象的秒数 (0 ~ 59)
+                    return y + '-' + M + '-' + d + ' ' + h + ':' + m + ':' + s;
+                } else {
+                    return '';
+                }
+            }
+
+            function getUrlParam(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return decodeURI(r[2]); return null;
+            }
+
+            var pageNum = getUrlParam("pageNum");
+
+            $.ajax({
+                type: "POST",
+                data: {"pageNum": pageNum, "pageSize": 5},
+                url: "/api/order/get_orders.action",
+                dataType: "json",
+                async: true,
+                success: function (returnData) {
+                    if (returnData.status === 0) {
+                        // 数据
+                        for (i = 0; i < returnData.data.list.length; i++) {
+                            listElement = returnData.data.list[i];
+                            order = listElement.orders;
+                            orderItemVos = listElement.orderItemVos;
+                            $("#orders").append("<tbody  id='order" + i + "'>\n" +
+                                "                <tr class=\"success\">\n" +
+                                "                <th colspan=\"5\">订单编号:" + order.orderId + "" +
+                                "<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;订单时间：" + transformTime(order.orderTime) + "</span>" +
+                                "<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;总金额：￥" + order.totalPrice + "</span></th>\n" +
+                                "                </tr>\n" +
+                                "                <tr class=\"warning\">\n" +
+                                "                <th>图片</th>\n" +
+                                "                <th>商品</th>\n" +
+                                "                <th>价格</th>\n" +
+                                "                <th>数量</th>\n" +
+                                "                <th>小计</th>\n" +
+                                "                </tr>\n" +
+                                "                <tr class=\"active\">\n" +
+                                "                </tr>\n" +
+                                "                </tbody>");
+
+                            for (j = 0; j < orderItemVos.length; j++) {
+                                orderItemVo = orderItemVos[j];
+                                $("#order" + i).append("<tr><td width=\"60\" width=\"40%\"><input type=\"hidden\" name=\"id\"\n" +
+                                    "                value=\"22\"> <img src=\"" + orderItemVo.imgUrl + "\" width=\"70\"\n" +
+                                    "                height=\"60\"></td>\n" +
+                                    "                <td width=\"30%\"><a target=\"_blank\">" + orderItemVo.productName + "</a></td>\n" +
+                                    "                <td width=\"20%\">￥" + orderItemVo.shopPrice + "</td>\n" +
+                                    "                <td width=\"10%\">" + orderItemVo.count + "</td>\n" +
+                                    "                <td width=\"15%\"><span class=\"subtotal\">￥" + (orderItemVo.shopPrice * orderItemVo.count) + "</span></td></tr>\n")
+                            }
+                        }
+
+                        // 分页
+                        currentPage = returnData.data.pageNum;
+                        pages = returnData.data.pages;
+
+                        // 上一页
+                        if (returnData.data.hasPreviousPage) {
+                            $("#pagination").append("<li><a href=\"order_list.html?pageNum=" + returnData.data.prePage + "\">&laquo;</a></li>")
+                        } else {
+                            $("#pagination").append("<li class='disabled'><a href='javascript:void(0);'>&laquo;</a></li>")
+                        }
+
+                        // 每一页
+                        for (i = 0; i < returnData.data.navigatepageNums.length; i++) {
+                            pageNum = returnData.data.navigatepageNums[i];
+                            // 如果是当前页
+                            if (pageNum === currentPage) {
+                                $("#pagination").append("<li><a href=\"javascript:void(0);\" style='background-color: #f5f5f5'>" + pageNum + "</a></li>")
+                            } else {
+                                $("#pagination").append("<li><a href=\"order_list.html?&pageNum=" + pageNum + "\">" + pageNum + "</a></li>")
+                            }
+                        }
+
+                        // 下一页
+                        if (returnData.data.hasNextPage) {
+                            $("#pagination").append("<li><a href=\"order_list.html?pageNum=" + returnData.data.nextPage + "\">&raquo;</a></li>")
+                        } else {
+                            $("#pagination").append("<li class='disabled'><a href='javascript:void(0);'>&raquo;</a></li>")
+                        }
+
+                    } else {
+                        alert(returnData.msg);
+                        location.href="/login.html"
+                    }
+                }
+            })
+        })
+    </script>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="row">
+        <div style="margin: 0 auto; margin-top: 10px; width: 950px;">
+            <strong><H1>我的订单</H1></strong>
+            <table class="table table-bordered" id="orders">
+                <!--<tbody>-->
+                <!--<tr class="success">-->
+                <!--<th colspan="5">订单编号:9005</th>-->
+                <!--</tr>-->
+                <!--<tr class="warning">-->
+                <!--<th>图片</th>-->
+                <!--<th>商品</th>-->
+                <!--<th>价格</th>-->
+                <!--<th>数量</th>-->
+                <!--<th>小计</th>-->
+                <!--</tr>-->
+                <!--<tr class="active">-->
+                <!--<td width="60" width="40%"><input type="hidden" name="id"-->
+                <!--value="22"> <img src="./image/dadonggua.jpg" width="70"-->
+                <!--height="60"></td>-->
+                <!--<td width="30%"><a target="_blank"> 有机蔬菜 大冬瓜...</a></td>-->
+                <!--<td width="20%">￥298.00</td>-->
+                <!--<td width="10%">5</td>-->
+                <!--<td width="15%"><span class="subtotal">￥596.00</span></td>-->
+                <!--</tr>-->
+                <!--</tbody>-->
+                </table>
+        </div>
+    </div>
+    <div style="text-align: center;">
+        <ul class="pagination" id="pagination">
+            <!--<li class="disabled"><a href="#" aria-label="Previous"><span-->
+                    <!--aria-hidden="true">&laquo;</span></a></li>-->
+            <!--<li class="active"><a href="#">1</a></li>-->
+            <!--<li><a href="#">2</a></li>-->
+            <!--<li><a href="#">3</a></li>-->
+            <!--<li><a href="#">4</a></li>-->
+            <!--<li><a href="#">5</a></li>-->
+            <!--<li><a href="#">6</a></li>-->
+            <!--<li><a href="#">7</a></li>-->
+            <!--<li><a href="#">8</a></li>-->
+            <!--<li><a href="#">9</a></li>-->
+            <!--<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>-->
+            <!--</a></li>-->
+        </ul>
+    </div>
+</div>
+
+</body>
+
+</html>

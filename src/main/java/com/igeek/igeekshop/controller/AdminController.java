@@ -36,31 +36,31 @@ public class AdminController {
 	AdminService adminService;
 
 	// 获取所有分类
-	@RequestMapping("get_categories")
+	@RequestMapping("get_categories.action")
 	public ServerResponse<List> getCategories() {
 		return adminService.getCategories();
 	}
 
 	// 添加分类
-	@RequestMapping("add_category")
+	@RequestMapping("add_category.action")
 	public ServerResponse<String> addCategory(@RequestParam String name, @RequestParam String description) {
 		return adminService.addCategory(name, description);
 	}
 
 	// 获取根据id分类详情
-	@RequestMapping("get_category")
+	@RequestMapping("get_category.action")
 	public ServerResponse<Category> getCategory(@RequestParam int categoryId) {
 		return adminService.getCategory(categoryId);
 	}
 
 	// 编辑分类
-	@RequestMapping("update_category")
+	@RequestMapping("update_category.action")
 	public ServerResponse<String> updateCategory(@RequestParam int categoryId, @RequestParam String name, @RequestParam String description) {
 		return adminService.updateCategory(categoryId, name, description);
 	}
 
 	// 删除分类
-	@RequestMapping("delete_category")
+	@RequestMapping("delete_category.action")
 	public ServerResponse<String> deleteCategory(@RequestParam int categoryId) {
 		return adminService.deleteCategory(categoryId);
 	}
@@ -68,7 +68,7 @@ public class AdminController {
 	//--------------------------------------------------------------------------------------
 
 	// 获取所有商品
-	@RequestMapping("get_products")
+	@RequestMapping("get_products.action")
 	public ServerResponse<PageInfo> getProducts(@RequestParam(defaultValue = "") String keyword,
 	                                            @RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_NUM) int pageNum,
 	                                            @RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_SIZE) int pageSize,
@@ -78,7 +78,7 @@ public class AdminController {
 
 	// 添加商品（含文件上传）
 	// 仅post
-	@RequestMapping(value = "add_product", method = RequestMethod.POST, consumes = "multipart/form-data")
+	@RequestMapping(value = "add_product.action", method = RequestMethod.POST, consumes = "multipart/form-data")
 	public ServerResponse<String> addProduct(@RequestParam String name, @RequestParam double marketPrice,
 	                                         @RequestParam double shopPrice, @RequestParam String description,
 	                                         @RequestParam boolean isNew, @RequestParam boolean isHot,
@@ -91,13 +91,13 @@ public class AdminController {
 	}
 
 	// 根据id获取商品详情
-	@RequestMapping("get_product")
+	@RequestMapping("get_product.action")
 	public ServerResponse<ProductVo> getProduct(int productId) {
 		return adminService.getProduct(productId);
 	}
 
 	// 编辑商品
-	@RequestMapping("update_product")
+	@RequestMapping("update_product.action")
 	public ServerResponse<String> updateProduct(@RequestParam int productId, @RequestParam String name, @RequestParam double marketPrice,
 	                                            @RequestParam double shopPrice, @RequestParam String description,
 	                                            @RequestParam boolean isNew, @RequestParam boolean isHot,
@@ -106,7 +106,7 @@ public class AdminController {
 	}
 
 	// 修改商品图片
-	@RequestMapping("update_product_image")
+	@RequestMapping("update_product_image.action")
 	public ServerResponse<String> updateProductImage(@RequestParam int productId, @RequestParam MultipartFile imageFile) throws QiniuException {
 		try {
 			return adminService.updateProductImage(productId, imageFile);
@@ -116,13 +116,13 @@ public class AdminController {
 	}
 
 	// 删除商品
-	@RequestMapping("delete_product")
+	@RequestMapping("delete_product.action")
 	public ServerResponse<String> deleteProduct(@RequestParam int productId) {
 		return adminService.deleteProduct(productId);
 	}
 
 	// 获取所有订单
-	@RequestMapping("get_orders")
+	@RequestMapping("get_orders.action")
 	public ServerResponse<PageInfo<List<OrderVo>>> getOrders(@RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_NUM) int pageNum,
 	                                               @RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_SIZE) int pageSize,
 	                                               @RequestParam(defaultValue = DefaultValueConst.DEFAULT_NAVIGATE_PAGES) int navigatePages) {
@@ -130,7 +130,7 @@ public class AdminController {
 	}
 
 	// 退出登录
-	@RequestMapping("sign_out_for_admin")
+	@RequestMapping("sign_out_for_admin.action")
 	public ServerResponse<String> signInForAdmin(HttpSession session) {
 		session.removeAttribute(SessionKeyConst.IS_ADMIN);
 		return ServerResponse.createSuccessResponse();

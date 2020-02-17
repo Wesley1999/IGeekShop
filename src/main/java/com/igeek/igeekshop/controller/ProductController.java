@@ -27,7 +27,7 @@ public class ProductController {
 	@Autowired
 	ProductService productService;
 
-	@RequestMapping("get_products_by_category_id")
+	@RequestMapping("get_products_by_category_id.action")
 	public ServerResponse<PageInfo> getProductsByCategoryId(@RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_NUM) int pageNum,
 	                                                        @RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_SIZE) int pageSize,
 	                                                        @RequestParam(defaultValue = DefaultValueConst.DEFAULT_NAVIGATE_PAGES) int navigatePages,
@@ -35,21 +35,21 @@ public class ProductController {
 		return productService.getProductsByCategoryId(pageNum, pageSize, navigatePages, categoryId);
 	}
 
-	@RequestMapping("get_hot_products")
+	@RequestMapping("get_hot_products.action")
 	public ServerResponse<PageInfo> getHotProducts(@RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_NUM) int pageNum,
 	                                               @RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_SIZE) int pageSize,
 	                                               @RequestParam(defaultValue = DefaultValueConst.DEFAULT_NAVIGATE_PAGES) int navigatePages) {
 		return productService.getHotProducts(pageNum, pageSize, navigatePages);
 	}
 
-	@RequestMapping("get_new_products")
+	@RequestMapping("get_new_products.action")
 	public ServerResponse<PageInfo> getNewProducts(@RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_NUM) int pageNum,
 	                                               @RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_SIZE) int pageSize,
 	                                               @RequestParam(defaultValue = DefaultValueConst.DEFAULT_NAVIGATE_PAGES) int navigatePages) {
 		return productService.getNewProducts(pageNum, pageSize, navigatePages);
 	}
 
-	@RequestMapping("search_products")
+	@RequestMapping("search_products.action")
 	public ServerResponse<PageInfo> searchProducts(@RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_NUM) int pageNum,
 	                                               @RequestParam(defaultValue = DefaultValueConst.DEFAULT_PAGE_SIZE) int pageSize,
 	                                               @RequestParam(defaultValue = DefaultValueConst.DEFAULT_NAVIGATE_PAGES) int navigatePages,
@@ -57,18 +57,18 @@ public class ProductController {
 		return productService.searchProducts(pageNum, pageSize, navigatePages, keyword);
 	}
 
-	@RequestMapping("get_product")
+	@RequestMapping("get_product.action")
 	public ServerResponse<ProductVo> getProduct(int productId) {
 		return productService.getProduct(productId);
 	}
 
 	// 记录浏览记录
-	@RequestMapping("record_browsing_history")
+	@RequestMapping("record_browsing_history.action")
 	public ServerResponse<String> recordBrowsingHistory(HttpSession session, @RequestParam int productId) {
 		return productService.recordBrowsingHistory(session, productId);
 	}
 
-	@RequestMapping("get_browsing_history")
+	@RequestMapping("get_browsing_history.action")
 	public ServerResponse<List> getBrowsingHistory(HttpSession session) {
 		return productService.getBrowsingHistory(session);
 	}

@@ -25,7 +25,7 @@ public class CartController {
 	@Autowired
 	CartService cartService;
 
-	@RequestMapping("add_to_cart")
+	@RequestMapping("add_to_cart.action")
 	public ServerResponse<String> addToCart(HttpSession session, int productId) {
 		// 未登录的用户
 		if (session.getAttribute(SessionKeyConst.USER_ID) == null) {
@@ -37,7 +37,7 @@ public class CartController {
 		}
 	}
 
-	@RequestMapping("get_cart")
+	@RequestMapping("get_cart.action")
 	public ServerResponse<List<CartVo>> getCart(HttpSession session) {
 		// 未登录的用户
 		if (session.getAttribute(SessionKeyConst.USER_ID) == null) {
@@ -49,7 +49,7 @@ public class CartController {
 		}
 	}
 
-	@RequestMapping("delete_from_cart")
+	@RequestMapping("delete_from_cart.action")
 	// 无此商品不报错
 	public ServerResponse<String> deleteFromCart(HttpSession session, int productId) {
 		// 未登录的用户
@@ -62,7 +62,7 @@ public class CartController {
 		}
 	}
 
-	@RequestMapping("clear_cart")
+	@RequestMapping("clear_cart.action")
 	public ServerResponse<String> clearCart(HttpSession session) {
 		// 未登录的用户
 		if (session.getAttribute(SessionKeyConst.USER_ID) == null) {
@@ -74,7 +74,7 @@ public class CartController {
 		}
 	}
 
-	@RequestMapping("get_total_price")
+	@RequestMapping("get_total_price.action")
 	public ServerResponse<Double> getTotalPrice(HttpSession session) {
 		// 未登录的用户
 		if (session.getAttribute(SessionKeyConst.USER_ID) == null) {

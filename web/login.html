@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>极客商城-会员登录</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+    <script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/introduce.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <!-- 引入自定义css文件 style.css -->
+    <link rel="stylesheet" href="css/style.css" type="text/css"/>
+
+    <style>
+        body {
+            margin-top: 20px;
+            margin: 0 auto;
+        }
+
+        .carousel-inner .item img {
+            width: 100%;
+            height: 300px;
+        }
+
+        .error {
+            color: red
+        }
+
+        font {
+            color: #666;
+            font-size: 22px;
+            font-weight: normal;
+            padding-right: 17px;
+        }
+    </style>
+
+    <script>
+        $(function () {
+            function changeVerificationCode() {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/user/get_verification_code.action",
+                    success: function () {
+                        $("#verificationCodeImg").attr("src", "/api/user/get_verification_code")
+                    },
+                })
+            }
+
+            $("#verificationCodeImg").click(function () {
+                changeVerificationCode();
+            });
+
+            // 表单校验
+            $("#signInForm").validate({
+                rules: {
+                    "username": {
+                        required: true
+                    },
+                    "password": {
+                        required: true,
+                        rangelength: [6, 16]
+                    },
+                    "verificationCode": {
+                        required: true,
+                        rangelength: [4, 4]
+                    }
+                },
+                messages: {
+                    "username": {
+                        required: "必填",
+                    },
+                    "password": {
+                        required: "必填",
+                        rangelength: "长度有误",
+                    },
+                    "verificationCode": {
+                        required: "必填",
+                        rangelength: "长度有误",
+                    }
+                },
+                submitHandler: function () {
+                    $.ajax({
+                        type: 'post',
+                        url: "/api/user/sign_in.action",
+                        data: {
+                            username: $('#username').val(),
+                            password: $('#password').val(),
+                            verificationCode: $('#verificationCode').val(),
+                            autoSignIn: $('#autoSignIn').is(':checked'),
+                            remember: $('#remember').is(':checked')
+                        },
+                        success: function (returnData) {
+                            if (returnData.status === 0) {
+                                // alert("登录成功");
+                                location.href = "/";
+                            } else {
+                                alert(returnData.msg)
+                                changeVerificationCode()
+                                // 验证码置空
+                                $("#verificationCode").val("")
+                            }
+                        }
+                    });
+                    return false; // 阻止表单自动提交事件
+                }
+            });
+
+
+
+        });
+
+    </script>
+
+
+</head>
+<body>
+
+<div class="container"
+     style="width: 100%; height: 460px; background: #FF2C4C url('img/loginbg.jpg') no-repeat; height: 500px; width: 1450px">
+    <div class="row">
+        <div class="col-md-7">
+            <!--<img src="./image/login.jpg" width="500" height="330" alt="会员登录" title="会员登录">-->
+        </div>
+
+        <div class="col-md-5">
+            <div style="width: 440px; border: 1px solid #E7E7E7; padding: 20px 0 20px 30px; border-radius: 5px; margin-top: 60px; background: #fff;">
+                <font>会员登录</font>USER LOGIN
+                <div>&nbsp;</div>
+                <form class="form-horizontal" id="signInForm">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户名</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="username" id="username" placeholder="请输入用户名" style="width:150px; display:inline;"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">密码</label>
+                        <div class="col-sm-6">
+                            <input type="password" class="form-control" name="password" id="password" style="width:150px; display:inline;"
+                                   placeholder="请输入密码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="verificationCode" class="col-sm-2 control-label">验证码</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="verificationCode" id="verificationCode" style="width:120px; display:inline;"
+                                   placeholder="请输入验证码">
+                        </div>
+                        <div class="col-sm-3">
+                            <img src="/api/user/get_verification_code" id="verificationCodeImg" style="cursor: pointer;"
+                                 title="点击刷新验证码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="checkbox">
+                                <label> <input type="checkbox" id="autoSignIn" name="autoSignIn"> 自动登录</label>
+                                <label> <input type="checkbox" id="remember" name="remember"> 记住用户名</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary" id="submit" style="width: 100px">登录</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

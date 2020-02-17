@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理系统</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css"/>
+    <script src="/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/js/introduceForAdmin.js"></script>
+    <script>
+        $(function () {
+            $.ajax({
+                type: "POST",
+                url: "/api/admin/get_categories",
+                dataType: "json",// 回调
+                success: function (returnData) {
+                    if (returnData.status === 0) {
+                        // alert(returnData.data.myGoodsVoList[0].name)
+                        for (i = 0; i < returnData.data.length; i++) {
+                            item = returnData.data[i]
+                            categoryId = item.categoryId;
+                            categoryName = item.name;
+                            $("#tbody").append("<tr>\n" +
+                                "<td>" + (i + 1) + "</td>\n" +
+                                "<td>" + categoryName + "</td>\n" +
+                                "<td><button onclick='editCategory("+ categoryId+")'>修改</button></td>\n" +
+                                "<td><button onclick='deleteCategory(" + categoryId + ")'>删除</button>" +
+                                "</tr>")
+                        }
+                    } else {
+                        alert(returnData.msg);
+                    }
+                }
+            })
+        })
+
+        function editCategory(categoryId) {
+            location.href = "/admin/category/edit_category.html?categoryId=" + categoryId;
+        }
+
+        function deleteCategory(categoryId) {
+            $.ajax({
+                type: "POST",
+                data: {"categoryId" : categoryId},
+                url: "/api/admin/delete_category",
+                dataType: "json",// 回调
+                success: function (returnData) {
+                    if (returnData.status === 0) {
+                        alert("删除成功");
+                        location.reload();
+                    } else {
+                        alert(returnData.msg)
+                    }
+                }
+            })
+        }
+
+        function addCategory(categoryId) {
+            location.href = "/admin/category/add_category.html";
+        }
+		
+    </script>
+</head>
+
+<body>
+<div class="table-content" style="margin:30px 100px 30px 100px">
+    <div class="table-outer">
+		<div align="center">
+			<h2>全部商品分类</h2><br />
+		</div>
+        <div align="center">
+            <button class="btn btn-primary" onclick="addCategory()" style="height: 40px; width: 120px">添加分类</button>
+        </div>
+        <br>
+        <br>
+        <table class="table" style="text-align: center">
+            <thead>
+            <tr>
+                <th style="text-align: center">序号</th>
+                <th style="text-align: center">分类名称</th>
+                <th style="text-align: center">编辑</th>
+                <th style="text-align: center">删除</th>
+            </tr>
+            </thead>
+            <tbody id="tbody">
+            <tr>
+            <!--<td>6/203462</td>-->
+            <!--<td>13</td>-->
+            <!--<td>0</td>-->
+            <!--<td>24</td>-->
+            <!--</tr>-->
+            </tbody>
+        </table>
+		
+
+    </div>
+
+    <div id="totalPrice" style="font-size: 25px; text-align: center"></div>
+</div>
+</body>
+</html>

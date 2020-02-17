@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>分类</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+    <script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/introduce.js"></script>
+    <script>
+        $(function () {
+
+            function getUrlParam(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return decodeURI(r[2]); return null;
+            }
+
+            var pageNum = getUrlParam("pageNum");
+            var categoryId =  getUrlParam("categoryId");
+
+            // 渲染商品及分页信息
+            $.ajax({
+                type: 'post',
+                url: "/api/product/get_products_by_category_id.action",
+                data: {
+                    "categoryId": categoryId,
+                    "pageNum": pageNum
+                },
+                success: function (returnData) {
+                    //商品
+                    for (i = 0; i < returnData.data.list.length; i++) {
+                        product = returnData.data.list[i];
+                        productId= product.productId;
+                        url = "/product.html?productId=" + productId
+                        imgUrl = product.imgUrl;
+                        productName = product.name
+                        price = product.shopPrice
+                        $("#products").append("<div class=\"col-md-2\" style=\"height:250px\">\n" +
+                            "        <a href=\"" + url + "\">\n" +
+                            "            <img src=\"" + imgUrl + "\" width=\"170\" height=\"170\" style=\"display: inline-block;\">\n" +
+                            "        </a>\n" +
+                            "        <p>\n" +
+                            "            <a href=\"" + url + "\" style='color: green'>" + productName + "</a>\n" +
+                            "        </p>\n" +
+                            "        <p>\n" +
+                            "            <font color=\"#FF0000\">商城价：&yen;" + price + "</font>\n" +
+                            "        </p>\n" +
+                            "    </div>")
+                    }
+
+                    // 分页
+                    currentPage = returnData.data.pageNum;
+                    pages = returnData.data.pages;
+
+                    // 上一页
+                    if (returnData.data.hasPreviousPage) {
+                        $("#pagination").append("<li><a href=\"category.html?categoryId=" + categoryId + "&pageNum=" + returnData.data.prePage + "\">&laquo;</a></li>")
+                    } else {
+                        $("#pagination").append("<li class='disabled'><a href='javascript:void(0);'>&laquo;</a></li>")
+                    }
+
+                    // 每一页
+                    for (i = 0; i < returnData.data.navigatepageNums.length; i++) {
+                        pageNum = returnData.data.navigatepageNums[i];
+                        // 如果是当前页
+                        if (pageNum === currentPage) {
+                            $("#pagination").append("<li><a href=\"javascript:void(0);\" style='background-color: #f5f5f5'>" + pageNum + "</a></li>")
+                        } else {
+                            $("#pagination").append("<li><a href=\"category.html?categoryId=" + categoryId + "&pageNum=" + pageNum + "\">" + pageNum + "</a></li>")
+                        }
+                    }
+
+                    // 下一页
+                    if (returnData.data.hasNextPage) {
+                        $("#pagination").append("<li><a href=\"category.html?categoryId=" + categoryId + "&pageNum=" + returnData.data.nextPage + "\">&raquo;</a></li>")
+                    } else {
+                        $("#pagination").append("<li class='disabled'><a href='javascript:void(0);'>&raquo;</a></li>")
+                    }
+                }
+            });
+
+            // 渲染浏览记录
+            $.ajax({
+                type: "POST",
+                url: "/api/product/get_browsing_history.action",
+                dataType: "json",
+                success: function (returnData) {
+                    if (returnData.status === 0) {
+                        for (i = 0; i < returnData.data.length && i < 7; i++) {
+                            $("#browsingHistory").append("<li style=\"width: 150px; height: 216px; float: left; margin: 0 8px 0 0; padding: 0 18px 15px; text-align: center;\">\n" +
+                                "<a href='/product.html?productId=" + returnData.data[i].productId + "' title='"+returnData.data[i].productName+"'><img src=\"" + returnData.data[i].imgUrl + "\" width=\"130px\" height=\"130px\" /></a>\n" +
+                                "</li>")
+                        }
+                    }
+                }
+            })
+
+        })
+    </script>
+</head>
+<body>
+</div>
+
+
+<div class="row" style="width: 1210px; margin: 0 auto;" id="products">
+
+    <!--<div class="col-md-2" style="height:250px">-->
+        <!--<a href="/igeekShop/product?method=productInfo&pid=1&cid=1&currentPage=1">-->
+            <!--<img src="/igeekShop/products/1/c_0001.jpg" width="170" height="170" style="display: inline-block;">-->
+        <!--</a>-->
+        <!--<p>-->
+            <!--<a href="/igeekShop/product?method=productInfo&pid=1&cid=1&currentPage=1" style='color: green'>小米8</a>-->
+        <!--</p>-->
+        <!--<p>-->
+            <!--<font color="#FF0000">商城价：&yen;2699.0</font>-->
+        <!--</p>-->
+    <!--</div>-->
+
+</div>
+
+<!--分页 -->
+<div style="width: 300px; margin: 0 auto; margin-top: 50px;">
+    <ul class="pagination" style="text-align: center; margin-top: 10px;" id="pagination">
+        <!--&lt;!&ndash; 上一页 &ndash;&gt;-->
+        <!--<li class="disabled">-->
+            <!--<a href="javascript:void(0);" aria-label="Previous">-->
+                <!--<span aria-hidden="true">&laquo;</span>-->
+            <!--</a>-->
+        <!--</li>-->
+        <!--&lt;!&ndash; 显示每一页 &ndash;&gt;-->
+        <!--&lt;!&ndash; 判断是否是当前页 &ndash;&gt;-->
+        <!--<li class="active"><a href="javascript:void(0);">1</a></li>-->
+        <!--&lt;!&ndash; 判断是否是当前页 &ndash;&gt;-->
+        <!--&lt;!&ndash; 非搜索页面 &ndash;&gt;-->
+        <!--<li><a href="/igeekShop/product?method=productList&cid=1&currentPage=2">2</a></li>-->
+        <!--&lt;!&ndash; 判断是否是当前页 &ndash;&gt;-->
+        <!--&lt;!&ndash; 非搜索页面 &ndash;&gt;-->
+        <!--<li><a href="/igeekShop/product?method=productList&cid=1&currentPage=3">3</a></li>-->
+        <!--&lt;!&ndash; 下一页 &ndash;&gt;-->
+        <!--<li>-->
+            <!--&lt;!&ndash; 非搜索页面 &ndash;&gt;-->
+            <!--<a href="/igeekShop/product?method=productList&cid=1&currentPage=2" aria-label="Next">-->
+                <!--<span aria-hidden="true">&raquo;</span>-->
+            <!--</a>-->
+        <!--</li>-->
+    </ul>
+</div>
+
+<!--商品浏览记录-->
+<div
+        style="width: 1210px; margin: 0 auto; padding: 0 9px; border: 1px solid #ddd; border-top: 2px solid #999; height: 246px;">
+    <h4 style="width: 50%; float: left; font: 14px/30px 微软雅黑">浏览记录</h4>
+    <div style="clear: both;"></div>
+    <div style="overflow: hidden;">
+        <ul style="list-style: none;" id="browsingHistory">
+            <!--<li style="width: 150px; height: 216px; float: left; margin: 0 8px 0 0; padding: 0 18px 15px; text-align: center;">-->
+            <!--<img src="/igeekShop/products/1/c_0012.jpg" width="130px" height="130px" />-->
+            <!--</li>-->
+        </ul>
+    </div>
+</div>
+
+
+</div>
+
+
+</body>
+</html>
