@@ -41,7 +41,7 @@
                     type: "POST",
                     url: "/api/user/get_verification_code.action",
                     success: function () {
-                        $("#verificationCodeImg").attr("src", "/api/user/get_verification_code")
+                        $("#verificationCodeImg").attr("src", "/api/user/get_verification_code.action")
                     },
                 })
             }
@@ -305,7 +305,7 @@
                                placeholder="请输入验证码">
                     </div>
                     <div class="col-sm-3">
-                        <img src="/api/user/get_verification_code" id="verificationCodeImg" style="cursor: pointer;"
+                        <img src="/api/user/get_verification_code.action" id="verificationCodeImg" style="cursor: pointer;"
                              title="点击刷新验证码">
                     </div>
 
