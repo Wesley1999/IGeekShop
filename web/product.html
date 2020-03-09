@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <title>ÉÌÆ·ÏêÇé</title>
+    <title>å•†å“è¯¦æƒ…</title>
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
     <script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
     <script src="js/introduce.js"></script>
-    <!-- ÒıÈë×Ô¶¨ÒåcssÎÄ¼ş style.css -->
+    <!-- å¼•å…¥è‡ªå®šä¹‰cssæ–‡ä»¶ style.css -->
     <link rel="stylesheet" href="css/style.css" type="text/css"/>
 
     <style>
@@ -63,10 +63,10 @@
     <script>
 
         /**
-         * µ¯³öÊ½ÌáÊ¾¿ò£¬Ä¬ÈÏ2Ãë×Ô¶¯ÏûÊ§
-         * @param message ÌáÊ¾ĞÅÏ¢
-         * @param style ÌáÊ¾ÑùÊ½£¬ÓĞalert-success¡¢alert-danger¡¢alert-warning¡¢alert-info
-         * @param time ÏûÊ§Ê±¼ä
+         * å¼¹å‡ºå¼æç¤ºæ¡†ï¼Œé»˜è®¤2ç§’è‡ªåŠ¨æ¶ˆå¤±
+         * @param message æç¤ºä¿¡æ¯
+         * @param style æç¤ºæ ·å¼ï¼Œæœ‰alert-successã€alert-dangerã€alert-warningã€alert-info
+         * @param time æ¶ˆå¤±æ—¶é—´
          */
         var prompt = function (message, style, time)
         {
@@ -81,25 +81,25 @@
                 .fadeOut();
         };
 
-        // ³É¹¦ÌáÊ¾
+        // æˆåŠŸæç¤º
         var success_prompt = function(message, time)
         {
             prompt(message, 'alert-success', time);
         };
 
-        // Ê§°ÜÌáÊ¾
+        // å¤±è´¥æç¤º
         var fail_prompt = function(message, time)
         {
             prompt(message, 'alert-danger', time);
         };
 
-        // ÌáĞÑ
+        // æé†’
         var warning_prompt = function(message, time)
         {
             prompt(message, 'alert-warning', time);
         };
 
-        // ĞÅÏ¢ÌáÊ¾
+        // ä¿¡æ¯æç¤º
         var info_prompt = function(message, time)
         {
             prompt(message, 'alert-info', time);
@@ -111,12 +111,12 @@
                 data: {"productId": productId},
                 url: "/api/cart/add_to_cart.action",
                 success: function () {
-                    success_prompt("Ìí¼Ó³É¹¦£¬<a href='cart.html'>²é¿´¹ºÎï³µ</a>")
+                    success_prompt("æ·»åŠ æˆåŠŸï¼Œ<a href='cart.html'>æŸ¥çœ‹è´­ç‰©è½¦</a>")
                 },
             })
         }
 
-        // äÖÈ¾ÉÌÆ·ÏêÇé
+        // æ¸²æŸ“å•†å“è¯¦æƒ…
         $(function () {
 
             function getUrlParam(name) {
@@ -128,7 +128,7 @@
 
             productId = getUrlParam("productId")
 
-            // ¼ÇÂ¼ä¯ÀÀ¼ÇÂ¼
+            // è®°å½•æµè§ˆè®°å½•
             $.ajax({
                 type: "POST",
                 url: "/api/product/record_browsing_history.action",
@@ -150,7 +150,7 @@
                     shopPrice = returnData.data.shopPrice;
 
                     $("#productInfo").append("<div style=\"border: 1px solid #e4e4e4; width: 1200px; margin-bottom: 10px; margin: 0 auto; padding: 10px; margin-bottom: 10px; text-align: left\">\n" +
-                        "            <a href=\"./index.html\">Ê×Ò³&nbsp;&nbsp;&gt;</a> <a href=\"/category.html?categoryId=" + categoryId + "\">" + categoryName + " </a>\n" +
+                        "            <a href=\"./index.html\">é¦–é¡µ&nbsp;&nbsp;&gt;</a> <a href=\"/category.html?categoryId=" + categoryId + "\">" + categoryName + " </a>\n" +
                         "        </div>")
                     $("#productInfo").append("<div style=\"margin: 0 auto; width: 950px;\">\n" +
                         "            <div class=\"col-md-6\">\n" +
@@ -164,18 +164,18 @@
                         "                </div>\n" +
                         "                <div\n" +
                         "                        style=\"border-bottom: 1px dotted #dddddd; width: 350px; margin: 10px 0 10px 0;\">\n" +
-                        "                    <div>±àºÅ£º" + productId + "</div>\n" +
+                        "                    <div>ç¼–å·ï¼š" + productId + "</div>\n" +
                         "                </div>\n" +
                         "                <div style=\"margin: 10px 0 10px 0;\">\n" +
-                        "                    ÉÌ³Ç¼Û: <strong style=\"color: #ef0101;\">£¤£º" + shopPrice + "Ôª/¼ş</strong> ²Î ¿¼ ¼Û£º\n" +
-                        "                    <del>£¤" + marketPrice + "Ôª/¼ş</del>\n" +
+                        "                    å•†åŸä»·: <strong style=\"color: #ef0101;\">ï¿¥ï¼š" + shopPrice + "å…ƒ/ä»¶</strong> å‚ è€ƒ ä»·ï¼š\n" +
+                        "                    <del>ï¿¥" + marketPrice + "å…ƒ/ä»¶</del>\n" +
                         "                </div>\n" +
                         "                <div style=\"margin: 10px 0 10px 0;\">\n" +
-                        "                    ´ÙÏú: <a target=\"_blank\" title=\"ÏŞÊ±ÇÀ¹º (2019-08-01 ~ 2019-08-31)\"\n" +
-                        "                           style=\"background-color: #f07373;\">ÏŞÊ±ÇÀ¹º</a>\n" +
+                        "                    ä¿ƒé”€: <a target=\"_blank\" title=\"é™æ—¶æŠ¢è´­ (2019-08-01 ~ 2019-08-31)\"\n" +
+                        "                           style=\"background-color: #f07373;\">é™æ—¶æŠ¢è´­</a>\n" +
                         "                </div>\n" +
                         "                    <div style=\"margin: 20px 0 10px 0;\">\n" +
-                            "<br><br><button id='submit' type=\"button\" class=\"btn btn-primary\" onclick='addToCart()'>¼ÓÈë¹ºÎï³µ</button>" +
+                            "<br><br><button id='submit' type=\"button\" class=\"btn btn-primary\" onclick='addToCart()'>åŠ å…¥è´­ç‰©è½¦</button>" +
                         "                    </div>\n" +
                         "            </div>\n" +
                         "        </div>");
@@ -184,31 +184,31 @@
 
                     $("#productInfo").append("<div style=\"width: 950px; margin: 0 auto;\">\n" +
                         "            <div style=\"background-color: #d3d3d3; width: 930px; padding: 10px 10px; margin: 10px 0 10px 0;\">\n" +
-                        "                <strong>ÉÌÆ·½éÉÜ</strong>\n" +
+                        "                <strong>å•†å“ä»‹ç»</strong>\n" +
                         "            </div>\n" +
                         "            <div><b>" + description + "</b></div>" +
                         "            <div>\n" +
                         "                <img src=\"" + imgUrl + "\" width=1000px>\n" +
                         "            </div>" +
                         "            <div style=\"background-color: #d3d3d3; width: 930px; padding: 10px 10px; margin: 10px 0 10px 0;\">\n" +
-                        "                <strong>ÉÌÆ·²ÎÊı</strong>\n" +
+                        "                <strong>å•†å“å‚æ•°</strong>\n" +
                         "            </div>\n" +
                         "            <div style=\"margin-top: 10px; width: 900px;\">\n" +
                         "                <table class=\"table table-bordered\">\n" +
                         "                    <tbody>\n" +
                         "                    <tr class=\"active\">\n" +
-                        "                        <th colspan=\"2\">»ù±¾²ÎÊı</th>\n" +
+                        "                        <th colspan=\"2\">åŸºæœ¬å‚æ•°</th>\n" +
                         "                    </tr>\n" +
                         "                    <tr>\n" +
-                        "                        <th width=\"10%\">¼¶±ğ</th>\n" +
-                        "                        <td width=\"30%\">±ê×¼</td>\n" +
+                        "                        <th width=\"10%\">çº§åˆ«</th>\n" +
+                        "                        <td width=\"30%\">æ ‡å‡†</td>\n" +
                         "                    </tr>\n" +
                         "                    <tr>\n" +
-                        "                        <th width=\"10%\">±êÖØ</th>\n" +
+                        "                        <th width=\"10%\">æ ‡é‡</th>\n" +
                         "                        <td>500</td>\n" +
                         "                    </tr>\n" +
                         "                    <tr>\n" +
-                        "                        <th width=\"10%\">¸¡¶¯</th>\n" +
+                        "                        <th width=\"10%\">æµ®åŠ¨</th>\n" +
                         "                        <td>200</td>\n" +
                         "                    </tr>\n" +
                         "                    </tbody>\n" +
@@ -219,10 +219,10 @@
                         "                <table class=\"table table-bordered\">\n" +
                         "                    <tbody>\n" +
                         "                    <tr class=\"active\">\n" +
-                        "                        <th><strong>ÉÌÆ·ÆÀÂÛ</strong></th>\n" +
+                        "                        <th><strong>å•†å“è¯„è®º</strong></th>\n" +
                         "                    </tr>\n" +
                         "                    <tr class=\"warning\">\n" +
-                        "                        <th>ÔİÎŞÉÌÆ·ÆÀÂÛĞÅÏ¢ <a>[·¢±íÉÌÆ·ÆÀÂÛ]</a></th>\n" +
+                        "                        <th>æš‚æ— å•†å“è¯„è®ºä¿¡æ¯ <a>[å‘è¡¨å•†å“è¯„è®º]</a></th>\n" +
                         "                    </tr>\n" +
                         "                    </tbody>\n" +
                         "                </table>\n" +
@@ -231,10 +231,10 @@
                         "                <table class=\"table table-bordered\">\n" +
                         "                    <tbody>\n" +
                         "                    <tr class=\"active\">\n" +
-                        "                        <th><strong>ÉÌÆ·×ÉÑ¯</strong></th>\n" +
+                        "                        <th><strong>å•†å“å’¨è¯¢</strong></th>\n" +
                         "                    </tr>\n" +
                         "                    <tr class=\"warning\">\n" +
-                        "                        <th>ÔİÎŞÉÌÆ·×ÉÑ¯ĞÅÏ¢ <a>[·¢±íÉÌÆ·×ÉÑ¯]</a></th>\n" +
+                        "                        <th>æš‚æ— å•†å“å’¨è¯¢ä¿¡æ¯ <a>[å‘è¡¨å•†å“å’¨è¯¢]</a></th>\n" +
                         "                    </tr>\n" +
                         "                    </tbody>\n" +
                         "                </table>\n" +
@@ -244,13 +244,13 @@
                 },
             })
         })
-        // Ãû³Æ
-        // ±àºÅ
-        // Ô­¼Û ÕÛ¿Û¼Û
-        // ÃèÊö
-        // ·ÖÀà
+        // åç§°
+        // ç¼–å·
+        // åŸä»· æŠ˜æ‰£ä»·
+        // æè¿°
+        // åˆ†ç±»
 
-        // Ìí¼Óµ½¹ºÎï³µ
+        // æ·»åŠ åˆ°è´­ç‰©è½¦
 
     </script>
 
@@ -260,8 +260,8 @@
 <div class="container">
     <div class="row" id="productInfo">
         <!--<div style="border: 1px solid #e4e4e4; width: 930px; margin-bottom: 10px; margin: 0 auto; padding: 10px; margin-bottom: 10px;">-->
-        <!--<a href="./index.htm">Ê×Ò³&nbsp;&nbsp;&gt;</a> <a href="./Êß²Ë·ÖÀà.htm">Êß²Ë&nbsp;&nbsp;&gt;</a>-->
-        <!--<a>ÎŞ¹«º¦Êß²Ë</a>-->
+        <!--<a href="./index.htm">é¦–é¡µ&nbsp;&nbsp;&gt;</a> <a href="./è”¬èœåˆ†ç±».htm">è”¬èœ&nbsp;&nbsp;&gt;</a>-->
+        <!--<a>æ— å…¬å®³è”¬èœ</a>-->
         <!--</div>-->
         <!--<div style="margin: 0 auto; width: 950px;">-->
         <!--<div class="col-md-6">-->
@@ -271,33 +271,33 @@
         <!--</div>-->
         <!--<div class="col-md-6">-->
         <!--<div>-->
-        <!--<strong>´ó¶¬¹Ï</strong>-->
+        <!--<strong>å¤§å†¬ç“œ</strong>-->
         <!--</div>-->
         <!--<div-->
         <!--style="border-bottom: 1px dotted #dddddd; width: 350px; margin: 10px 0 10px 0;">-->
-        <!--<div>±àºÅ£º751</div>-->
+        <!--<div>ç¼–å·ï¼š751</div>-->
         <!--</div>-->
         <!--<div style="margin: 10px 0 10px 0;">-->
-        <!--ÒÚ¼Ò¼Û: <strong style="color: #ef0101;">£¤£º4.78Ôª/·İ</strong> ²Î ¿¼ ¼Û£º-->
-        <!--<del>£¤6.00Ôª/·İ</del>-->
+        <!--äº¿å®¶ä»·: <strong style="color: #ef0101;">ï¿¥ï¼š4.78å…ƒ/ä»½</strong> å‚ è€ƒ ä»·ï¼š-->
+        <!--<del>ï¿¥6.00å…ƒ/ä»½</del>-->
         <!--</div>-->
         <!--<div style="margin: 10px 0 10px 0;">-->
-        <!--´ÙÏú: <a target="_blank" title="ÏŞÊ±ÇÀ¹º (2014-07-30 ~ 2015-01-01)"-->
-        <!--style="background-color: #f07373;">ÏŞÊ±ÇÀ¹º</a>-->
+        <!--ä¿ƒé”€: <a target="_blank" title="é™æ—¶æŠ¢è´­ (2014-07-30 ~ 2015-01-01)"-->
+        <!--style="background-color: #f07373;">é™æ—¶æŠ¢è´­</a>-->
         <!--</div>-->
         <!--<div-->
         <!--style="padding: 10px; border: 1px solid #e7dbb1; width: 330px; margin: 15px 0 10px 0;; background-color: #fffee6;">-->
-        <!--<div style="margin: 5px 0 10px 0;">°×É«</div>-->
+        <!--<div style="margin: 5px 0 10px 0;">ç™½è‰²</div>-->
 
         <!--<div-->
         <!--style="border-bottom: 1px solid #faeac7; margin-top: 20px; padding-left: 10px;">-->
-        <!--¹ºÂòÊıÁ¿: <input id="quantity" name="quantity" value="1"-->
+        <!--è´­ä¹°æ•°é‡: <input id="quantity" name="quantity" value="1"-->
         <!--maxlength="4" size="10" type="text">-->
         <!--</div>-->
         <!--<div style="margin: 20px 0 10px 0;; text-align: center;">-->
         <!--<a href="cart.htm"> <input-->
         <!--style="background: url('./images/product.gif') no-repeat scroll 0 -600px rgba(0, 0, 0, 0); height: 36px; width: 127px;"-->
-        <!--value="¼ÓÈë¹ºÎï³µ" type="button">-->
+        <!--value="åŠ å…¥è´­ç‰©è½¦" type="button">-->
         <!--</a>-->
         <!--</div>-->
         <!--</div>-->
@@ -306,7 +306,7 @@
         <!--<div class="clear"></div>-->
         <!--<div style="width: 950px; margin: 0 auto;">-->
         <!--<div style="background-color: #d3d3d3; width: 930px; padding: 10px 10px; margin: 10px 0 10px 0;">-->
-        <!--<strong>ÉÌÆ·½éÉÜ</strong>-->
+        <!--<strong>å•†å“ä»‹ç»</strong>-->
         <!--</div>-->
 
         <!--<div>-->
@@ -314,24 +314,24 @@
         <!--</div>-->
 
         <!--<div style="background-color: #d3d3d3; width: 930px; padding: 10px 10px; margin: 10px 0 10px 0;">-->
-        <!--<strong>ÉÌÆ·²ÎÊı</strong>-->
+        <!--<strong>å•†å“å‚æ•°</strong>-->
         <!--</div>-->
         <!--<div style="margin-top: 10px; width: 900px;">-->
         <!--<table class="table table-bordered">-->
         <!--<tbody>-->
         <!--<tr class="active">-->
-        <!--<th colspan="2">»ù±¾²ÎÊı</th>-->
+        <!--<th colspan="2">åŸºæœ¬å‚æ•°</th>-->
         <!--</tr>-->
         <!--<tr>-->
-        <!--<th width="10%">¼¶±ğ</th>-->
-        <!--<td width="30%">±ê×¼</td>-->
+        <!--<th width="10%">çº§åˆ«</th>-->
+        <!--<td width="30%">æ ‡å‡†</td>-->
         <!--</tr>-->
         <!--<tr>-->
-        <!--<th width="10%">±êÖØ</th>-->
+        <!--<th width="10%">æ ‡é‡</th>-->
         <!--<td>500</td>-->
         <!--</tr>-->
         <!--<tr>-->
-        <!--<th width="10%">¸¡¶¯</th>-->
+        <!--<th width="10%">æµ®åŠ¨</th>-->
         <!--<td>200</td>-->
         <!--</tr>-->
         <!--</tbody>-->
@@ -342,10 +342,10 @@
         <!--<table class="table table-bordered">-->
         <!--<tbody>-->
         <!--<tr class="active">-->
-        <!--<th><strong>ÉÌÆ·ÆÀÂÛ</strong></th>-->
+        <!--<th><strong>å•†å“è¯„è®º</strong></th>-->
         <!--</tr>-->
         <!--<tr class="warning">-->
-        <!--<th>ÔİÎŞÉÌÆ·ÆÀÂÛĞÅÏ¢ <a>[·¢±íÉÌÆ·ÆÀÂÛ]</a></th>-->
+        <!--<th>æš‚æ— å•†å“è¯„è®ºä¿¡æ¯ <a>[å‘è¡¨å•†å“è¯„è®º]</a></th>-->
         <!--</tr>-->
         <!--</tbody>-->
         <!--</table>-->
@@ -355,10 +355,10 @@
         <!--<table class="table table-bordered">-->
         <!--<tbody>-->
         <!--<tr class="active">-->
-        <!--<th><strong>ÉÌÆ·×ÉÑ¯</strong></th>-->
+        <!--<th><strong>å•†å“å’¨è¯¢</strong></th>-->
         <!--</tr>-->
         <!--<tr class="warning">-->
-        <!--<th>ÔİÎŞÉÌÆ·×ÉÑ¯ĞÅÏ¢ <a>[·¢±íÉÌÆ·×ÉÑ¯]</a></th>-->
+        <!--<th>æš‚æ— å•†å“å’¨è¯¢ä¿¡æ¯ <a>[å‘è¡¨å•†å“å’¨è¯¢]</a></th>-->
         <!--</tr>-->
         <!--</tbody>-->
         <!--</table>-->

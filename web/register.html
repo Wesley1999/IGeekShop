@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <title>»áÔ±×¢²á</title>
+    <title>ä¼šå‘˜æ³¨å†Œ</title>
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
     <script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
     <script src="js/introduce.js"></script>
     <script src="js/jquery.validate.min.js"></script>
-    <!-- ÒıÈë×Ô¶¨ÒåcssÎÄ¼ş style.css -->
+    <!-- å¼•å…¥è‡ªå®šä¹‰cssæ–‡ä»¶ style.css -->
     <link rel="stylesheet" href="css/style.css" type="text/css"/>
 
     <style>
@@ -50,23 +50,23 @@
                 changeVerificationCode();
             });
 
-            // ±íµ¥Ğ£Ñé
+            // è¡¨å•æ ¡éªŒ
             jQuery.validator.addMethod("isMobile", function (value, element) {
                 var length = value.length;
                 var mobile = /^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/;
                 return this.optional(element) || (length == 11 && mobile.test(value));
-            }, "ÇëÕıÈ·ÌîĞ´ÄúµÄÊÖ»úºÅÂë");
+            }, "è¯·æ­£ç¡®å¡«å†™æ‚¨çš„æ‰‹æœºå·ç ");
 
-            // ÓÃ»§ÃûĞ£Ñé
+            // ç”¨æˆ·åæ ¡éªŒ
             $.validator.addMethod(
-                //¹æÔòµÄÃû³Æ
+                //è§„åˆ™çš„åç§°
                 "usernameNotExists",
-                //Ğ£ÑéµÄº¯Êı
+                //æ ¡éªŒçš„å‡½æ•°
                 function(value){
-                    //¶¨ÒåÒ»¸ö±êÖ¾
+                    //å®šä¹‰ä¸€ä¸ªæ ‡å¿—
                     var flag = false;
-                    //value:ÊäÈëµÄÄÚÈİ
-                    //Ä¿µÄ£º¶ÔÊäÈëµÄusername½øĞĞajaxĞ£Ñé
+                    //value:è¾“å…¥çš„å†…å®¹
+                    //ç›®çš„ï¼šå¯¹è¾“å…¥çš„usernameè¿›è¡Œajaxæ ¡éªŒ
                     $.ajax({
                         "async":false,
                         "url":"/api/user/get_whether_username_exists",
@@ -77,21 +77,21 @@
                             flag = returnData.data
                         }
                     });
-                    //·µ»Øfalse´ú±í¸ÃĞ£ÑéÆ÷²»Í¨¹ı
+                    //è¿”å›falseä»£è¡¨è¯¥æ ¡éªŒå™¨ä¸é€šè¿‡
                     return !flag;
                 }
             );
 
-            // ÓÊÏäĞ£ÑéĞ£Ñé
+            // é‚®ç®±æ ¡éªŒæ ¡éªŒ
             $.validator.addMethod(
-                //¹æÔòµÄÃû³Æ
+                //è§„åˆ™çš„åç§°
                 "emailNotExists",
-                //Ğ£ÑéµÄº¯Êı
+                //æ ¡éªŒçš„å‡½æ•°
                 function(value){
-                    //¶¨ÒåÒ»¸ö±êÖ¾
+                    //å®šä¹‰ä¸€ä¸ªæ ‡å¿—
                     var flag = false;
-                    //value:ÊäÈëµÄÄÚÈİ
-                    //Ä¿µÄ£º¶ÔÊäÈëµÄusername½øĞĞajaxĞ£Ñé
+                    //value:è¾“å…¥çš„å†…å®¹
+                    //ç›®çš„ï¼šå¯¹è¾“å…¥çš„usernameè¿›è¡Œajaxæ ¡éªŒ
                     $.ajax({
                         "async":false,
                         "url":"/api/user/get_whether_email_exists",
@@ -102,7 +102,7 @@
                             flag = returnData.data
                         }
                     });
-                    //·µ»Øfalse´ú±í¸ÃĞ£ÑéÆ÷²»Í¨¹ı
+                    //è¿”å›falseä»£è¡¨è¯¥æ ¡éªŒå™¨ä¸é€šè¿‡
                     return !flag;
                 }
             );
@@ -110,7 +110,7 @@
             $("#signUnForm").validate({
                 errorPlacement: function(error, element) {
                     // Append error within linked label
-                    //Ìæ»»´íÎóÏÔÊ¾Î»ÖÃ£¬error±íÊ¾´íÎóĞÅÏ¢
+                    //æ›¿æ¢é”™è¯¯æ˜¾ç¤ºä½ç½®ï¼Œerrorè¡¨ç¤ºé”™è¯¯ä¿¡æ¯
                     $( element )
                         .closest( "form" )
                         .find( "label[for='" + element.attr( "id" ) + "']" ).next()
@@ -155,38 +155,38 @@
                 },
                 messages: {
                     "username": {
-                        required: "±ØÌî",
-                        usernameNotExists: "ÓÃ»§ÃûÒÑ±»×¢²á"
+                        required: "å¿…å¡«",
+                        usernameNotExists: "ç”¨æˆ·åå·²è¢«æ³¨å†Œ"
                     },
                     "password": {
-                        required: "±ØÌî",
-                        rangelength: "³¤¶ÈÓĞÎó"
+                        required: "å¿…å¡«",
+                        rangelength: "é•¿åº¦æœ‰è¯¯"
                     },
                     "repeatPassword": {
-                        required: "±ØÌî",
-                        equalTo: "Á½´ÎÊäÈëÒªÏàÍ¬",
+                        required: "å¿…å¡«",
+                        equalTo: "ä¸¤æ¬¡è¾“å…¥è¦ç›¸åŒ",
                     },
                     "name": {
-                        required: "±ØÌî"
+                        required: "å¿…å¡«"
                     },
                     "gender": {
-                        required: "±ØÌî"
+                        required: "å¿…å¡«"
                     },
                     "email": {
-                        required: "±ØÌî",
-                        email: "ÓÊÏä¸ñÊ½´íÎó",
-                        emailNotExists: "ÓÊÏäÒÑ±»×¢²á"
+                        required: "å¿…å¡«",
+                        email: "é‚®ç®±æ ¼å¼é”™è¯¯",
+                        emailNotExists: "é‚®ç®±å·²è¢«æ³¨å†Œ"
                     },
                     "telephone": {
-                        required: "±ØÌî",
-                        isMobile: "ÊÖ»úºÅ¸ñÊ½´íÎó"
+                        required: "å¿…å¡«",
+                        isMobile: "æ‰‹æœºå·æ ¼å¼é”™è¯¯"
                     },
                     "birthday": {
-                        required: "±ØÌî"
+                        required: "å¿…å¡«"
                     },
                     "verificationCode": {
-                        required: "±ØÌî",
-                        rangelength: "³¤¶ÈÓĞÎó"
+                        required: "å¿…å¡«",
+                        rangelength: "é•¿åº¦æœ‰è¯¯"
                     },
 
 
@@ -208,18 +208,18 @@
                         },
                         success: function (returnData) {
                             if (returnData.status === 0) {
-                                // alert("µÇÂ¼³É¹¦");
-                                alert("¼¤»îÓÊ¼şÒÑ·¢ËÍÖÁÓÊÏä£¬ÇëÔÚÍê³É¼¤»îºóµÇÂ¼")
+                                // alert("ç™»å½•æˆåŠŸ");
+                                alert("æ¿€æ´»é‚®ä»¶å·²å‘é€è‡³é‚®ç®±ï¼Œè¯·åœ¨å®Œæˆæ¿€æ´»åç™»å½•")
                                 location.href = "/login.html";
                             } else {
                                 alert(returnData.msg)
                                 changeVerificationCode()
-                                // ÑéÖ¤ÂëÊäÈë¿òÖÃ¿Õ
+                                // éªŒè¯ç è¾“å…¥æ¡†ç½®ç©º
                                 $("#verificationCode").val("")
                             }
                         }
                     });
-                    return false; // ×èÖ¹±íµ¥×Ô¶¯Ìá½»ÊÂ¼ş
+                    return false; // é˜»æ­¢è¡¨å•è‡ªåŠ¨æäº¤äº‹ä»¶
                 }
             });
 
@@ -236,34 +236,34 @@
         <div class="col-md-2"></div>
         <div class="col-md-8"
              style="background: #fff; padding: 40px 80px; margin: 30px; border: 7px solid #ccc;">
-            <font>»áÔ±×¢²á</font>USER REGISTER
+            <font>ä¼šå‘˜æ³¨å†Œ</font>USER REGISTER
             <form class="form-horizontal" style="margin-top: 5px;" id="signUnForm">
                 <div class="form-group">
-                    <label for="username" class="col-sm-4 control-label">ÓÃ»§Ãû</label>
+                    <label for="username" class="col-sm-4 control-label">ç”¨æˆ·å</label>
                     <div class="col-sm-6">
                         <input type="text" class="form-control" name="username" id="username" style="width:270px; display:inline;"
-                               placeholder="ÇëÊäÈëÓÃ»§Ãû">
+                               placeholder="è¯·è¾“å…¥ç”¨æˆ·å">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="password" class="col-sm-4 control-label">ÃÜÂë</label>
+                    <label for="password" class="col-sm-4 control-label">å¯†ç </label>
                     <div class="col-sm-6">
                         <input type="password" class="form-control" name="password" id="password" style="width:270px; display:inline;"
-                               placeholder="ÇëÊäÈëÃÜÂë">
+                               placeholder="è¯·è¾“å…¥å¯†ç ">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="repeatPassword" class="col-sm-4 control-label">È·ÈÏÃÜÂë</label>
+                    <label for="repeatPassword" class="col-sm-4 control-label">ç¡®è®¤å¯†ç </label>
                     <div class="col-sm-6">
                         <input type="password" class="form-control" name="repeatPassword" id="repeatPassword" style="width:270px; display:inline;"
-                               placeholder="ÇëÊäÈëÈ·ÈÏÃÜÂë">
+                               placeholder="è¯·è¾“å…¥ç¡®è®¤å¯†ç ">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="name" class="col-sm-4 control-label">ĞÕÃû</label>
+                    <label for="name" class="col-sm-4 control-label">å§“å</label>
                     <div class="col-sm-6">
                         <input type="text" class="form-control" name="name" id="name" style="width:270px; display:inline;"
-                               placeholder="ÇëÊäÈëĞÕÃû">
+                               placeholder="è¯·è¾“å…¥å§“å">
                     </div>
                 </div>
                 <div class="form-group">
@@ -274,39 +274,39 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="telephone" class="col-sm-4 control-label">ÊÖ»úºÅ</label>
+                    <label for="telephone" class="col-sm-4 control-label">æ‰‹æœºå·</label>
                     <div class="col-sm-6">
                         <input type="text" class="form-control" name="telephone" id="telephone" style="width:270px; display:inline;"
-                               placeholder="ÊÖ»úºÅ">
+                               placeholder="æ‰‹æœºå·">
                     </div>
                 </div>
                 <div class="form-group opt">
-                    <label for="gender" class="col-sm-4 control-label">ĞÔ±ğ</label>
+                    <label for="gender" class="col-sm-4 control-label">æ€§åˆ«</label>
                     <div class="col-sm-6">
                         <label class="radio-inline"> <input type="radio"
                                                             name="gender" name=" gender" id="gender" value="1" checked="checked">
-                            ÄĞ
+                            ç”·
                         </label> <label class="radio-inline"> <input type="radio" name="gender" value="2">
-                        Å®
+                        å¥³
                     </label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="birthday" class="col-sm-4 control-label">³öÉúÈÕÆÚ</label>
+                    <label for="birthday" class="col-sm-4 control-label">å‡ºç”Ÿæ—¥æœŸ</label>
                     <div class="col-sm-6">
                         <input type="date" class="form-control" name="birthday" id="birthday" style="width:270px; display:inline;">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="verificationCode" class="col-sm-4 control-label">ÑéÖ¤Âë</label>
+                    <label for="verificationCode" class="col-sm-4 control-label">éªŒè¯ç </label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" name="verificationCode" id="verificationCode" style="width:270px; display:inline;"
-                               placeholder="ÇëÊäÈëÑéÖ¤Âë">
+                               placeholder="è¯·è¾“å…¥éªŒè¯ç ">
                     </div>
                     <div class="col-sm-3">
                         <img src="/api/user/get_verification_code.action" id="verificationCodeImg" style="cursor: pointer;"
-                             title="µã»÷Ë¢ĞÂÑéÖ¤Âë">
+                             title="ç‚¹å‡»åˆ·æ–°éªŒè¯ç ">
                     </div>
 
                 </div>
@@ -314,7 +314,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-4 col-sm-10">
                         <br>
-                        <input type="submit" width="100" value="×¢²á" name="submit" class="btn btn-primary" style="width: 100px">
+                        <input type="submit" width="100" value="æ³¨å†Œ" name="submit" class="btn btn-primary" style="width: 100px">
                     </div>
                 </div>
             </form>

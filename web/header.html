@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <title>¼«¿ÍÉÌ³ÇÊ×Ò³</title>
+    <title>æå®¢å•†åŸé¦–é¡µ</title>
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
     <script src="/js/jquery.cookie.js" type="text/javascript"></script>
     <script src="/js/bootstrap.min.js" type="text/javascript"></script>
@@ -11,17 +11,17 @@
 
             function getCookie ( name )
             {
-                //»ñÈ¡nameÔÚCookieÖĞÆğÖ¹Î»ÖÃ
+                //è·å–nameåœ¨Cookieä¸­èµ·æ­¢ä½ç½®
                 var start = document.cookie.indexOf(name+"=") ;
 
                 if ( start != -1 )
                 {
                     start = start + name.length + 1 ;
-                    //»ñÈ¡valueµÄÖÕÖ¹Î»ÖÃ
+                    //è·å–valueçš„ç»ˆæ­¢ä½ç½®
                     var end = document.cookie.indexOf(";", start) ;
                     if ( end == -1 )
                         end = document.cookie.length ;
-                    //½Ø»ñcookieµÄvalueÖµ,²¢·µ»Ø
+                    //æˆªè·cookieçš„valueå€¼,å¹¶è¿”å›
                     return unescape(document.cookie.substring(start,end)) ;
                 }
                 return "" ;
@@ -33,10 +33,10 @@
                 if (r != null) return decodeURI(r[2]); return null;
             }
 
-            // Èç¹ûÓĞkeyword²ÎÊı£¬½«ÆääÖÈ¾µ½ËÑË÷¿ò
+            // å¦‚æœæœ‰keywordå‚æ•°ï¼Œå°†å…¶æ¸²æŸ“åˆ°æœç´¢æ¡†
             $("#keyword").val(getUrlParam("keyword"))
 
-            // äÖÈ¾µ¼º½À¸·Ö·ÖÀàĞÅÏ¢
+            // æ¸²æŸ“å¯¼èˆªæ åˆ†åˆ†ç±»ä¿¡æ¯
             $.ajax({
                 type: "POST",
                 url: "/api/category/get_categories.action",
@@ -51,21 +51,21 @@
                 }
             })
 
-            // äÖÈ¾µÇÂ¼ĞÅÏ¢
+            // æ¸²æŸ“ç™»å½•ä¿¡æ¯
             $.ajax({
                 type: "POST",
                 url: "/api/user/get_current_user.action",
                 dataType: "json",
                 success: function (returnData) {
                     if (returnData.status === 0) {
-                        // ÒÑµÇÂ¼
+                        // å·²ç™»å½•
                         username = returnData.data.username;
-                        $("#userInfo").append("<li style='color: red'> »¶Ó­Äú£¬" + username + "</li>\n" +
-                            "            <li><a href=\"#\" onclick='signOut()'>ÍË³ö</a></li>\n" +
-                            "            <li><a href=\"cart.html\">¹ºÎï³µ</a></li>\n" +
-                            "            <li><a href=\"/order_list.html?pageNum=1\">ÎÒµÄ¶©µ¥</a></li>")
+                        $("#userInfo").append("<li style='color: red'> æ¬¢è¿æ‚¨ï¼Œ" + username + "</li>\n" +
+                            "            <li><a href=\"#\" onclick='signOut()'>é€€å‡º</a></li>\n" +
+                            "            <li><a href=\"cart.html\">è´­ç‰©è½¦</a></li>\n" +
+                            "            <li><a href=\"/order_list.html?pageNum=1\">æˆ‘çš„è®¢å•</a></li>")
                     } else {
-                        // Î´µÇÂ¼£¬ÏÈ³¢ÊÔ×Ô¶¯µÇÂ¼
+                        // æœªç™»å½•ï¼Œå…ˆå°è¯•è‡ªåŠ¨ç™»å½•
                         if (getCookie("md5Md5Password") !== "") {
                             $.ajax({
                                 type: "POST",
@@ -80,35 +80,35 @@
                                             success: function (returnData) {
                                                 if (returnData.status === 0) {
                                                     username = returnData.data.username;
-                                                    $("#userInfo").append("<li style='color: red'> »¶Ó­Äú£¬" + username + "</li>\n" +
-                                                        "            <li><a href=\"#\" onclick='signOut()'>ÍË³ö</a></li>\n" +
-                                                        "            <li><a href=\"cart.html\">¹ºÎï³µ</a></li>\n" +
-                                                        "            <li><a href=\"/order_list.html?pageNum=1\">ÎÒµÄ¶©µ¥</a></li>")
+                                                    $("#userInfo").append("<li style='color: red'> æ¬¢è¿æ‚¨ï¼Œ" + username + "</li>\n" +
+                                                        "            <li><a href=\"#\" onclick='signOut()'>é€€å‡º</a></li>\n" +
+                                                        "            <li><a href=\"cart.html\">è´­ç‰©è½¦</a></li>\n" +
+                                                        "            <li><a href=\"/order_list.html?pageNum=1\">æˆ‘çš„è®¢å•</a></li>")
                                                 }
                                             }
                                         })
                                     } else {
-                                        // ×Ô¶¯µÇÂ¼Ê§°Ü
-                                        $("#userInfo").append("<li class=\"userInfo\"><a href=\"login.html\">µÇÂ¼</a></li>\n" +
-                                            "            <li class=\"userInfo\"><a href=\"register.html\">×¢²á</a></li>\n" +
-                                            "            <li><a href=\"cart.html\">¹ºÎï³µ</a></li>\n" +
-                                            "            <li><a href=\"/order_list.html?pageNum=1\">ÎÒµÄ¶©µ¥</a></li>")
+                                        // è‡ªåŠ¨ç™»å½•å¤±è´¥
+                                        $("#userInfo").append("<li class=\"userInfo\"><a href=\"login.html\">ç™»å½•</a></li>\n" +
+                                            "            <li class=\"userInfo\"><a href=\"register.html\">æ³¨å†Œ</a></li>\n" +
+                                            "            <li><a href=\"cart.html\">è´­ç‰©è½¦</a></li>\n" +
+                                            "            <li><a href=\"/order_list.html?pageNum=1\">æˆ‘çš„è®¢å•</a></li>")
                                     }
                                 }
                             })
                         } else {
-                            // ²»ÒªÇó×Ô¶¯µÇÂ¼
-                            $("#userInfo").append("<li class=\"userInfo\"><a href=\"login.html\">µÇÂ¼</a></li>\n" +
-                                "            <li class=\"userInfo\"><a href=\"register.html\">×¢²á</a></li>\n" +
-                                "            <li><a href=\"cart.html\">¹ºÎï³µ</a></li>\n" +
-                                "            <li><a href=\"/order_list.html?pageNum=1\">ÎÒµÄ¶©µ¥</a></li>")
+                            // ä¸è¦æ±‚è‡ªåŠ¨ç™»å½•
+                            $("#userInfo").append("<li class=\"userInfo\"><a href=\"login.html\">ç™»å½•</a></li>\n" +
+                                "            <li class=\"userInfo\"><a href=\"register.html\">æ³¨å†Œ</a></li>\n" +
+                                "            <li><a href=\"cart.html\">è´­ç‰©è½¦</a></li>\n" +
+                                "            <li><a href=\"/order_list.html?pageNum=1\">æˆ‘çš„è®¢å•</a></li>")
                         }
                     }
                 }
             })
         });
 
-        // ÍË³öµÇÂ¼
+        // é€€å‡ºç™»å½•
         function signOut() {
             $.ajax({
                 type: "POST",
@@ -126,7 +126,7 @@
 </head>
 <body>
 <div class="container-fluid" style="width: 1500px; text-align: center">
-    <!-- µÇÂ¼ ×¢²á ¹ºÎï³µ... -->
+    <!-- ç™»å½• æ³¨å†Œ è´­ç‰©è½¦... -->
     <div class="container-fluid">
         <div class="col-md-4">
             <img src="img/logo.png"/>
@@ -140,13 +140,13 @@
         </div>
     </div>
 
-    <!-- µ¼º½Ìõ -->
+    <!-- å¯¼èˆªæ¡ -->
     <div class="container-fluid">
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/">Ê×Ò³</a>
+                    <a class="navbar-brand" href="/">é¦–é¡µ</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -155,9 +155,9 @@
                     </ul>
                     <form class="navbar-form navbar-right" role="search" action="search.html" method="get">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="ÇëÊäÈëÒªËÑË÷µÄÉÌÆ·Ãû³Æ..." name="keyword" id="keyword">
+                            <input type="text" class="form-control" placeholder="è¯·è¾“å…¥è¦æœç´¢çš„å•†å“åç§°..." name="keyword" id="keyword">
                         </div>
-                        <button type="submit" class="btn btn-default">ËÑË÷</button>
+                        <button type="submit" class="btn btn-default">æœç´¢</button>
                     </form>
                 </div>
             </div>

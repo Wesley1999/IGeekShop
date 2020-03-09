@@ -2,13 +2,13 @@
 <html lang="zh-CN">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>¼«¿ÍÉÌ³Ç-»áÔ±µÇÂ¼</title>
+    <title>æžå®¢å•†åŸŽ-ä¼šå‘˜ç™»å½•</title>
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
     <script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
     <script src="js/introduce.js"></script>
     <script src="js/jquery.validate.min.js"></script>
-    <!-- ÒýÈë×Ô¶¨ÒåcssÎÄ¼þ style.css -->
+    <!-- å¼•å…¥è‡ªå®šä¹‰cssæ–‡ä»¶ style.css -->
     <link rel="stylesheet" href="css/style.css" type="text/css"/>
 
     <style>
@@ -50,7 +50,7 @@
                 changeVerificationCode();
             });
 
-            // ±íµ¥Ð£Ñé
+            // è¡¨å•æ ¡éªŒ
             $("#signInForm").validate({
                 rules: {
                     "username": {
@@ -67,15 +67,15 @@
                 },
                 messages: {
                     "username": {
-                        required: "±ØÌî",
+                        required: "å¿…å¡«",
                     },
                     "password": {
-                        required: "±ØÌî",
-                        rangelength: "³¤¶ÈÓÐÎó",
+                        required: "å¿…å¡«",
+                        rangelength: "é•¿åº¦æœ‰è¯¯",
                     },
                     "verificationCode": {
-                        required: "±ØÌî",
-                        rangelength: "³¤¶ÈÓÐÎó",
+                        required: "å¿…å¡«",
+                        rangelength: "é•¿åº¦æœ‰è¯¯",
                     }
                 },
                 submitHandler: function () {
@@ -91,17 +91,17 @@
                         },
                         success: function (returnData) {
                             if (returnData.status === 0) {
-                                // alert("µÇÂ¼³É¹¦");
+                                // alert("ç™»å½•æˆåŠŸ");
                                 location.href = "/";
                             } else {
                                 alert(returnData.msg)
                                 changeVerificationCode()
-                                // ÑéÖ¤ÂëÖÃ¿Õ
+                                // éªŒè¯ç ç½®ç©º
                                 $("#verificationCode").val("")
                             }
                         }
                     });
-                    return false; // ×èÖ¹±íµ¥×Ô¶¯Ìá½»ÊÂ¼þ
+                    return false; // é˜»æ­¢è¡¨å•è‡ªåŠ¨æäº¤äº‹ä»¶
                 }
             });
 
@@ -119,50 +119,50 @@
      style="width: 100%; height: 460px; background: #FF2C4C url('img/loginbg.jpg') no-repeat; height: 500px; width: 1450px">
     <div class="row">
         <div class="col-md-7">
-            <!--<img src="./image/login.jpg" width="500" height="330" alt="»áÔ±µÇÂ¼" title="»áÔ±µÇÂ¼">-->
+            <!--<img src="./image/login.jpg" width="500" height="330" alt="ä¼šå‘˜ç™»å½•" title="ä¼šå‘˜ç™»å½•">-->
         </div>
 
         <div class="col-md-5">
             <div style="width: 440px; border: 1px solid #E7E7E7; padding: 20px 0 20px 30px; border-radius: 5px; margin-top: 60px; background: #fff;">
-                <font>»áÔ±µÇÂ¼</font>USER LOGIN
+                <font>ä¼šå‘˜ç™»å½•</font>USER LOGIN
                 <div>&nbsp;</div>
                 <form class="form-horizontal" id="signInForm">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">ÓÃ»§Ãû</label>
+                        <label class="col-sm-2 control-label">ç”¨æˆ·å</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" name="username" id="username" placeholder="ÇëÊäÈëÓÃ»§Ãû" style="width:150px; display:inline;"
+                            <input type="text" class="form-control" name="username" id="username" placeholder="è¯·è¾“å…¥ç”¨æˆ·å" style="width:150px; display:inline;"
                                    required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">ÃÜÂë</label>
+                        <label class="col-sm-2 control-label">å¯†ç </label>
                         <div class="col-sm-6">
                             <input type="password" class="form-control" name="password" id="password" style="width:150px; display:inline;"
-                                   placeholder="ÇëÊäÈëÃÜÂë">
+                                   placeholder="è¯·è¾“å…¥å¯†ç ">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="verificationCode" class="col-sm-2 control-label">ÑéÖ¤Âë</label>
+                        <label for="verificationCode" class="col-sm-2 control-label">éªŒè¯ç </label>
                         <div class="col-sm-4">
                             <input type="text" class="form-control" name="verificationCode" id="verificationCode" style="width:120px; display:inline;"
-                                   placeholder="ÇëÊäÈëÑéÖ¤Âë">
+                                   placeholder="è¯·è¾“å…¥éªŒè¯ç ">
                         </div>
                         <div class="col-sm-3">
                             <img src="/api/user/get_verification_code.action" id="verificationCodeImg" style="cursor: pointer;"
-                                 title="µã»÷Ë¢ÐÂÑéÖ¤Âë">
+                                 title="ç‚¹å‡»åˆ·æ–°éªŒè¯ç ">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <div class="checkbox">
-                                <label> <input type="checkbox" id="autoSignIn" name="autoSignIn"> ×Ô¶¯µÇÂ¼</label>
-                                <label> <input type="checkbox" id="remember" name="remember"> ¼Ç×¡ÓÃ»§Ãû</label>
+                                <label> <input type="checkbox" id="autoSignIn" name="autoSignIn"> è‡ªåŠ¨ç™»å½•</label>
+                                <label> <input type="checkbox" id="remember" name="remember"> è®°ä½ç”¨æˆ·å</label>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary" id="submit" style="width: 100px">µÇÂ¼</button>
+                            <button type="submit" class="btn btn-primary" id="submit" style="width: 100px">ç™»å½•</button>
                         </div>
                     </div>
                 </form>
