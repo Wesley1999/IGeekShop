@@ -15,7 +15,7 @@
         function signOut() {
             $.ajax({
                 type: "POST",
-                url: "/api/admin/sign_out_for_admin",
+                url: "/api/admin/sign_out_for_admin.action",
                 dataType: "json",// 回调
                 success: function (returnData) {
                     // if (returnData.status === 0) {

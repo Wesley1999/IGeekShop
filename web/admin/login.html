@@ -27,7 +27,7 @@
 	        // 进入此页面后，首先退出管理员账户
 	        $.ajax({
 	            type: "POST",
-	            url: "/api/admin/sign_out_for_admin",
+	            url: "/api/admin/sign_out_for_admin.action",
 	            dataType: "json",// 回调
 	            async: false,
 	        })
@@ -40,7 +40,7 @@
 	            $.ajax({
 	                type: "POST",
 	                data: {"username": username, "password": password},
-	                url: "/api/user/sign_in_for_admin",
+	                url: "/api/user/sign_in_for_admin.action",
 	                dataType: "json",// 回调
 	                success: function (returnData) {
 	                    if (returnData.status === 0) {

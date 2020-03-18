@@ -27,7 +27,7 @@
             // 页面加载时渲染当前已有的数据
             $.ajax({
                 type: "POST",
-                url: "/api/admin/get_product",
+                url: "/api/admin/get_product.action",
                 data: {"productId": productId},
                 // data: {"pageNum": pageNum},
                 dataType: "json",
@@ -47,7 +47,7 @@
             formdata.append("productId", productId);
 
             $.ajax({
-                url: '/api/admin/update_product_image',
+                url: '/api/admin/update_product_image.action',
                 type: 'POST',
                 cache: false,
                 data: formdata,

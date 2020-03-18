@@ -48,7 +48,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/api/admin/get_products",
+                url: "/api/admin/get_products.action",
                 data: {"pageNum": currentPage, "pageSize": pageSize, "navigatePages": 9, "keyword": keyword},
                 dataType: "json",// 回调
                 success: function (returnData) {
@@ -126,7 +126,7 @@
             $.ajax({
                 type: "POST",
                 data: {"productId": productId},
-                url: "/api/admin/delete_product",
+                url: "/api/admin/delete_product.action",
                 dataType: "json",// 回调
                 success: function (returnData) {
                     if (returnData.status === 0) {

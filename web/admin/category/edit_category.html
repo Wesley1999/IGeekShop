@@ -27,7 +27,7 @@
             // 页面加载时渲染当前已有的数据
             $.ajax({
                 type: "POST",
-                url: "/api/admin/get_category",
+                url: "/api/admin/get_category.action",
                 data: {"categoryId": categoryId},
                 dataType: "json",
                 success: function (returnData) {
@@ -69,7 +69,7 @@
                 submitHandler: function () {
                     $.ajax({
                         type: "POST",
-                        url: "/api/admin/update_category",
+                        url: "/api/admin/update_category.action",
                         data: {
                             categoryId: categoryId,
                             name: $('#name').val(),

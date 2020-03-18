@@ -28,7 +28,7 @@
             // 渲染分类下拉菜单
             $.ajax({
                 type: "POST",
-                url: "/api/admin/get_categories",
+                url: "/api/admin/get_categories.action",
                 async: false,
                 dataType: "json",
                 success: function (returnData) {
@@ -44,7 +44,7 @@
             // 页面加载时渲染当前已有的数据
             $.ajax({
                 type: "POST",
-                url: "/api/admin/get_product",
+                url: "/api/admin/get_product.action",
                 data: {"productId": productId},
                 // data: {"pageNum": pageNum},
                 dataType: "json",
@@ -164,7 +164,7 @@
                     formdata.append("isHot", $('#isHot').val());
 
                     $.ajax({
-                        url: '/api/admin/update_product',
+                        url: '/api/admin/update_product.action',
                         type: 'POST',
                         cache: false,
                         data: formdata,

@@ -22,7 +22,7 @@
         // 渲染分类下拉菜单
         $.ajax({
             type: "POST",
-            url: "/api/admin/get_categories",
+            url: "/api/admin/get_categories.action",
             dataType: "json",
             success: function (returnData) {
                 if (returnData.status === 0) {
@@ -97,7 +97,7 @@
                 formdata.append("isHot", $('#isHot').val());
 
                 $.ajax({
-                    url: '/api/admin/add_product',
+                    url: '/api/admin/add_product.action',
                     type: 'POST',
                     cache: false,
                     data: formdata,

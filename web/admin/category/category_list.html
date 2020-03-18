@@ -11,7 +11,7 @@
         $(function () {
             $.ajax({
                 type: "POST",
-                url: "/api/admin/get_categories",
+                url: "/api/admin/get_categories.action",
                 dataType: "json",// 回调
                 success: function (returnData) {
                     if (returnData.status === 0) {
@@ -42,7 +42,7 @@
             $.ajax({
                 type: "POST",
                 data: {"categoryId" : categoryId},
-                url: "/api/admin/delete_category",
+                url: "/api/admin/delete_category.action",
                 dataType: "json",// 回调
                 success: function (returnData) {
                     if (returnData.status === 0) {
