@@ -27,7 +27,7 @@
                         productId = returnData.data.list[i].productId;
                         price = returnData.data.list[i].shopPrice;
                         imgUrl = returnData.data.list[i].imgUrl;
-                        $("#hotProducts").append("<div class=\"col-md-2\" style=\"text-align:center;height:200px;padding:10px 0px;\">\n" +
+                        $("#hotProducts").append("<div class=\"col-xs-2\" style=\"text-align:center;height:200px;padding:10px 0px;\">\n" +
                             "<a href=\"product.html?productId=" + productId + "\">\n" +
                             "<img src=\"" + imgUrl + "\" width=\"130\" height=\"130\" style=\"display: inline-block;\">\n" +
                             "</a>\n" +
@@ -48,7 +48,7 @@
                         productId = returnData.data.list[i].productId;
                         price = returnData.data.list[i].shopPrice;
                         imgUrl = returnData.data.list[i].imgUrl;
-                        $("#newProducts").append("<div class=\"col-md-2\" style=\"text-align:center;height:200px;padding:10px 0px;\">\n" +
+                        $("#newProducts").append("<div class=\"col-xs-2\" style=\"text-align:center;height:200px;padding:10px 0px;\">\n" +
                             "<a href=\"product.html?productId=" + productId + "\">\n" +
                             "<img src=\"" + imgUrl + "\" width=\"130\" height=\"130\" style=\"display: inline-block;\">\n" +
                             "</a>\n" +
@@ -110,14 +110,14 @@
 
     <!-- 热门商品 -->
     <div class="container-fluid" style="text-align: left">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <h2>热门商品&nbsp;&nbsp;<img src="https://oss-pic.wangshaogang.com/igeekshop/static/title2.jpg"/></h2>
         </div>
-        <div class="col-md-2" style="border:1px solid #E7E7E7;border-right:0;padding:0;">
+        <div class="col-xs-2" style="border:1px solid #E7E7E7;border-right:0;padding:0;">
             <img src="https://oss-pic.wangshaogang.com/igeekshop/static/big01.jpg" width="205" height="404" style="display: inline-block;"/>
         </div>
-        <div class="col-md-10" id="hotProducts">
-            <div class="col-md-6" style="text-align:center;height:200px;padding:0px;">
+        <div class="col-xs-10" id="hotProducts">
+            <div class="col-xs-6" style="text-align:center;height:200px;padding:0px;">
                 <img src="https://oss-pic.wangshaogang.com/igeekshop/static/middle01.jpg" width="516px" height="200px" style="display: inline-block;">
             </div>
 
@@ -139,14 +139,14 @@
 
     <!-- 最新商品 -->
     <div class="container-fluid" style="text-align: left">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <h2>最新商品&nbsp;&nbsp;<img src="https://oss-pic.wangshaogang.com/igeekshop/static/title2.jpg"/></h2>
         </div>
-        <div class="col-md-2" style="border:1px solid #E7E7E7;border-right:0;padding:0;">
+        <div class="col-xs-2" style="border:1px solid #E7E7E7;border-right:0;padding:0;">
             <img src="https://oss-pic.wangshaogang.com/igeekshop/static/big01.jpg" width="205" height="404" style="display: inline-block;"/>
         </div>
-        <div class="col-md-10" id="newProducts">
-            <div class="col-md-6" style="text-align:center;height:200px;padding:0px;">
+        <div class="col-xs-10" id="newProducts">
+            <div class="col-xs-6" style="text-align:center;height:200px;padding:0px;">
                 <img src="https://oss-pic.wangshaogang.com/igeekshop/static/middle01.jpg" width="516px" height="200px" style="display: inline-block;">
             </div>
 
