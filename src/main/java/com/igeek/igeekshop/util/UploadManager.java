@@ -6,6 +6,7 @@ package com.igeek.igeekshop.util;
  */
 
 import com.qiniu.common.QiniuException;
+import com.qiniu.common.Zone;
 import com.qiniu.http.Client;
 import com.qiniu.http.Response;
 import com.qiniu.storage.*;
@@ -43,6 +44,7 @@ public class UploadManager {
 	 * @param recorder 断点记录对象
 	 */
 	public UploadManager(Configuration config, Recorder recorder) {
+		config.zone = Zone.autoZone();
 		configuration = config.clone();
 		client = new Client(configuration);
 		this.recorder = recorder;
